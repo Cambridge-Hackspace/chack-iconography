@@ -176,6 +176,21 @@
 
 | Icon | Description |
 |---|---|
+| `edge-smart-plug` | Smart plug: a plug-in module with an outlet face. |
+| `edge-smart-plug-down` | Smart plug: a plug-in module with an outlet face. |
+| `edge-smart-plug-degraded` | Smart plug: a plug-in module with an outlet face. |
+| `edge-smart-plug-maintenance` | Smart plug: a plug-in module with an outlet face. |
+| `edge-smart-plug-planned` | Smart plug: a plug-in module with an outlet face. |
+| `edge-automation-hub` | Home-automation hub: a controller marked with a house. |
+| `edge-automation-hub-down` | Home-automation hub: a controller marked with a house. |
+| `edge-automation-hub-degraded` | Home-automation hub: a controller marked with a house. |
+| `edge-automation-hub-maintenance` | Home-automation hub: a controller marked with a house. |
+| `edge-automation-hub-planned` | Home-automation hub: a controller marked with a house. |
+| `edge-signal-beacon` | Signal light: a vertical housing with three lenses on a pole. |
+| `edge-signal-beacon-down` | Signal light: a vertical housing with three lenses on a pole. |
+| `edge-signal-beacon-degraded` | Signal light: a vertical housing with three lenses on a pole. |
+| `edge-signal-beacon-maintenance` | Signal light: a vertical housing with three lenses on a pole. |
+| `edge-signal-beacon-planned` | Signal light: a vertical housing with three lenses on a pole. |
 | `edge-plc` | PLC controller. |
 | `edge-plc-down` | PLC controller. |
 | `edge-plc-degraded` | PLC controller. |
@@ -459,10 +474,50 @@
 | `ext-mobile-network` | Cell tower. |
 | `ext-satellite` | Dish on a mast. |
 
+## fab
+
+| Icon | Description |
+|---|---|
+| `fab-3d-printer` | 3D printer: an open-frame cartesian printer over a heated bed. |
+| `fab-3d-printer-down` | 3D printer: an open-frame cartesian printer over a heated bed. |
+| `fab-3d-printer-degraded` | 3D printer: an open-frame cartesian printer over a heated bed. |
+| `fab-3d-printer-maintenance` | 3D printer: an open-frame cartesian printer over a heated bed. |
+| `fab-3d-printer-planned` | 3D printer: an open-frame cartesian printer over a heated bed. |
+| `fab-laser-cutter` | Laser cutter: an open flatbed with a bridge gantry and head. |
+| `fab-laser-cutter-down` | Laser cutter: an open flatbed with a bridge gantry and head. |
+| `fab-laser-cutter-degraded` | Laser cutter: an open flatbed with a bridge gantry and head. |
+| `fab-laser-cutter-maintenance` | Laser cutter: an open flatbed with a bridge gantry and head. |
+| `fab-laser-cutter-planned` | Laser cutter: an open flatbed with a bridge gantry and head. |
+| `fab-cnc-mill` | CNC mill: a portal gantry carrying a spindle over a bed. |
+| `fab-cnc-mill-down` | CNC mill: a portal gantry carrying a spindle over a bed. |
+| `fab-cnc-mill-degraded` | CNC mill: a portal gantry carrying a spindle over a bed. |
+| `fab-cnc-mill-maintenance` | CNC mill: a portal gantry carrying a spindle over a bed. |
+| `fab-cnc-mill-planned` | CNC mill: a portal gantry carrying a spindle over a bed. |
+| `fab-vinyl-cutter` | Vinyl cutter: a desktop clamshell cutter feeding sheet media. |
+| `fab-vinyl-cutter-down` | Vinyl cutter: a desktop clamshell cutter feeding sheet media. |
+| `fab-vinyl-cutter-degraded` | Vinyl cutter: a desktop clamshell cutter feeding sheet media. |
+| `fab-vinyl-cutter-maintenance` | Vinyl cutter: a desktop clamshell cutter feeding sheet media. |
+| `fab-vinyl-cutter-planned` | Vinyl cutter: a desktop clamshell cutter feeding sheet media. |
+| `fab-embroidery` | Embroidery machine: overhanging arm, thread spool, handwheel. |
+| `fab-embroidery-down` | Embroidery machine: overhanging arm, thread spool, handwheel. |
+| `fab-embroidery-degraded` | Embroidery machine: overhanging arm, thread spool, handwheel. |
+| `fab-embroidery-maintenance` | Embroidery machine: overhanging arm, thread spool, handwheel. |
+| `fab-embroidery-planned` | Embroidery machine: overhanging arm, thread spool, handwheel. |
+
 ## facility
 
 | Icon | Description |
 |---|---|
+| `facility-mini-split` | Mini-split A/C: a wall-mounted ductless indoor head. |
+| `facility-mini-split-down` | Mini-split A/C: a wall-mounted ductless indoor head. |
+| `facility-mini-split-degraded` | Mini-split A/C: a wall-mounted ductless indoor head. |
+| `facility-mini-split-maintenance` | Mini-split A/C: a wall-mounted ductless indoor head. |
+| `facility-mini-split-planned` | Mini-split A/C: a wall-mounted ductless indoor head. |
+| `facility-smart-lock` | Smart lock: an electronic deadbolt with a keyhole. |
+| `facility-smart-lock-down` | Smart lock: an electronic deadbolt with a keyhole. |
+| `facility-smart-lock-degraded` | Smart lock: an electronic deadbolt with a keyhole. |
+| `facility-smart-lock-maintenance` | Smart lock: an electronic deadbolt with a keyhole. |
+| `facility-smart-lock-planned` | Smart lock: an electronic deadbolt with a keyhole. |
 | `facility-utility-feed` | Utility feed: a transmission pylon. |
 | `facility-utility-feed-down` | Utility feed: a transmission pylon. |
 | `facility-utility-feed-degraded` | Utility feed: a transmission pylon. |

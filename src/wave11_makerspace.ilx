@@ -1,0 +1,193 @@
+// Wave 11 — makerspace: the fabrication tools and building devices a
+// hackspace has that a datacenter pack doesn't. `fab` is a new category
+// (green domain) for shop machines; the smart-building devices join the
+// existing edge/facility categories. Each is an isometric OBJECT.
+//
+// Silhouettes were tuned against a blind-legibility pass: the frame-and-
+// gantry forms had to be made unmistakable (open printer frame, enclosed
+// laser cabinet, sewing C-arm) so they don't read as cranes or lamps.
+
+// ===== fab: shop machines =================================================
+
+// Open-frame cartesian printer: a portal at the back carries an X-gantry
+// and extruder; a bed sits in front with a small print. The open frame is
+// what reads as "3D printer" rather than a solid box.
+icon "fab-3d-printer" {
+  category "fab"
+  footprint 1 1 1.0
+  describe "3D printer: an open-frame cartesian printer over a heated bed."
+  part "base" { box 0.18 0.18 0 0.64 0.64 0.14 }
+  part "bed" { box 0.26 0.26 0.14 0.48 0.48 0.03 }
+  part "print" { box 0.44 0.44 0.17 0.1 0.1 0.12 }
+  part "post-l" { box 0.2 0.18 0.14 0.06 0.06 0.62 }
+  part "post-r" { box 0.74 0.18 0.14 0.06 0.06 0.62 }
+  part "top-bar" { box 0.2 0.18 0.72 0.6 0.06 0.06 }
+  part "gantry" { box 0.24 0.2 0.42 0.52 0.05 0.05 }
+  part "extruder" { box 0.44 0.22 0.34 0.12 0.14 0.14 }
+  part "nozzle" {
+    at 0.5 0.32 0.34 {
+      path d="M{x},{y} v5 l-2,0 l2,3 l2,-3 l-2,0" stroke="ink" width=1.4 fill="ink"
+    }
+  }
+  axes "state"
+}
+
+// Open flatbed cutter: a bed with side rails, a bridge gantry carrying a
+// head, and a sheet of stock. The rails-and-bridge is what reads as a
+// flatbed cutter rather than a boxy appliance.
+icon "fab-laser-cutter" {
+  category "fab"
+  footprint 1 1 0.4
+  describe "Laser cutter: an open flatbed with a bridge gantry and head."
+  part "bed" { box 0.12 0.18 0 0.76 0.6 0.2 }
+  part "rail-l" { box 0.12 0.18 0.2 0.05 0.6 0.05 }
+  part "rail-r" { box 0.71 0.18 0.2 0.05 0.6 0.05 }
+  part "sheet" { box 0.28 0.28 0.2 0.34 0.34 0.02 }
+  part "bridge" { box 0.12 0.36 0.24 0.76 0.06 0.07 }
+  part "head" { box 0.42 0.34 0.2 0.1 0.11 0.11 }
+  axes "state"
+}
+
+icon "fab-cnc-mill" {
+  category "fab"
+  footprint 1 1 0.85
+  describe "CNC mill: a portal gantry carrying a spindle over a bed."
+  part "bed" { box 0.14 0.2 0 0.72 0.52 0.2 }
+  part "post-l" { box 0.16 0.26 0.2 0.1 0.4 0.46 }
+  part "post-r" { box 0.64 0.26 0.2 0.1 0.4 0.46 }
+  part "beam" { box 0.16 0.36 0.58 0.58 0.16 0.12 }
+  part "spindle" { box 0.42 0.42 0.4 0.14 0.1 0.18 }
+  axes "state"
+}
+
+// Desktop cutter: a clamshell with a raised open lid and a sheet of media
+// feeding out the front, plus a blade carriage.
+icon "fab-vinyl-cutter" {
+  category "fab"
+  footprint 1 1 0.5
+  describe "Vinyl cutter: a desktop clamshell cutter feeding sheet media."
+  part "body" { box 0.16 0.32 0 0.68 0.34 0.18 }
+  part "lid" { box 0.16 0.28 0.18 0.68 0.06 0.16 }
+  part "carriage" { box 0.4 0.4 0.18 0.14 0.12 0.06 }
+  part "sheet" {
+    at 0.5 0.92 0.04 {
+      path d="M{x-16},{y} l6,7 h22 l-6,-7 z" stroke="ink" width=1.2 fill="body-top"
+    }
+  }
+  axes "state"
+}
+
+// Sewing/embroidery machine: an overhanging arm over an open throat, a big
+// thread spool on a pin, a handwheel on the column, and a needle into the
+// bed. The prominent spool is the cue that pulls it away from "mill".
+icon "fab-embroidery" {
+  category "fab"
+  footprint 1 1 0.8
+  describe "Embroidery machine: overhanging arm, thread spool, handwheel."
+  part "bed" { box 0.1 0.3 0 0.82 0.34 0.1 }
+  part "column" { box 0.68 0.32 0.1 0.16 0.3 0.4 }
+  part "arm" { box 0.2 0.36 0.4 0.5 0.14 0.12 }
+  part "head" { box 0.16 0.34 0.28 0.14 0.18 0.14 }
+  part "spool" { cylinder 0.6 0.42 0.52 0.055 0.15 }
+  part "pin" {
+    at 0.6 0.42 0.67 {
+      path d="M{x},{y} v-5" stroke="ink" width=1.2
+    }
+  }
+  part "needle" {
+    at 0.22 0.42 0.28 {
+      path d="M{x},{y} v7" stroke="ink" width=1.4
+    }
+  }
+  part "wheel" {
+    at 0.88 0.48 0.3 {
+      circle "x" "y" 4 fill="body-top" stroke="ink" width=1.4
+      circle "x" "y" 1 fill="ink" stroke="none"
+    }
+  }
+  axes "state"
+}
+
+// ===== edge: smart-building devices =======================================
+
+// Plug-in module: a big outlet face (ring + two slots + ground) on the
+// front, prongs out the back. The outlet symbol is the universal "socket".
+icon "edge-smart-plug" {
+  category "edge"
+  footprint 1 1 0.42
+  describe "Smart plug: a plug-in module with an outlet face."
+  part "body" { box 0.3 0.3 0.06 0.4 0.4 0.36 }
+  part "prongs" {
+    at 0.5 0.3 0.2 {
+      path d="M{x-3},{y} v-8 M{x+3},{y} v-8" stroke="ink" width=1.5
+    }
+  }
+  part "outlet" {
+    at 0.5 0.7 0.24 {
+      circle "x" "y" 6 fill="none" stroke="ink" width=1.2
+      path d="M{x-3},{y-3} v5 M{x+3},{y-3} v5" stroke="ink" width=1.5
+      circle "x" "y+4" 1.6 fill="ink" stroke="none"
+    }
+  }
+  axes "state"
+}
+
+icon "edge-automation-hub" {
+  category "edge"
+  footprint 1 1 0.5
+  describe "Home-automation hub: a controller marked with a house."
+  part "body" { box 0.28 0.28 0 0.44 0.44 0.4 }
+  part "house" {
+    at 0.5 0.72 0.2 {
+      path d="M{x-7},{y+5} v-8 l7,-6 l7,6 v8 z" stroke="ink" width=1.4 fill="body-top"
+      path d="M{x-2},{y+5} v-6 h4 v6" stroke="ink" width=1.2
+    }
+  }
+  axes "state"
+}
+
+// Traffic / signal light: a vertical housing with three stacked lenses on
+// the front, on a short pole. The three round lenses are unmistakable.
+icon "edge-signal-beacon" {
+  category "edge"
+  footprint 1 1 1.0
+  describe "Signal light: a vertical housing with three lenses on a pole."
+  part "base" { box 0.4 0.4 0 0.2 0.2 0.04 }
+  part "pole" { box 0.46 0.46 0.04 0.08 0.08 0.12 }
+  part "housing" { box 0.4 0.4 0.16 0.2 0.16 0.6 }
+  part "lens-b" { at 0.5 0.56 0.3 { circle "x" "y" 3.2 fill="body-top" stroke="ink" width=1.2 } }
+  part "lens-m" { at 0.5 0.56 0.46 { circle "x" "y" 3.2 fill="body-top" stroke="ink" width=1.2 } }
+  part "lens-t" { at 0.5 0.56 0.62 { circle "x" "y" 3.2 fill="body-top" stroke="ink" width=1.2 } }
+  axes "state"
+}
+
+// ===== facility: building systems =========================================
+
+icon "facility-mini-split" {
+  category "facility"
+  footprint 1 1 0.6
+  describe "Mini-split A/C: a wall-mounted ductless indoor head."
+  part "head" { box 0.08 0.5 0.28 0.84 0.24 0.24 }
+  part "louvers" { facerect "front" 0.14 0.72 0.3 0.72 0.07 opacity=0.45 }
+  part "air" {
+    at 0.5 0.62 0.26 {
+      path d="M{x-8},{y+8} q4,4 8,0 M{x+2},{y+8} q4,4 8,0" stroke="ink-muted" width=1.2
+    }
+  }
+  axes "state"
+}
+
+icon "facility-smart-lock" {
+  category "facility"
+  footprint 1 1 0.55
+  describe "Smart lock: an electronic deadbolt with a keyhole."
+  part "body" { box 0.32 0.34 0.08 0.36 0.32 0.42 }
+  part "bolt" { box 0.68 0.44 0.2 0.14 0.12 0.09 }
+  part "keyhole" {
+    at 0.5 0.66 0.3 {
+      circle "x" "y-2" 3 fill="ink" stroke="none"
+      path d="M{x-2},{y+5} L{x},{y-1} L{x+2},{y+5} z" fill="ink" stroke="none"
+    }
+  }
+  axes "state"
+}

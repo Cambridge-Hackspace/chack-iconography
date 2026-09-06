@@ -90,7 +90,7 @@ CATEGORY_HUE = {
     "compute": "blue", "svc": "blue", "k8s": "blue", "virt": "blue",
     "ext": "blue",
     "stor": "green", "facility": "green", "edge": "green",
-    "endpoint": "green",
+    "endpoint": "green", "fab": "green",
     "net": "gold", "link": "gold",
     "sec": "red",
     "actor": "neutral", "badge": "neutral", "state": "neutral",

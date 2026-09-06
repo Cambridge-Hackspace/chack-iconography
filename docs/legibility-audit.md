@@ -191,3 +191,24 @@ describe the superseded slab-based glyphs; the recast is judged by the
 object reading and the reaper brand battery (green: Tier A over 21
 libraries, gridcheck, both simulation seeds). 909 → 1154 icons (346 base
 + 808 baked state variants; ~150 abstractions dropped, levels aliased).
+
+# Wave 11 — makerspace (chack)
+
+A new `fab` category (3D printer, laser cutter, CNC mill, vinyl cutter,
+embroidery) plus smart-building devices (`edge-smart-plug`,
+`edge-automation-hub`, `edge-signal-beacon`, `facility-mini-split`,
+`facility-smart-lock`) — the tools a hackspace has that a datacenter pack
+doesn't, so the CHACK network diagram uses exact icons rather than
+approximations.
+
+Tuned over three blind passes (fresh agent per round, identifying each
+icon cold). Round 1: 4/11 read true — the frame-and-gantry forms read as
+lamps, cranes, and scanners. Round 2 rebuilt the silhouettes (open printer
+frame, sewing C-arm, plug prongs): 3D printer, CNC, door lock, mini-split,
+automation hub read true. Round 3 fixed the last misleads: the beacon
+became a three-lens traffic light, the plug a NEMA outlet face, the sewing
+machine gained a prominent thread spool. Final: 8/10 read as the exact
+device; the laser and vinyl cutters read as "flatbed cutter" (the right
+family — genuinely similar gantry machines, disambiguated by label).
+`edge-multiplexer` was cut: a signal multiplexer would not read distinctly
+at icon size, and `edge-node` is the honest fallback.
