@@ -18,7 +18,7 @@ import sys
 
 from iso.registry import all_icons
 from iso.render_svg import render, viewbox_of
-from iso.theme import THEMES
+from iso.theme import THEMES, object_theme
 
 CELL = 150.0
 PAD = 40.0
@@ -57,7 +57,7 @@ def _emit_to(out_dir, icons, dark_sub, light_sub):
         os.makedirs(d, exist_ok=True)
         for icon in icons:
             with open(os.path.join(d, icon.filename), "w") as f:
-                f.write(render(icon, THEMES[theme_name]))
+                f.write(render(icon, object_theme(theme_name, icon.category)))
 
 
 def write_svgs(out_dir, only=None):
@@ -73,14 +73,14 @@ def write_svgs(out_dir, only=None):
     return base
 
 
-def _cell(icon, theme, x, y):
+def _cell(icon, theme_name, x, y):
     """One icon as a nested <svg>, scaled to fit ICON_BOX, bottom-aligned."""
     minx, miny, w, h = viewbox_of(icon)
     scale = min(ICON_BOX / w, ICON_BOX / h)
     cw, ch = w * scale, h * scale
     ox = x + (CELL - cw) / 2
     oy = y + (CELL - ch)  # bottom-aligned so baselines read across a row
-    body = render(icon, theme)
+    body = render(icon, object_theme(theme_name, icon.category))
     inner = body.replace(
         f'width="{w:.0f}" height="{h:.0f}"',
         f'x="{ox:.1f}" y="{oy:.1f}" width="{cw:.1f}" height="{ch:.1f}"', 1)
@@ -108,7 +108,7 @@ def contact_sheet(icons, columns=6):
         for i, icon in enumerate(icons):
             x = PAD + (i % columns) * CELL
             y = y0 + PAD + (i // columns) * row_h
-            cells.append(_cell(icon, THEMES[theme_name], x, y))
+            cells.append(_cell(icon, theme_name, x, y))
             cells.append(
                 f'<text x="{x + CELL / 2:.1f}" y="{y + CELL + 15:.1f}" '
                 f'font-family="monospace" font-size="8.5" '
@@ -158,7 +158,8 @@ def write_libraries(out_dir, icons):
         d = os.path.join(out_dir, sub)
         os.makedirs(d, exist_ok=True)
         libs = build_libraries(
-            icons, lambda i: render(i, THEMES[theme_name]), theme_name)
+            icons, lambda i: render(i, object_theme(theme_name, i.category)),
+            theme_name)
         for name in sorted(libs):
             with open(os.path.join(d, name), "w") as f:
                 f.write(libs[name])

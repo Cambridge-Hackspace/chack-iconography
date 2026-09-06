@@ -14,6 +14,8 @@ of them may).
 import os
 import re
 
+from iso.theme import object_theme
+
 SRC = os.path.join(os.path.dirname(__file__), "..", "src")
 
 ROW, COL, ICON = 48.0, 220.0, 40.0
@@ -150,7 +152,7 @@ def tree_sheet(icons, render, viewbox_of, themes):
     def xof(node):
         return PADX + xdep[node] * COL
 
-    def node_svg(name, y0, theme, fill):
+    def node_svg(name, y0, theme_name, fill):
         x, y = xof(name), y0 + ypos[name]
         if name.startswith("cat:"):
             t = name[4:]
@@ -170,7 +172,7 @@ def tree_sheet(icons, render, viewbox_of, themes):
         _, _, w, h = viewbox_of(icon)
         s = min(ICON / w, ICON / h)
         cw, ch = w * s, h * s
-        body = render(icon, theme).replace(
+        body = render(icon, object_theme(theme_name, icon.category)).replace(
             f'width="{w:.0f}" height="{h:.0f}"',
             f'x="{x:.1f}" y="{y - ch / 2:.1f}" width="{cw:.1f}" height="{ch:.1f}"',
             1)
@@ -201,9 +203,8 @@ def tree_sheet(icons, render, viewbox_of, themes):
         parts = [f'<rect y="{y0:.1f}" width="{width:.1f}" '
                  f'height="{band_h:.1f}" fill="{ground}"/>']
         parts.append(edges_svg(y0, fill))
-        theme = themes[theme_name]
         for name in ypos:
-            parts.append(node_svg(name, y0, theme, fill))
+            parts.append(node_svg(name, y0, theme_name, fill))
         return "".join(parts)
 
     return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{width:.0f}" '

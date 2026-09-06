@@ -11,7 +11,7 @@ from the artwork.
 import math
 import re
 
-from iso.theme import THEMES
+from iso.theme import THEMES, palette_hexes
 
 HEX = re.compile(r"#[0-9a-fA-F]{3,8}")
 
@@ -31,8 +31,7 @@ def _granted(icon, color):
 def test_all_colours_are_palette_colours(built):
     out, icons = built
     for theme_name, sub in (("dark", "svg"), ("light", "svg-light")):
-        palette = {v.lower() for v in THEMES[theme_name].values()
-                   if v.startswith("#")}
+        palette = palette_hexes(theme_name)
         for icon in icons:
             stray = _hexes(_read(out, sub, icon)) - palette
             assert not stray, f"{icon.slug} ({theme_name}): {stray}"

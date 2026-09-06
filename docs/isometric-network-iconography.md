@@ -286,31 +286,49 @@ If generating everything at once is too much, this subset covers most topology d
 ## 16. Theme: Cambridge Hackspace
 
 Modelled on cambridgehackspace.com — a light ground, `#333` structural
-rules, and the four-circle brand mark in red, blue, gold and green. The pack
-carries those four brand colours as its working palette and reserves the red
-for "something is wrong or hostile", so the mark's own red is never spent on
-decoration. The icon pack should feel like a diagram that belongs on that
-site.
+rules, and the four-circle brand mark in red, blue, gold and green. Unlike a
+monochrome hardware pack, chack wears the brand *on the objects*: the icon
+bodies are coloured by domain, so a diagram reads its shape of the world in
+the brand's own colours. The icon pack should feel like a diagram that
+belongs on that site.
+
+### Domain colours
+
+Every object that draws an isometric body takes a brand hue from its
+category. Its three faces (top lit, then right, then left, shadowed) and its
+outline are shades of that one hue — a warm, friendly line-art look rather
+than grey boxes:
+
+| Hue | Base | Domains |
+|---|---|---|
+| blue | `#3d84af` | compute, services, cloud-native (`compute`, `svc`, `k8s`, `virt`, `ext`) |
+| green | `#89b108` | storage & physical plant (`stor`, `facility`, `edge`, `endpoint`) |
+| gold | `#d8a300` | network & connectivity (`net`, `link`) |
+| red | `#c34e4b` | security (`sec`) — tints of red, never the pure alarm hex |
+
+People (`actor`) and annotation layers (`badge`, `state`, `legend`,
+`chrome`) stay neutral warm-grey, so the colour carries meaning. Security
+bodies wear *tints* of red; the pure alarm red (`accent`, below) stays
+reserved, so a real fault still pops against them.
 
 ### Palette
 
 The four brand colours were sampled from the site's own logo and index
 images on 2026-09-05: red `#c34e4b`, blue `#3d84af`, gold `#d8a300`, green
 `#89b108`; the structural grey `#333` is from the site CSS. The pack ships
-light-forward (the site's footing) but keeps a dark variant; the hardware
-face greys and `bg-zone-alt` are derived, stepping one neutral shade per
-nesting level. Below is the dark variant; the light variant overrides only
-the greys, `ink` and `virt`.
+light-forward (the site's footing) but keeps a dark variant. Below is the
+neutral base (grounds, ink, accent, states, links); the per-category body
+faces and outline override the neutral `body-*`/`outline` shown here.
 
 | Token | Hex (dark) | Use |
 |---|---|---|
 | `bg-canvas` | `#1b1c1e` | Diagram background (draw.io page colour). Neutral charcoal, not pure black, so outlines still separate. Light: `#ffffff`. |
 | `bg-zone` | `#242629` | Zone/site tiles. One step up from canvas. |
 | `bg-zone-alt` | `#2e3034` | Nested zone (VLAN inside subnet inside site). Each nesting level steps up one shade. |
-| `body-top` | `#4b4d51` | Top face of hardware. Derived. |
-| `body-right` | `#3a3c40` | Right (lit) face. Derived. |
-| `body-left` | `#2c2e32` | Left (shadow) face. Derived. |
-| `outline` | `#6b6d72` | Edge lines on every object. One weight, one colour. Light: `#333333`, the site's structural grey. |
+| `body-top` | `#4b4b48` | Top face — neutral fallback; per-category hue tints override. |
+| `body-right` | `#3a3a37` | Right (lit) face. Neutral fallback. |
+| `body-left` | `#2c2c29` | Left (shadow) face. Neutral fallback. |
+| `outline` | `#6c6c68` | Edge lines — neutral fallback; per-category a saturated shade of the domain hue. Light neutral: `#3a3a38`. |
 | `ink` | `#ececee` | Labels, legend text, port glyphs. Light: `#26282b`. |
 | `ink-muted` | `#a7a9ad` | Secondary labels: IPs, VLAN tags, footnotes. Light: `#5c5e62`. |
 | `accent` | `#c34e4b` | The brand red. Reserved — see rules below. |
