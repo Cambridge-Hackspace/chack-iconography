@@ -1,0 +1,68 @@
+# Curated starter palette -> iso-core.xml (the Downloads page's one-file
+# grab). One slug per line; blanks and #-comments ignored. Chosen as the
+# icons a Cambridge Hackspace diagram actually reaches for: the devices on
+# the CHACK network plus the common infra every topology needs, and the
+# makerspace fab tools. Zones and edge presets are added automatically.
+
+# compute
+compute-server-1u
+compute-server-2u
+compute-server-hypervisor
+compute-workstation
+compute-laptop
+compute-phone
+
+# services
+svc-web
+svc-database
+svc-file-share
+svc-reverse-proxy
+svc-monitoring
+svc-metrics
+svc-game-server
+
+# network
+net-firewall
+net-router
+net-switch-l2
+net-switch-l3
+net-wireless-ap
+net-vpn-gateway
+
+# security
+sec-vault
+
+# storage
+stor-nas
+stor-disk
+stor-zfs-pool
+
+# cloud-native
+k8s-pod
+
+# external
+ext-internet
+
+# edge / IoT
+edge-gateway
+edge-node
+edge-automation-hub
+edge-smart-plug
+edge-signal-beacon
+
+# facility
+facility-mini-split
+facility-smart-lock
+facility-badge-reader
+facility-motion-sensor
+
+# endpoints
+endpoint-display-wall
+endpoint-media-player
+
+# fab (makerspace)
+fab-3d-printer
+fab-laser-cutter
+fab-cnc-mill
+fab-vinyl-cutter
+fab-embroidery

@@ -1,6 +1,6 @@
 # Portable across BSD make and GNU make: plain targets, no shell functions.
 
-VERSION = 0.2.0
+VERSION = 0.2.1
 
 all: build
 
