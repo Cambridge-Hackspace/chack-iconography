@@ -1,0 +1,9 @@
+dist/
+out/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+chack-iconography-*.tbz2
+upload/
+.isolex/

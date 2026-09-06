@@ -1,0 +1,9 @@
+// Pack configuration. The token vocabulary mirrors iso/theme.py; the
+// stroke-width set mirrors tests/test_structure.py's closed set.
+lexicon {
+  tokens "none" "bg-canvas" "bg-zone" "bg-zone-alt" "body-top" "body-right" \
+         "body-left" "outline" "ink" "ink-muted" "accent" "accent-dim" \
+         "virt" "shadow" "state-up" "state-degraded" "state-maintenance" \
+         "state-primary" "state-purple" "link-fibre" "link-wan" "link-vpn"
+  stroke-widths 1.2 1.4 1.5 2.2
+}

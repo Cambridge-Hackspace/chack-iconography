@@ -1,0 +1,176 @@
+// §10 state overlays: flat 24x24 corner badges. Colour is the primary
+// signal, shape the secondary. Canvas 2-D shapes sit in `at 0 0 0`,
+// which projects to the origin and emits no wrapper.
+
+icon "state-up" {
+  category "state"
+  canvas 24 24
+  describe "Green filled circle; up."
+  part "g" {
+    at 0 0 0 {
+      circle 12 12 9 fill="state-up" stroke="outline" width=1.2
+    }
+  }
+}
+
+icon "state-degraded" {
+  category "state"
+  canvas 24 24
+  describe "Amber triangle; degraded."
+  part "g" {
+    at 0 0 0 {
+      poly fill="state-degraded" stroke="outline" width=1.2 {
+        pt 12 2.5
+        pt 21.5 20.5
+        pt 2.5 20.5
+      }
+    }
+  }
+}
+
+icon "state-down" {
+  category "state"
+  canvas 24 24
+  describe "Red octagon with an X; down."
+  grant "accent" reason="down is danger: the reserved-red signal for a failed object (§16)"
+  part "g" {
+    at 0 0 0 {
+      poly fill="accent" stroke="outline" width=1.2 {
+        pt 7 2
+        pt 17 2
+        pt 22 7
+        pt 22 17
+        pt 17 22
+        pt 7 22
+        pt 2 17
+        pt 2 7
+      }
+      path d="M8,8 L16,16 M16,8 L8,16" stroke="ink" width=2.2
+    }
+  }
+}
+
+icon "state-unknown" {
+  category "state"
+  canvas 24 24
+  describe "Hollow circle with a question mark; unknown."
+  part "g" {
+    at 0 0 0 {
+      circle 12 12 9 fill="none" stroke="ink-muted" width=2.2
+      path d="M{12-3.2},{12-3.4} a3.2,3.2 0 1 1 6.4,0 c0,2.6 -3.2,2.4 -3.2,4.8" stroke="ink-muted" width=2.2
+      path d="M{12},{12+5.4} v0.01" stroke="ink-muted" width=2.2
+    }
+  }
+}
+
+icon "state-maintenance" {
+  category "state"
+  canvas 24 24
+  describe "Blue circle with a wrench; maintenance."
+  part "circle" {
+    at 0 0 0 {
+      circle 12 12 10 fill="state-maintenance" stroke="outline" width=1.2
+    }
+  }
+  part "wrench" {
+    insert "wrench" ox=12 oy=11
+  }
+}
+
+icon "state-primary" {
+  category "state"
+  canvas 24 24
+  describe "Gold star; primary."
+  part "g" {
+    at 0 0 0 {
+      poly fill="state-primary" stroke="outline" width=1.2 {
+        repeat 10 "i" {
+          pt "12 + if(i % 2 == 0, 10, 4) * cosr(1.5707963267948966 + i * 3.141592653589793 / 5)" "13 - if(i % 2 == 0, 10, 4) * sinr(1.5707963267948966 + i * 3.141592653589793 / 5)"
+        }
+      }
+    }
+  }
+}
+
+icon "state-replica" {
+  category "state"
+  canvas 24 24
+  describe "Hollow star; replica/standby."
+  part "g" {
+    at 0 0 0 {
+      poly fill="none" stroke="ink-muted" width=1.5 {
+        repeat 10 "i" {
+          pt "12 + if(i % 2 == 0, 10, 4) * cosr(1.5707963267948966 + i * 3.141592653589793 / 5)" "13 - if(i % 2 == 0, 10, 4) * sinr(1.5707963267948966 + i * 3.141592653589793 / 5)"
+        }
+      }
+    }
+  }
+}
+
+icon "state-standby" {
+  extends "state-replica"
+  describe "Alias of replica."
+}
+
+icon "state-active" {
+  category "state"
+  canvas 24 24
+  describe "Green play glyph; active."
+  part "g" {
+    at 0 0 0 {
+      poly fill="state-up" stroke="outline" width=1.2 {
+        pt 7 3.5
+        pt 21 12
+        pt 7 20.5
+      }
+    }
+  }
+}
+
+icon "state-passive" {
+  category "state"
+  canvas 24 24
+  describe "Grey pause glyph; passive."
+  part "g" {
+    at 0 0 0 {
+      rect 5.5 4 4.5 16 fill="ink-muted" stroke="outline" width=1.2
+      rect 14 4 4.5 16 fill="ink-muted" stroke="outline" width=1.2
+    }
+  }
+}
+
+icon "state-planned" {
+  category "state"
+  canvas 24 24
+  describe "Dashed outline; planned."
+  part "g" {
+    at 0 0 0 {
+      rect 3 3 18 18 rx=3 fill="none" stroke="ink-muted" width=1.5 dash="3 2.5"
+    }
+  }
+}
+
+icon "state-decommissioned" {
+  category "state"
+  canvas 24 24
+  describe "Strikethrough circle; decommissioned."
+  part "g" {
+    at 0 0 0 {
+      circle 12 12 9 fill="none" stroke="ink-muted" width=2.2
+      path d="M4.5,19.5 L19.5,4.5" stroke="ink-muted" width=2.2
+    }
+  }
+}
+
+icon "state-rollback-anchor" {
+  category "state"
+  canvas 24 24
+  describe "Purple anchor; rollback anchor."
+  part "g" {
+    at 0 0 0 {
+      circle 12 "12 - 5.6" 2 fill="none" stroke="state-purple" width=2.2
+      path d="M{12},{12-3.6} V{12+6} M{12-3.5},{12-0.5} h7" stroke="state-purple" width=2.2
+      arc 12 "12 + 1.2" 5.2 200 340 stroke="state-purple" width=2.2
+    }
+  }
+}

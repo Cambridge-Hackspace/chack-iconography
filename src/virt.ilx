@@ -1,0 +1,207 @@
+// §3 virtual workloads. All translucent (the virt fill cue).
+
+icon "virt-vm" {
+  category "virt"
+  footprint 1 1 1
+  describe "Translucent cube with a small monitor glyph on the top face."
+  part "cube" {
+    box 0 0 0 1 1 1 fills="virt" opacity=0.18
+  }
+  part "monitor" {
+    at 0.5 0.5 1 {
+      rect "x-9" "y-8" 18 12 rx=1.5 fill="none" stroke="ink" width=1.4
+      path d="M{x-4},{y+7} h8" stroke="ink" width=1.4
+    }
+  }
+  axes "state"
+}
+
+icon "virt-jail" {
+  category "virt"
+  footprint 1 1 1
+  describe "Cube with bars on the front face; FreeBSD jails."
+  part "cube" {
+    box 0 0 0 1 1 1 fills="virt" opacity=0.18
+  }
+  part "front-bars" {
+    repeat 4 "i" {
+      seg "0.2 + i * 0.2" 1 0.1 "0.2 + i * 0.2" 1 0.9 stroke="ink" width=1.5
+    }
+  }
+  part "right-bars" {
+    repeat 4 "i" {
+      seg 1 "0.2 + i * 0.2" 0.1 1 "0.2 + i * 0.2" 0.9 stroke="ink" width=1.5
+    }
+  }
+  part "crossbars" {
+    seg 0.1 1 0.5 0.9 1 0.5 stroke="ink" width=1.5
+    seg 1 0.1 0.5 1 0.9 0.5 stroke="ink" width=1.5
+  }
+  axes "state"
+}
+
+icon "virt-container" {
+  category "virt"
+  footprint 1 1 0.8
+  describe "Shipping-container box, corrugated sides."
+  part "box" {
+    box 0 0 0 1 1 0.8 fills="virt" opacity=0.18
+  }
+  part "front-corrugation" {
+    repeat 4 "i" {
+      seg "0.14 + i * 0.24" 1 0.08 "0.14 + i * 0.24" 1 0.72 stroke="ink-muted" width=1.4
+    }
+  }
+  part "right-corrugation" {
+    repeat 4 "i" {
+      seg 1 "0.14 + i * 0.24" 0.08 1 "0.14 + i * 0.24" 0.72 stroke="ink-muted" width=1.4
+    }
+  }
+  axes "state"
+}
+
+icon "virt-pod" {
+  category "virt"
+  footprint 1.5 1 0.7
+  describe "Two or three small containers on one flat pallet."
+  part "pallet" {
+    box 0 0 0 1.5 1 0.08
+  }
+  part "containers" {
+    box 0.1 0.2 0.08 0.55 0.6 0.45 fills="virt" opacity=0.18
+    box 0.8 0.2 0.08 0.55 0.6 0.45 fills="virt" opacity=0.18
+  }
+  axes "state"
+}
+
+icon "virt-k8s-cluster" {
+  category "virt"
+  footprint 2 2 0.9
+  describe "Hexagonal platform with a ship's-wheel glyph, three pods."
+  part "platform" {
+    poly3d fill="body-top" {
+      pt 1 0.1 0
+      pt 1.75 0.45 0
+      pt 1.9 1.2 0
+      pt 1.3 1.85 0
+      pt 0.45 1.7 0
+      pt 0.15 0.75 0
+    }
+  }
+  part "pods" {
+    box 0.4 0.55 0 0.4 0.4 0.3 fills="virt" opacity=0.18
+    box 1.15 0.4 0 0.4 0.4 0.3 fills="virt" opacity=0.18
+    box 0.9 1.15 0 0.4 0.4 0.3 fills="virt" opacity=0.18
+  }
+  part "wheel" {
+    at 1 1 0.75 {
+      circle "x" "y" 8 fill="none" stroke="ink" width=1.5
+      circle "x" "y" 2 fill="ink" stroke="none"
+      repeat 7 "k" {
+        path d="M{x + 3 * cos(90 + k * 360 / 7)},{y - 3 * sin(90 + k * 360 / 7)} L{x + 11.5 * cos(90 + k * 360 / 7)},{y - 11.5 * sin(90 + k * 360 / 7)}" stroke="ink" width=1.4
+      }
+    }
+  }
+  axes "state"
+}
+
+icon "virt-function" {
+  category "virt"
+  footprint 1 1 0.35
+  describe "Small lightning-bolt tile; serverless/FaaS."
+  part "tile" {
+    box 0.15 0.15 0 0.7 0.7 0.1 fills="virt" opacity=0.18
+  }
+  part "bolt" {
+    at 0.5 0.5 0.1 {
+      path d="M{x+3},{y-11} l-8,11 h5.5 l-3,8.5 8,-11 h-5.5 z" stroke="ink" width=1.2 fill="ink"
+    }
+  }
+  axes "state"
+}
+
+icon "virt-vswitch" {
+  category "virt"
+  footprint 2 1 0.4
+  describe "Flat translucent slab with several port stubs."
+  part "slab" {
+    box 0.1 0.1 0 1.8 0.8 0.12 fills="virt" opacity=0.18
+  }
+  part "stubs" {
+    repeat 4 "i" {
+      box "0.25 + i * 0.42" 0.86 0 0.18 0.12 0.18 fills="virt" opacity=0.18
+    }
+  }
+  axes "state"
+}
+
+icon "virt-vnic" {
+  category "virt"
+  footprint 1 1 0.6
+  describe "Small translucent card."
+  part "card" {
+    box 0.2 0.45 0 0.6 0.1 0.4 fills="virt" opacity=0.18
+  }
+  part "connector" {
+    repeat 3 "i" {
+      at "0.28 + i * 0.18" 0.5 0 {
+        path d="M{x},{y} v4" stroke="ink-muted" width=1.4
+      }
+    }
+  }
+  axes "state"
+}
+
+icon "virt-boot-env" {
+  category "virt"
+  footprint 1 1 1
+  describe "Cube with a snapshot/clock glyph; ZFS BEs, rollback anchors."
+  part "cube" {
+    box 0 0 0 1 1 1 fills="virt" opacity=0.18
+  }
+  part "clock" {
+    at 0.5 0.5 1 {
+      circle "x" "y" 8 fill="none" stroke="ink" width=1.4
+      path d="M{x},{y-4.5} V{y} l3.5,2" stroke="ink" width=1.4
+      arc "x" "y" 11 300 60 stroke="ink" width=1.2
+      path d="M{x+5},{y-10} l2,-3 M{x+5},{y-10} l3.5,1" stroke="ink" width=1.2
+    }
+  }
+}
+
+icon "virt-image" {
+  category "virt"
+  footprint 1 1 0.9
+  describe "Stacked flat discs (layers); container/VM image."
+  part "layers" {
+    repeat 3 "k" {
+      box "0.15 + 0.06 * k" "0.15 + 0.06 * k" "k * 0.26" 0.6 0.6 0.14 fills="virt" opacity=0.18
+    }
+  }
+}
+
+icon "virt-template" {
+  category "virt"
+  footprint 1 1 1
+  describe "Dashed-outline cube; golden image / clone source."
+  part "cube" {
+    poly3d fill="none" stroke="outline" width=1.2 dash="4 3" {
+      pt 0 1 0
+      pt 1 1 0
+      pt 1 1 1
+      pt 0 1 1
+    }
+    poly3d fill="none" stroke="outline" width=1.2 dash="4 3" {
+      pt 1 0 0
+      pt 1 1 0
+      pt 1 1 1
+      pt 1 0 1
+    }
+    poly3d fill="none" stroke="outline" width=1.2 dash="4 3" {
+      pt 0 0 1
+      pt 1 0 1
+      pt 1 1 1
+      pt 0 1 1
+    }
+  }
+}

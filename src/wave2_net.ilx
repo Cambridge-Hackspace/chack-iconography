@@ -1,0 +1,102 @@
+// §-net plant — optics & cabling as small isometric OBJECTS. The original
+// net.ilx hardware (routers/switches/firewalls/APs…) is already objects
+// and untouched. The abstract plant is dropped — routing/bgp/vrf/static-
+// route/route-reflector/default-gateway/vlan/vxlan/stp/lag/mlag/
+// switchport/port-mirror/tunnel/secure-tunnel/mpls/dns-record/dhcp-scope/
+// nat/subnet/anycast/acl/qos/traffic-shaper/netflow/blackhole — those are
+// relationships or concepts; the tunnel/adjacency ones ship as edge
+// presets in iso/drawio.py instead.
+
+icon "net-transceiver" {
+  category "net"
+  footprint 1 1 0.2
+  describe "Pluggable optic module (SFP/QSFP) with a bail latch."
+  part "module" { box 0.25 0.4 0 0.5 0.22 0.14 }
+  part "bail" {
+    at 0.25 0.5 0.07 {
+      path d="M{x-2},{y-4} h-4 a2,2 0 0 0 0,8 h4" stroke="ink" width=1.4 fill="none"
+    }
+  }
+  part "fingers" { facerect "front" 0.68 0.62 0.03 0.12 0.05 opacity=0.5 }
+}
+icon "net-sfp-plus" { extends "net-transceiver" describe "SFP+ (alias)." }
+icon "net-qsfp"     { extends "net-transceiver" describe "QSFP (alias)." }
+icon "net-qsfp28"   { extends "net-transceiver" describe "QSFP28 (alias)." }
+icon "net-cfp"      { extends "net-transceiver" describe "CFP (alias)." }
+
+icon "net-dac-cable" {
+  category "net"
+  footprint 1.4 1 0.2
+  describe "Direct-attach copper: two connectors on a twinax."
+  part "c1" { box 0.05 0.4 0 0.28 0.22 0.12 }
+  part "c2" { box 1.07 0.4 0 0.28 0.22 0.12 }
+  part "cable" {
+    at 0.7 0.5 0.06 {
+      path d="M{x-15},{y} q15,-12 30,0" stroke="ink" width=2.2
+    }
+  }
+}
+
+icon "net-fiber-cable" {
+  category "net"
+  footprint 1.4 1 0.2
+  describe "Duplex fibre patch cord with LC connectors."
+  part "c1" { box 0.08 0.42 0 0.2 0.18 0.1 }
+  part "c2" { box 1.12 0.42 0 0.2 0.18 0.1 }
+  part "duplex" {
+    at 0.7 0.5 0.06 {
+      path d="M{x-14},{y-1} q14,-10 28,0 M{x-14},{y+1} q14,-8 28,0" stroke="ink-muted" width=1.4
+    }
+  }
+}
+
+icon "net-fiber-cassette" {
+  category "net"
+  footprint 1 1 0.3
+  describe "Fibre cassette: a rack module with duplex LC ports."
+  part "body" { box 0.1 0.2 0 0.8 0.6 0.2 }
+  part "ports" {
+    repeat 3 "i" {
+      facerect "front" "0.2 + i * 0.22" 0.8 0.1 0.12 0.06 opacity=0.4
+    }
+  }
+}
+
+icon "net-splice-tray" {
+  category "net"
+  footprint 1 1 0.15
+  describe "Splice tray: looped fibres in a shallow tray."
+  part "tray" { box 0.12 0.12 0 0.76 0.76 0.08 }
+  part "loops" {
+    at 0.5 0.5 0.08 {
+      path d="M{x-12},{y+4} q6,-14 12,-6 q6,8 12,-6" stroke="ink-muted" width=1.4 fill="none"
+    }
+  }
+}
+
+icon "net-wdm-mux" {
+  category "net"
+  footprint 1 1 0.4
+  describe "WDM mux: one fibre split into wavelengths."
+  part "body" { box 0.25 0.25 0 0.5 0.5 0.34 }
+  part "fan" {
+    at 0.25 0.5 0.2 {
+      path d="M{x-8},{y} h5 M{x+3},{y} l7,-6 M{x+3},{y} l7,-2 M{x+3},{y} l7,2 M{x+3},{y} l7,6" stroke="ink-muted" width=1.2
+    }
+  }
+}
+
+icon "net-fiber-strand" {
+  category "net"
+  footprint 1 1 0.5
+  describe "Fibre spool: strand on a reel."
+  part "reel" { cylinder 0.5 0.5 0 0.26 0.4 }
+  part "pulse" {
+    at 0.5 0.5 0.4 {
+      circle "x" "y" 1.8 fill="ink" stroke="none"
+      path d="M{x-6},{y} h3 M{x+3},{y} h3" stroke="ink-muted" width=1.2
+    }
+  }
+}
+icon "net-fiber-single-mode" { extends "net-fiber-strand" describe "Single-mode fibre (alias)." }
+icon "net-fiber-multi-mode"  { extends "net-fiber-strand" describe "Multi-mode fibre (alias)." }

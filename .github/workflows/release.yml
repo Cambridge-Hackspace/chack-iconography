@@ -1,0 +1,58 @@
+name: Release
+
+# Tag build: run the suite, build and package the pack, and publish it to
+# GitHub Releases (the equivalent of the old Bitbucket Downloads deploy).
+# The release version is the tag name; ci/package.sh reads it from $VERSION.
+on:
+  push:
+    tags: ['*']
+
+permissions:
+  contents: write   # required for `gh release create`
+
+jobs:
+  test:
+    name: Oracle suite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+      - name: Run pytest
+        run: |
+          export ISOLEX_BIN="$(bash ci/get-isolex.sh)"
+          uv sync
+          uv run pytest -q
+
+  release:
+    name: Build, package, publish
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+      - name: Build and package
+        run: |
+          export ISOLEX_BIN="$(bash ci/get-isolex.sh)"
+          uv run build.py --no-png
+          VERSION="${GITHUB_REF_NAME}" bash ci/package.sh
+      - name: Checksums
+        # A sha256 sidecar per artifact, mirroring the old deploy. The glob
+        # is expanded once before the loop, so sidecars are not re-hashed.
+        run: |
+          cd upload
+          for f in *; do
+            [ "${f##*.}" = sha256 ] || sha256sum "$f" > "$f.sha256"
+          done
+      - name: Publish to GitHub Releases
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" upload/* \
+            --title "chack-iconography ${GITHUB_REF_NAME}" \
+            --generate-notes

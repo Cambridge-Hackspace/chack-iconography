@@ -1,0 +1,47 @@
+# reaper tenant manifest. The battery drives a real, digest-pinned draw.io
+# with Playwright and checks the pack as draw.io actually consumes it —
+# tiers the workstation suite cannot see. See e2e/README.md.
+
+schema = 1
+project = "chack-iconography"
+
+guests = ["ubuntu-26.04"]
+exec = "container"
+
+[build]
+# docker.io/astral/uv:python3.12-bookworm (NON-slim), resolved 2026-09-04.
+# The non-slim variant deliberately: ci/get-isolex.sh downloads the pinned
+# isolex compiler and needs curl, absent from the slim image.
+image = "docker.io/astral/uv@sha256:85d4cb1afa769a7338e095b927bee941cf5ec92266c7424b3f6c0f2748567248"
+# Workstation-tier suite plus the pack build the driver will feed to
+# draw.io. ISOLEX_BIN is resolved once (checksum-verified download of the
+# pinned isolex release) and shared by the test and build steps. PNG
+# previews are skipped: resvg is a preview-only tool and the battery never
+# looks at PNGs the build made.
+cmd = "export ISOLEX_BIN=$(bash ci/get-isolex.sh) && UV_CACHE_DIR=$REAPER_CACHE_UV uv sync && UV_CACHE_DIR=$REAPER_CACHE_UV uv run pytest -q && UV_CACHE_DIR=$REAPER_CACHE_UV uv run python build.py --no-png"
+# "pip" is used by the run verb's driver container (caches are given to
+# every verb): the playwright/python image ships browsers but, at this
+# digest, not the pip package, so the driver installs it version-pinned.
+cache = ["uv", "pip"]
+
+[run]
+# Orchestrates containers, so it needs the guest's engine and no toolchain.
+exec = "host"
+cmd = "e2e/run.sh"
+images = [
+  # docker.io/jgraph/drawio:31.4.2, resolved 2026-09-04
+  "docker.io/jgraph/drawio@sha256:19d71d91d092e65132ea22b2e1cfcddf9716402a01386fbaae7190cf689adeb0",
+  # mcr.microsoft.com/playwright/python:v1.62.0-noble, resolved 2026-09-04
+  "mcr.microsoft.com/playwright/python@sha256:aa81288e738725378becba5b3e06cb0f3a7f012a610e87e8d767a090ea3f740d",
+]
+
+[sync]
+exclude = ["/.venv/", "/dist/", "/out/", "__pycache__/", "/.pytest_cache/",
+           "/.isolex/", "/chack-iconography-*.tbz2"]
+
+[reset]
+datasets = ["state"]
+
+[resources]
+cores = 4
+ram_gb = 8

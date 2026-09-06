@@ -1,0 +1,95 @@
+// §13 legend and chrome.
+
+icon "legend-plate" {
+  category "legend"
+  footprint 2 1.25 0.05
+  describe "Flat rectangular tile with a title bar."
+  part "plate" {
+    tile 0 0 0 2 1.25 fill="bg-zone"
+    tile 0 0 0.01 2 0.3 fill="bg-zone-alt"
+  }
+}
+
+icon "legend-shadow" {
+  category "legend"
+  footprint 1 1 0.05
+  describe "Soft ellipse, used under any object."
+  part "s" {
+    shadow 0.5 0.5 0.48 0.48
+  }
+}
+
+icon "legend-scale-tile" {
+  category "legend"
+  footprint 1 1 0.1
+  describe "One reference isometric tile."
+  part "tile" {
+    tile 0 0 0 1 1 fill="none" stroke="ink-muted"
+  }
+  part "ticks" {
+    at 0 0 0 {
+      path d="M{x},{y-2.5} v5" stroke="ink-muted" width=1.2
+    }
+    at 1 0 0 {
+      path d="M{x},{y-2.5} v5" stroke="ink-muted" width=1.2
+    }
+    at 0 1 0 {
+      path d="M{x},{y-2.5} v5" stroke="ink-muted" width=1.2
+    }
+    at 1 1 0 {
+      path d="M{x},{y-2.5} v5" stroke="ink-muted" width=1.2
+    }
+  }
+}
+
+icon "legend-compass" {
+  category "legend"
+  footprint 1 1 0.6
+  // nx/ny/sx/sy mirror P() exactly so the perpendicular-waist needle is
+  // byte-identical; the anchor supplies cx/cy as x/y.
+  param nx "(0.5 - 0.18) * 0.8660254037844387 * 40"
+  param ny "(0.5 + 0.18) * 0.5 * 40 - 0.3 * 40"
+  param sx "(0.5 - 0.82) * 0.8660254037844387 * 40"
+  param sy "(0.5 + 0.82) * 0.5 * 40 - 0.3 * 40"
+  describe "Isometric north arrow."
+  part "dial" {
+    tile 0 0 0 1 1 fill="bg-zone"
+    at 0.5 0.5 0.3 {
+      circle "x" "y" 14 fill="none" stroke="ink-muted" width=1.2
+    }
+  }
+  part "needle" {
+    at 0.5 0.5 0.3 {
+      poly fill="ink" stroke="outline" width=1.2 {
+        pt "nx" "ny"
+        pt "x + (y - sy) * 0.35" "y + (sx - x) * 0.35"
+        pt "x - (y - sy) * 0.35" "y - (sx - x) * 0.35"
+      }
+      poly fill="ink-muted" stroke="outline" width=1.2 {
+        pt "sx" "sy"
+        pt "x + (y - sy) * 0.35" "y + (sx - x) * 0.35"
+        pt "x - (y - sy) * 0.35" "y - (sx - x) * 0.35"
+      }
+      circle "x" "y" 1.8 fill="ink" stroke="none"
+    }
+  }
+}
+
+icon "legend-title-plate" {
+  category "legend"
+  footprint 3 1 0.05
+  describe "Wide flat plate for the diagram title."
+  part "plate" {
+    tile 0 0 0 3 1 fill="bg-zone"
+    tile 0 0 0.01 3 0.25 fill="bg-zone-alt"
+  }
+}
+
+icon "legend-spacer" {
+  category "legend"
+  footprint 1 1 0.05
+  describe "Empty transparent tile for layout."
+  part "tile" {
+    tile 0 0 0 1 1 fill="none" stroke="ink-muted" dash="3 3"
+  }
+}

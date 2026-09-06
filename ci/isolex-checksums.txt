@@ -1,0 +1,9 @@
+# sha256(binary)  artifact-name
+#
+# Pinned checksums for the isolex release the pack consumes. Fill each
+# value from the published <artifact>.sha256 on the isolex Downloads page
+# once the tag build has run. "PENDING" means that release has not
+# happened yet; ci/get-isolex.sh refuses to proceed against a PENDING pin
+# rather than trust an unverified download.
+ffe8577c6364ab270e5c00388763c76544b1d0f16085258e110074803e1d5f0c  isolex-v0.1.1-x86_64-unknown-linux-gnu
+3e21a31da1a1b1713c6e78d69bbbffa527ec94f36b84b8ef190ffa23a259016a  isolex-v0.1.1-x86_64-unknown-freebsd

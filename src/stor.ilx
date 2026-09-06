@@ -1,0 +1,297 @@
+// §6 storage.
+
+icon "stor-nas" {
+  category "stor"
+  footprint 1 1 1
+  describe "Desktop box with 4-8 vertical drive slots."
+  part "body" {
+    box 0.05 0.05 0 0.9 0.9 0.95
+  }
+  part "slots" {
+    repeat 4 "i" {
+      facerect "front" "0.14 + i * 0.19" 0.95 0.12 0.13 0.62 opacity=0.3
+    }
+  }
+  part "led" {
+    facerect "front" 0.76 0.95 0.8 0.06 0.06 opacity=0.6
+  }
+  axes "state"
+}
+
+icon "stor-zfs-pool" {
+  category "stor"
+  footprint 2 2 1.3
+  describe "Flat platform holding disk stacks under a translucent dome."
+  part "platform" {
+    box 0 0 0 2 2 0.12
+  }
+  part "stacks" {
+    insert "disk-stack" dx=0.55 dy=0.55 dz=0.12
+    insert "disk-stack" dx=1.45 dy=0.55 dz=0.12
+    insert "disk-stack" dx=1 dy=1.45 dz=0.12
+  }
+  part "dome" {
+    at 1 1 0.12 {
+      path d="M{x-56},{y} A56,46 0 0 1 {x+56},{y} A56,20 0 0 1 {x-56},{y} z" stroke="outline" width=1.2 fill="virt" opacity=0.18
+    }
+  }
+  axes "state"
+}
+
+icon "stor-zfs-pool-mirror" {
+  extends "stor-zfs-pool"
+  describe "Mirror vdev badge."
+  part "badge" {
+    at 1 1 0.12 {
+      path d="M{x-2},{y+30-5} l-8,5 8,5 z M{x+2},{y+30-5} l8,5 -8,5 z" stroke="ink" width=1.2 fill="ink"
+    }
+  }
+}
+
+icon "stor-zfs-pool-raidz" {
+  extends "stor-zfs-pool"
+  describe "raidz vdev badge."
+  part "badge" {
+    at 1 1 0.12 {
+      rect "x-9+0*9.5" "y+25-0.5+0*9.5" 8 8 fill="ink" stroke="ink" width=1.2
+      rect "x-9+1*9.5" "y+25-0.5+0*9.5" 8 8 fill="none" stroke="ink" width=1.2
+      rect "x-9+0*9.5" "y+25-0.5+1*9.5" 8 8 fill="none" stroke="ink" width=1.2
+      rect "x-9+1*9.5" "y+25-0.5+1*9.5" 8 8 fill="ink" stroke="ink" width=1.2
+    }
+  }
+}
+
+icon "stor-disk" {
+  category "stor"
+  footprint 1 1 0.3
+  describe "Single 3.5-inch drive."
+  part "body" {
+    box 0.2 0.3 0 0.6 0.45 0.18
+  }
+  part "platter" {
+    at 0.5 0.52 0.18 {
+      ellipse "x" "y" 9 4.5 fill="none" stroke="ink" width=1.2
+      circle "x" "y" 1.4 fill="ink" stroke="none"
+    }
+  }
+  part "label" {
+    facerect "front" 0.26 0.75 0.045 0.35 0.09 opacity=0.18
+  }
+  axes "state"
+}
+
+icon "stor-ssd" {
+  category "stor"
+  footprint 1 1 0.25
+  describe "Slim 2.5-inch drive."
+  part "body" {
+    box 0.25 0.35 0 0.5 0.35 0.1
+  }
+  part "chips" {
+    box 0.31 0.41 0.1 0.1 0.1 0.04
+    box 0.31 0.55 0.1 0.1 0.1 0.04
+  }
+  part "bolt" {
+    at 0.62 0.52 0.1 {
+      path d="M{x+2},{y-7} l-5,7 h3.5 l-2,5.5 5,-7 h-3.5 z" stroke="ink" width=1.2 fill="ink"
+    }
+  }
+  part "label" {
+    facerect "front" 0.3 0.7 0.025 0.28 0.05 opacity=0.3
+  }
+  axes "state"
+}
+
+icon "stor-nvme" {
+  category "stor"
+  footprint 1 1 0.2
+  describe "Stick with chips."
+  part "board" {
+    box 0.12 0.42 0 0.75 0.2 0.04
+  }
+  part "chips" {
+    box 0.2 0.46 0.04 0.16 0.12 0.05
+    box 0.44 0.46 0.04 0.14 0.12 0.04
+    box 0.64 0.46 0.04 0.14 0.12 0.04
+  }
+  part "notch" {
+    at 0.87 0.52 0.02 {
+      path d="M{x},{y} l4,2" stroke="ink-muted" width=1.4
+    }
+  }
+  axes "state"
+}
+
+icon "stor-san" {
+  category "stor"
+  footprint 2 1 0.6
+  describe "2u array, two controllers, many bays."
+  part "body" {
+    box 0 0 0 2 1 0.56
+  }
+  part "bays" {
+    repeat 8 "i" {
+      facerect "front" "0.08 + i * 0.2" 1 0.32 0.15 0.18 opacity=0.25
+    }
+    repeat 8 "i" {
+      facerect "front" "0.08 + i * 0.2" 1 0.08 0.15 0.18 opacity=0.25
+    }
+  }
+  part "controllers" {
+    repeat 2 "i" {
+      facerect "right" 2 "0.12 + i * 0.45" 0.12 0.32 0.3 opacity=0.4
+    }
+  }
+  axes "state"
+}
+
+icon "stor-jbod" {
+  category "stor"
+  footprint 2 2 0.7
+  describe "Wide L-tier shelf, front-loaded drives, no controller."
+  part "shelf" {
+    box 0 0.5 0 2 1 0.6
+  }
+  part "drives" {
+    repeat 9 "i" {
+      facerect "front" "0.08 + i * 0.21" 1.5 0.1 0.16 0.4 opacity=0.25
+    }
+  }
+  axes "state"
+}
+
+icon "stor-disk-shelf" {
+  extends "stor-jbod"
+  describe "Alias of jbod."
+}
+
+icon "stor-zfs-dataset" {
+  category "stor"
+  footprint 2 2 0.75
+  describe "Small tray on a pool."
+  part "platform" {
+    box 0 0 0 2 2 0.12
+  }
+  part "tray" {
+    box 0.5 0.5 0.12 1 1 0.3
+  }
+  part "folder" {
+    at 1 1 0.62 {
+      path d="M{x-9},{y+4} v-8 h6 l2,2.5 h10 v5.5 z" stroke="ink" width=1.4 fill="none"
+    }
+  }
+  axes "state"
+}
+
+icon "stor-snapshot" {
+  category "stor"
+  footprint 1 1 0.6
+  describe "Disc with a camera glyph."
+  part "disc" {
+    cylinder 0.5 0.5 0 0.4 0.18
+  }
+  part "camera" {
+    at 0.5 0.5 0.18 {
+      rect "x-8" "y-6" 16 11 rx=2 fill="none" stroke="ink" width=1.4
+      path d="M{x-3},{y-6} l1.5,-3 h3 l1.5,3" stroke="ink" width=1.4
+      circle "x" "y-0.5" 3 fill="none" stroke="ink" width=1.4
+    }
+  }
+  axes "state"
+}
+
+icon "stor-object-bucket" {
+  category "stor"
+  footprint 1 1 0.8
+  describe "Bucket, larger than the service tile."
+  part "body" {
+    at 0.5 0.5 0.72 {
+      path d="M{x-26},{y} L{x-18},{y + 0.66 * 40} A18.00 9.00 0 0 0 {x+18},{y + 0.66 * 40} L{x+26},{y} Z" stroke="outline" width=1.2 fill="body-right"
+      ellipse "x" "y" 26 13 fill="body-top" stroke="outline" width=1.2
+    }
+  }
+  axes "state"
+}
+
+icon "stor-tape-library" {
+  category "stor"
+  footprint 2 2 1.6
+  describe "Cabinet with a robot arm and cartridges."
+  part "cabinet" {
+    box 0.2 0 0 1.8 2 1.5
+  }
+  part "slots" {
+    repeat 3 "row" {
+      repeat 4 "col" {
+        facerect "front" "0.36 + col * 0.38" 2 "0.9 - row * 0.28" 0.28 0.18 opacity=0.2
+      }
+    }
+  }
+  part "arm" {
+    facerect "front" 0.3 2 0.18 1.6 0.04 opacity=0.35
+    facerect "front" 0.9 2 0.14 0.2 0.34 opacity=0.5
+  }
+  part "cartridge" {
+    box 0.72 2 0.62 0.28 0.18 0.16
+  }
+  axes "state"
+}
+
+icon "stor-backup-target" {
+  category "stor"
+  footprint 1 1 1
+  describe "Vault box with an archive badge."
+  part "body" {
+    box 0.1 0.15 0 0.8 0.7 0.9
+  }
+  part "door" {
+    at 0.5 0.85 0.45 {
+      circle "x" "y" 9 fill="none" stroke="ink" width=1.5
+      arc "x" "y" 5.5 0 1 stroke="ink" width=1.4
+      arc "x" "y" 5.5 60 61 stroke="ink" width=1.4
+      arc "x" "y" 5.5 120 121 stroke="ink" width=1.4
+      arc "x" "y" 5.5 180 181 stroke="ink" width=1.4
+      arc "x" "y" 5.5 240 241 stroke="ink" width=1.4
+      arc "x" "y" 5.5 300 301 stroke="ink" width=1.4
+      circle "x" "y" 2.2 fill="ink" stroke="none"
+    }
+  }
+  axes "state"
+}
+
+icon "stor-replication" {
+  category "stor"
+  footprint 2 1 0.9
+  describe "Two disk stacks with a curved arrow between."
+  part "stacks" {
+    insert "disk-stack" dx=0.4 dy=0.5 dz=0 n=2
+    insert "disk-stack" dx=1.6 dy=0.5 dz=0 n=2
+  }
+  part "arrow" {
+    at 1 0.5 0.7 {
+      path d="M{x-22},{y} a22,14 0 0 1 44,0" stroke="state-purple" width=1.5
+      path d="M{x+22},{y} l-4,-5 M{x+22},{y} l5,-3" stroke="state-purple" width=1.5
+    }
+  }
+  axes "state"
+}
+
+icon "stor-distributed-fs" {
+  category "stor"
+  footprint 2 2 0.9
+  describe "Three small disk stacks joined by dotted links."
+  part "platform" {
+    box 0 0 0 2 2 0.12
+  }
+  part "stacks" {
+    insert "disk-stack" dx=0.5 dy=0.5 dz=0.12 n=2
+    insert "disk-stack" dx=1.5 dy=0.5 dz=0.12 n=2
+    insert "disk-stack" dx=1 dy=1.5 dz=0.12 n=2
+  }
+  part "links" {
+    seg 0.5 0.5 0.66 1.5 0.5 0.66 stroke="ink-muted" width=1.4 dash="3 3"
+    seg 1.5 0.5 0.66 1 1.5 0.66 stroke="ink-muted" width=1.4 dash="3 3"
+    seg 1 1.5 0.66 0.5 0.5 0.66 stroke="ink-muted" width=1.4 dash="3 3"
+  }
+  axes "state"
+}

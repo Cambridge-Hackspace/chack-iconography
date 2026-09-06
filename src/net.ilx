@@ -1,0 +1,401 @@
+// §5 network devices.
+
+base "switch-body" {
+  category "net"
+  footprint 2 1 0.28
+  part "chassis" {
+    box 0 0 0 2 1 0.28
+  }
+  part "ports" {
+    repeat 12 "i" {
+      facerect "front" "0.1 + i * 0.155" 1 0.09 0.11 0.11 opacity=0.55
+    }
+  }
+}
+
+icon "net-switch-l2" {
+  extends "switch-body"
+  describe "1u slab, full row of RJ45 ports."
+  axes "state"
+}
+
+icon "net-switch-l3" {
+  extends "switch-body"
+  describe "Same, with a small routing-arrows badge on the face."
+  part "badge" {
+    at 1 0.5 0.28 {
+      path d="M{x-10},{y} h20 M{x+14},{y-3} l6,3 -6,3 M{x-14},{y-3} l-6,3 6,3" stroke="ink" width=1.5
+    }
+  }
+  axes "state"
+}
+
+icon "net-switch-poe" {
+  extends "switch-body"
+  describe "L2 switch with a lightning badge."
+  part "badge" {
+    at 1.55 0.35 0.28 {
+      path d="M{x+2},{y-7} l-6,8 h4 l-2,6 6,-8 h-4 z" stroke="ink" width=1.2 fill="ink"
+    }
+  }
+  axes "state"
+}
+
+icon "net-switch-core" {
+  category "net"
+  footprint 2 1 0.56
+  describe "2u chassis, two port rows, dual PSU."
+  part "chassis" {
+    box 0 0 0 2 1 0.56
+  }
+  part "ports" {
+    repeat 10 "i" {
+      facerect "front" "0.1 + i * 0.155" 1 0.32 0.11 0.11 opacity=0.55
+    }
+    repeat 10 "i" {
+      facerect "front" "0.1 + i * 0.155" 1 0.1 0.11 0.11 opacity=0.55
+    }
+  }
+  part "psu" {
+    repeat 2 "i" {
+      facerect "right" 2 "0.15 + i * 0.4" 0.1 0.3 0.3 opacity=0.2
+    }
+  }
+  axes "state"
+}
+
+icon "net-router" {
+  category "net"
+  footprint 1.4 1.4 0.45
+  describe "Round-cornered puck with four outward arrows on top."
+  param c 0.8660254037844387
+  param s 0.5
+  part "puck" {
+    cylinder 0.7 0.7 0 0.62 0.32
+  }
+  part "arrows" {
+    at 0.7 0.7 0.32 {
+      path d="M{x+c*6},{y+s*3} L{x+c*22},{y+s*11} M{x+c*22-c*5-s*4.5},{y+s*11-s*2.5+c*2.2} L{x+c*22},{y+s*11} L{x+c*22-c*5+s*4.5},{y+s*11-s*2.5-c*2.2}" stroke="ink" width=1.5
+      path d="M{x-c*6},{y+s*3} L{x-c*22},{y+s*11} M{x-c*22+c*5-s*4.5},{y+s*11-s*2.5-c*2.2} L{x-c*22},{y+s*11} L{x-c*22+c*5+s*4.5},{y+s*11-s*2.5+c*2.2}" stroke="ink" width=1.5
+      path d="M{x+c*6},{y-s*3} L{x+c*22},{y-s*11} M{x+c*22-c*5+s*4.5},{y-s*11+s*2.5+c*2.2} L{x+c*22},{y-s*11} L{x+c*22-c*5-s*4.5},{y-s*11+s*2.5-c*2.2}" stroke="ink" width=1.5
+      path d="M{x-c*6},{y-s*3} L{x-c*22},{y-s*11} M{x-c*22+c*5+s*4.5},{y-s*11+s*2.5-c*2.2} L{x-c*22},{y-s*11} L{x-c*22+c*5-s*4.5},{y-s*11+s*2.5+c*2.2}" stroke="ink" width=1.5
+    }
+  }
+  axes "state"
+}
+
+icon "net-router-edge" {
+  extends "net-router"
+  describe "Router with a globe badge; Internet-facing."
+  part "globe" {
+    at 1.15 1.15 0.1 {
+      circle "x" "y" 7 fill="body-top" stroke="outline" width=1.2
+      circle "x" "y" 5 fill="none" stroke="ink" width=1.2
+      ellipse "x" "y" 2.2 5 fill="none" stroke="ink" width=1.2
+      path d="M{x-5},{y} h10" stroke="ink" width=1.2
+    }
+  }
+}
+
+icon "net-wireless-ap" {
+  category "net"
+  footprint 1 1 1.1
+  describe "Flat disc with three radiating arcs."
+  part "disc" {
+    cylinder 0.5 0.5 0 0.42 0.12
+  }
+  part "waves" {
+    at 0.5 0.5 0.12 {
+      path d="M{x},{y-3} v0.01" stroke="ink" width=2.2
+      arc "x" "y-4" 9 55 125 stroke="ink" width=1.5
+      arc "x" "y-4" 16 55 125 stroke="ink" width=1.5
+      arc "x" "y-4" 23 55 125 stroke="ink" width=1.5
+    }
+  }
+  axes "state"
+}
+
+icon "net-wireless-controller" {
+  category "net"
+  footprint 2 1 0.28
+  describe "1u slab with antenna badges."
+  part "chassis" {
+    box 0 0 0 2 1 0.28
+  }
+  part "antennas" {
+    at 0.6 0.5 0.28 {
+      path d="M{x},{y} v-11" stroke="ink" width=1.5
+      arc "x" "y-11" 4 40 140 stroke="ink" width=1.4
+      arc "x" "y-11" 7 40 140 stroke="ink" width=1.4
+    }
+    at 1.4 0.5 0.28 {
+      path d="M{x},{y} v-11" stroke="ink" width=1.5
+      arc "x" "y-11" 4 40 140 stroke="ink" width=1.4
+      arc "x" "y-11" 7 40 140 stroke="ink" width=1.4
+    }
+  }
+  axes "state"
+}
+
+icon "net-modem-ont" {
+  category "net"
+  footprint 1 1 0.4
+  describe "Small box with a fibre pigtail."
+  part "body" {
+    box 0.25 0.3 0 0.5 0.4 0.3
+  }
+  part "pigtail" {
+    at 0.75 0.5 0.15 {
+      path d="M{x},{y} c10,2 12,8 6,14" stroke="link-fibre" width=1.5
+    }
+  }
+  part "led" {
+    facerect "front" 0.35 0.7 0.08 0.06 0.06 opacity=0.6
+  }
+  axes "state"
+}
+
+icon "net-load-balancer-hw" {
+  category "net"
+  footprint 2 1 0.28
+  describe "1u slab with a splitter fan badge."
+  part "chassis" {
+    box 0 0 0 2 1 0.28
+  }
+  part "fan" {
+    at 1 0.5 0.28 {
+      path d="M{x-10},{y} L{x+8},{y-6}" stroke="ink" width=1.4
+      circle "x+9.5" "y-6.9" 1.6 fill="ink" stroke="none"
+      path d="M{x-10},{y} L{x+8},{y}" stroke="ink" width=1.4
+      circle "x+9.5" "y" 1.6 fill="ink" stroke="none"
+      path d="M{x-10},{y} L{x+8},{y+6}" stroke="ink" width=1.4
+      circle "x+9.5" "y+6.9" 1.6 fill="ink" stroke="none"
+      circle "x-10" "y" 1.8 fill="ink" stroke="none"
+    }
+  }
+  axes "state"
+}
+
+icon "net-proxy-appliance" {
+  category "net"
+  footprint 2 1 0.28
+  describe "1u slab with a funnel badge."
+  part "chassis" {
+    box 0 0 0 2 1 0.28
+  }
+  part "funnel" {
+    at 1 0.5 0.28 {
+      path d="M{x-8},{y-7} h16 l-6,7 v6 l-4,2 v-8 z" stroke="ink" width=1.4
+    }
+  }
+  axes "state"
+}
+
+icon "net-patch-panel" {
+  category "net"
+  footprint 2 1 0.28
+  describe "1u slab, port row, cable stubs coming out."
+  part "chassis" {
+    box 0 0 0 2 1 0.28
+  }
+  part "ports" {
+    repeat 12 "i" {
+      facerect "front" "0.1 + i * 0.155" 1 0.09 0.11 0.11 opacity=0.35
+    }
+  }
+  part "stub1" {
+    at "0.155 + 1 * 0.155" 1 0.15 {
+      path d="M{x},{y} c-1,6 -4,9 -8,10" stroke="ink-muted" width=1.5
+    }
+  }
+  part "stub4" {
+    at "0.155 + 4 * 0.155" 1 0.15 {
+      path d="M{x},{y} c-1,6 -4,9 -8,10" stroke="ink-muted" width=1.5
+    }
+  }
+  part "stub9" {
+    at "0.155 + 9 * 0.155" 1 0.15 {
+      path d="M{x},{y} c-1,6 -4,9 -8,10" stroke="ink-muted" width=1.5
+    }
+  }
+  axes "state"
+}
+
+icon "net-media-converter" {
+  category "net"
+  footprint 1 1 0.3
+  describe "Tiny box, copper on one side, fibre on the other."
+  part "body" {
+    box 0.3 0.35 0 0.4 0.3 0.22
+  }
+  part "copper" {
+    at 0.3 0.5 0.11 {
+      path d="M{x},{y} l-8,-4" stroke="ink-muted" width=1.5
+    }
+  }
+  part "fibre" {
+    at 0.7 0.5 0.11 {
+      path d="M{x},{y} l8,-4" stroke="link-fibre" width=1.5
+    }
+  }
+  axes "state"
+}
+
+icon "net-sfp" {
+  category "net"
+  footprint 1 1 0.25
+  describe "Small transceiver."
+  part "body" {
+    box 0.3 0.4 0 0.45 0.2 0.12
+  }
+  part "latch" {
+    box 0.2 0.44 0.02 0.1 0.12 0.08
+  }
+  part "port" {
+    facerect "front" 0.62 0.6 0.03 0.1 0.06 opacity=0.5
+  }
+  axes "state"
+}
+
+icon "net-tap" {
+  category "net"
+  footprint 1 1 0.5
+  describe "Small inline box with a side arrow."
+  part "body" {
+    box 0.3 0.35 0 0.4 0.3 0.22
+  }
+  part "inline" {
+    // one path, two segments; the outbound end is the inbound anchor plus
+    // the projected 0.4-unit x-span (0.4*COS*S, 0.4*SIN*S)
+    at 0.3 0.5 0.11 {
+      path d="M{x-10},{y+5} L{x},{y} M{x + 0.4 * 0.8660254037844387 * 40},{y + 0.4 * 0.5 * 40} L{x + 0.4 * 0.8660254037844387 * 40 + 10},{y + 0.4 * 0.5 * 40 - 5}" stroke="ink-muted" width=1.5
+    }
+  }
+  part "mirror" {
+    at 0.5 0.35 0.22 {
+      path d="M{x},{y} l4,-8 M{x+4},{y-8} l-4.5,0.5 M{x+4},{y-8} l1,4.5" stroke="ink" width=1.4
+    }
+  }
+  axes "state"
+}
+
+icon "net-cell-gateway" {
+  category "net"
+  footprint 1 1 1
+  describe "Box with a cellular antenna; 4G/5G backup."
+  part "body" {
+    box 0.25 0.3 0 0.5 0.4 0.35
+  }
+  part "antenna" {
+    at 0.4 0.45 0.35 {
+      path d="M{x},{y} v-18" stroke="outline" width=1.5
+      circle "x" "y-19.5" 1.6 fill="ink" stroke="none"
+      repeat 3 "k" {
+        path d="M{x + 6 + k * 4},{y - 8} v{-(4 + k * 3.5)}" stroke="ink" width=2.2
+      }
+    }
+  }
+  axes "state"
+}
+
+base "brick-wall" {
+  category "net"
+  footprint 2 1 1.9
+  part "bricks" {
+    repeat 4 "c" {
+      repeat 4 "i" {
+        box "i * 0.5" 0.25 "c * 0.25" 0.5 0.5 0.24
+      }
+    }
+  }
+  part "flame" {
+    at 1 0.5 1 {
+      path d="M{x},{y+2} c-14,-8 -10,-24 -2,-32 c-2,10 6,12 6,4 c8,8 10,20 -4,28z" stroke="outline" width=1.2 fill="accent-dim"
+    }
+  }
+}
+
+icon "net-firewall" {
+  extends "brick-wall"
+  describe "Brick wall segment with a flame at the top."
+  grant "accent-dim" reason="the firewall flame is the reserved dim-red boundary marker (§16)"
+  axes "state"
+}
+
+icon "net-utm" {
+  extends "brick-wall"
+  describe "Firewall with a shield badge."
+  grant "accent-dim" reason="UTM is a firewall: same dim-red boundary flame (§16)"
+  part "shield" {
+    at 1 0.75 0.55 {
+      path d="M{x},{y-8} c4,2.5 7,2.5 7,2.5 v5.5 c0,5 -7,8 -7,8 c0,0 -7,-3 -7,-8 v-5.5 c0,0 3,0 7,-2.5 z" stroke="ink" width=1.5 fill="none"
+    }
+  }
+  axes "state"
+}
+
+icon "net-firewall-vm" {
+  category "net"
+  footprint 2 1 1.2
+  describe "Virtualised firewall; translucent brick wall."
+  part "prism" {
+    box 0 0.25 0 2 0.5 1 fills="virt" opacity=0.18
+  }
+  part "courses" {
+    // a horizontal tile-span of 2 projects to a fixed screen delta
+    // (2*COS*S, 2*SIN*S); the anchor gives the left end.
+    repeat 3 "course" {
+      at 0 0.75 "(course + 1) * 0.25" {
+        path d="M{x},{y} L{x + 2 * 0.8660254037844387 * 40},{y + 2 * 0.5 * 40}" stroke="ink-muted" width=1.2
+      }
+    }
+  }
+  part "joints" {
+    // a vertical tile-span of 0.25 projects to (0, -0.25*S) = (0, -10).
+    repeat 4 "course" {
+      repeat 4 "j" {
+        at "if(course % 2 == 1, 0.25, 0.5) + j * 0.5" 0.75 "course * 0.25" {
+          path d="M{x},{y} L{x},{y - 10}" stroke="ink-muted" width=1.2 when="if(course % 2 == 1, 0.25, 0.5) + j * 0.5 < 2"
+        }
+      }
+    }
+  }
+  axes "state"
+}
+
+icon "net-ids-ips" {
+  category "net"
+  footprint 2 1 1.2
+  describe "Radar scope: rings, sweep beam, contact blips."
+  part "body" {
+    box 0 0 0 2 1 0.28
+  }
+  part "scope" {
+    at 1 0.5 0.28 {
+      circle "x" "y-14" 13 fill="none" stroke="ink" width=1.4
+      circle "x" "y-14" 7 fill="none" stroke="ink-muted" width=1.2
+      path d="M{x},{y-14} L{x+11},{y-21} M{x},{y-14} L{x+12.4},{y-18}" stroke="ink" width=1.4
+      circle "x-5" "y-10" 1.5 fill="ink" stroke="none"
+      circle "x-8" "y-19" 1.5 fill="ink" stroke="none"
+    }
+  }
+  axes "state"
+}
+
+icon "net-vpn-gateway" {
+  category "net"
+  footprint 2 1 0.9
+  describe "Locked tunnel: double line with a dashed centre, carrying a padlock."
+  part "body" {
+    box 0 0 0 2 1 0.42
+  }
+  part "tunnel" {
+    at 1 0.5 0.42 {
+      path d="M{x-20},{y-3} h40 M{x-20},{y+3} h40" stroke="ink" width=1.4
+      path d="M{x-18},{y} h36" stroke="ink-muted" width=1.2 dash="3 2.5"
+      arc "x" "y-13.5" 4 0 180 stroke="ink" width=1.4
+      rect "x-5.5" "y-13.5" 11 8.5 rx=1.5 fill="ink" stroke="none"
+    }
+  }
+  axes "state"
+}

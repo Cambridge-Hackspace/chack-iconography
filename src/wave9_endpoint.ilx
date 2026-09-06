@@ -1,0 +1,308 @@
+// §-endpoint — endpoints & A/V as isometric device OBJECTS (no slab).
+// Abstract endpoint-management concepts (MDM, antivirus, agent,
+// remote-wipe, enrollment, BYOD) are dropped.
+
+// A display panel on a foot: screen box + stand, face carries content.
+base "endpoint-display" {
+  category "endpoint"
+  footprint 1 1 0.8
+  part "screen" { box 0.12 0.42 0.16 0.76 0.12 0.5 }
+  part "stand" { box 0.42 0.46 0 0.16 0.08 0.18 }
+}
+
+icon "endpoint-all-in-one" {
+  extends "endpoint-display"
+  describe "All-in-one PC."
+  part "chin" { facerect "front" 0.5 0.42 0.2 0.5 0.06 opacity=0.4 }
+  axes "state"
+}
+
+icon "endpoint-video-conference" {
+  extends "endpoint-display"
+  describe "Video-conference display with a camera bar."
+  part "cam" { box 0.4 0.4 0.68 0.2 0.06 0.05 }
+  part "faces" {
+    at 0.12 0.48 0.42 {
+      circle "x-4" "y" 2.2 fill="none" stroke="ink" width=1.2
+      circle "x+4" "y" 2.2 fill="none" stroke="ink" width=1.2
+    }
+  }
+  axes "state"
+}
+
+icon "endpoint-digital-signage" {
+  category "endpoint"
+  footprint 1 1 1
+  describe "Digital signage: a large wall panel."
+  part "panel" { box 0.1 0.46 0.1 0.8 0.1 0.85 }
+  part "content" {
+    at 0.1 0.5 0.5 {
+      path d="M{x-6},{y+3} l4,-4 v8 z" stroke="ink" width=1.2 fill="ink"
+      path d="M{x+1},{y-2} h5 M{x+1},{y+2} h5" stroke="ink-muted" width=1.2
+    }
+  }
+  axes "state"
+}
+
+icon "endpoint-display-wall" {
+  category "endpoint"
+  footprint 1.2 1 1
+  describe "Video wall: a grid of tiled panels."
+  part "wall" {
+    repeat 2 "r" {
+      repeat 3 "c" {
+        box "0.08 + c * 0.38" 0.5 "0.12 + r * 0.4" 0.34 0.06 0.36
+      }
+    }
+  }
+  axes "state"
+}
+
+icon "endpoint-kiosk" {
+  category "endpoint"
+  footprint 1 1 1.2
+  describe "Kiosk: a standing self-service terminal."
+  part "column" { box 0.3 0.3 0 0.4 0.4 1.1 }
+  part "screen" { facerect "front" 0.4 0.7 0.75 0.35 0.28 opacity=0.35 }
+  part "base" { box 0.2 0.2 0 0.6 0.6 0.08 }
+  axes "state"
+}
+
+icon "endpoint-pos-terminal" {
+  category "endpoint"
+  footprint 1 1 0.5
+  describe "POS terminal: a card reader with a tilted screen."
+  part "base" { box 0.2 0.2 0 0.55 0.55 0.16 }
+  part "screen" { box 0.28 0.5 0.16 0.36 0.1 0.3 }
+  part "slot" { facerect "front" 0.35 0.75 0.06 0.28 0.03 opacity=0.5 }
+  axes "state"
+}
+
+icon "endpoint-atm" {
+  category "endpoint"
+  footprint 1 1 1.3
+  describe "ATM: a cash machine with a screen and dispenser."
+  part "body" { box 0.2 0.25 0 0.6 0.55 1.2 }
+  part "screen" { facerect "front" 0.35 0.8 0.75 0.35 0.25 opacity=0.35 }
+  part "slot" { facerect "front" 0.35 0.8 0.5 0.35 0.05 opacity=0.5 }
+  part "tray" { facerect "front" 0.35 0.8 0.28 0.35 0.06 opacity=0.5 }
+  axes "state"
+}
+
+icon "endpoint-smart-speaker" {
+  category "endpoint"
+  footprint 1 1 0.7
+  describe "Smart speaker: a mesh cylinder."
+  part "body" { cylinder 0.5 0.5 0 0.3 0.62 }
+  part "ring" {
+    at 0.5 0.5 0.62 {
+      circle "x" "y" 8 fill="none" stroke="ink-muted" width=1.2 dash="1 1.5"
+    }
+  }
+  axes "state"
+}
+
+icon "endpoint-set-top-box" {
+  category "endpoint"
+  footprint 1 1 0.3
+  describe "Set-top box: a low media receiver."
+  part "body" { box 0.15 0.2 0 0.7 0.6 0.18 }
+  part "led" { facerect "front" 0.7 0.8 0.09 0.06 0.05 opacity=0.6 }
+  axes "state"
+}
+
+icon "endpoint-media-player" {
+  category "endpoint"
+  footprint 1 1 0.25
+  describe "Media player: a slim streaming box."
+  part "body" { box 0.25 0.3 0 0.5 0.4 0.14 }
+  part "play" {
+    at 0.5 0.55 0.14 {
+      path d="M{x-3},{y-4} l6,4 -6,4 z" stroke="ink" width=1.2 fill="ink"
+    }
+  }
+  axes "state"
+}
+
+icon "endpoint-game-console" {
+  category "endpoint"
+  footprint 1 1 0.4
+  describe "Game console: a stacked console body."
+  part "body" { box 0.2 0.2 0 0.6 0.6 0.28 }
+  part "groove" { facerect "front" 0.25 0.8 0.14 0.5 0.03 opacity=0.5 }
+  part "led" { facerect "front" 0.72 0.8 0.2 0.05 0.05 opacity=0.6 }
+  axes "state"
+}
+
+icon "endpoint-e-reader" {
+  category "endpoint"
+  footprint 1 1 0.7
+  describe "E-reader: a slim tablet on edge."
+  part "slab" { box 0.35 0.3 0 0.3 0.45 0.66 }
+  part "text" {
+    at 0.35 0.5 0.4 {
+      path d="M{x-5},{y-6} h10 M{x-5},{y-2} h10 M{x-5},{y+2} h10 M{x-5},{y+6} h6" stroke="ink-muted" width=1.2
+    }
+  }
+  axes "state"
+}
+
+icon "endpoint-wearable" {
+  category "endpoint"
+  footprint 1 1 0.5
+  describe "Wearable: a smartwatch."
+  part "band" { box 0.44 0.3 0 0.12 0.5 0.1 }
+  part "case" { box 0.36 0.4 0.1 0.28 0.28 0.16 }
+  part "face" {
+    at 0.36 0.54 0.26 {
+      circle "x" "y" 4 fill="none" stroke="ink" width=1.2
+      path d="M{x},{y-2} v2 h1.5" stroke="ink" width=1.2
+    }
+  }
+  axes "state"
+}
+
+icon "endpoint-vdi" {
+  category "endpoint"
+  footprint 1 1 0.5
+  describe "VDI thin client: a small streaming node."
+  part "body" { box 0.3 0.3 0 0.4 0.4 0.4 }
+  part "stream" {
+    at 0.3 0.5 0.25 {
+      path d="M{x-5},{y} q5,-6 10,0" stroke="ink-muted" width=1.2 dash="2 1.5"
+      circle "x" "y" 1.4 fill="ink" stroke="none"
+    }
+  }
+  axes "state"
+}
+
+icon "endpoint-handheld-scanner" {
+  category "endpoint"
+  footprint 1 1 0.7
+  describe "Handheld barcode scanner: a gun."
+  part "grip" { box 0.42 0.42 0 0.16 0.16 0.4 }
+  part "head" { box 0.3 0.36 0.4 0.5 0.28 0.16 }
+  part "beam" {
+    at 0.72 0.5 0.48 {
+      path d="M{x},{y-4} v8 M{x+3},{y-4} v8 M{x+6},{y-4} v8" stroke="ink" width=1.4
+    }
+  }
+  axes "state"
+}
+
+icon "endpoint-projector" {
+  category "endpoint"
+  footprint 1 1 0.5
+  describe "Projector: a body with a lens casting a beam."
+  part "body" { box 0.2 0.28 0 0.5 0.44 0.3 }
+  part "lens" {
+    at 0.7 0.5 0.15 {
+      circle "x" "y" 4 fill="body-top" stroke="ink" width=1.4
+    }
+  }
+  part "beam" {
+    at 0.7 0.5 0.15 {
+      path d="M{x+3},{y-2} l9,-4 v12 l-9,-4 z" stroke="ink-muted" width=1.2 fill="none"
+    }
+  }
+  axes "state"
+}
+
+icon "endpoint-whiteboard" {
+  category "endpoint"
+  footprint 1.2 1 1
+  describe "Interactive whiteboard: a large board."
+  part "board" { box 0.06 0.48 0.12 0.98 0.08 0.78 }
+  part "mark" {
+    at 0.06 0.5 0.5 {
+      path d="M{x-8},{y+3} q4,-8 8,-4 t8,-2" stroke="ink" width=1.4 fill="none"
+    }
+  }
+  axes "state"
+}
+
+icon "endpoint-microphone" {
+  category "endpoint"
+  footprint 1 1 1
+  describe "Microphone: a capsule on a stand."
+  part "base" { box 0.35 0.35 0 0.3 0.3 0.06 }
+  part "post" {
+    at 0.5 0.5 0.06 {
+      path d="M{x},{y} v-18" stroke="ink" width=1.5
+    }
+  }
+  part "capsule" {
+    at 0.5 0.5 0.06 {
+      rect "x-4" "y-30" 8 13 rx=4 fill="body-top" stroke="ink" width=1.4
+      path d="M{x-6},{y-20} a6,6 0 0 0 12,0" stroke="ink" width=1.4
+    }
+  }
+  axes "state"
+}
+
+icon "endpoint-speaker" {
+  category "endpoint"
+  footprint 1 1 1
+  describe "Loudspeaker: a cabinet with two drivers."
+  part "cabinet" { box 0.28 0.3 0 0.44 0.5 0.9 }
+  part "woofer" { facerect "front" 0.5 0.8 0.3 0.22 0.22 opacity=0.3 }
+  part "tweeter" { facerect "front" 0.5 0.8 0.66 0.12 0.12 opacity=0.3 }
+  axes "state"
+}
+
+icon "endpoint-soundbar" {
+  category "endpoint"
+  footprint 1.2 1 0.3
+  describe "Soundbar: a wide low bar of drivers."
+  part "bar" { box 0.06 0.4 0 0.98 0.2 0.2 }
+  part "grille" {
+    repeat 5 "i" {
+      facerect "front" "0.14 + i * 0.16" 0.6 0.1 0.06 0.06 opacity=0.3
+    }
+  }
+  axes "state"
+}
+
+icon "endpoint-av-receiver" {
+  category "endpoint"
+  footprint 1 1 0.4
+  describe "A/V receiver: an amplifier with a knob."
+  part "body" { box 0.1 0.25 0 0.8 0.5 0.26 }
+  part "knob" { facerect "front" 0.72 0.75 0.13 0.1 0.1 opacity=0.4 }
+  part "vents" { facerect "front" 0.2 0.75 0.13 0.28 0.12 opacity=0.25 }
+  axes "state"
+}
+
+icon "endpoint-ptz-camera" {
+  category "endpoint"
+  footprint 1 1 0.5
+  describe "PTZ camera: a dome camera on a mount."
+  part "mount" { box 0.4 0.4 0 0.2 0.2 0.12 }
+  part "dome" {
+    at 0.5 0.5 0.12 {
+      path d="M{x-9},{y+2} a9,9 0 0 1 18,0 z" stroke="ink" width=1.4 fill="body-top"
+      circle "x" "y-1" 3 fill="ink" stroke="none"
+    }
+  }
+  axes "state"
+}
+
+icon "endpoint-webcam" { extends "endpoint-ptz-camera" describe "Webcam (alias)." }
+
+icon "endpoint-document-camera" {
+  category "endpoint"
+  footprint 1 1 1
+  describe "Document camera on a gooseneck arm."
+  part "base" { box 0.3 0.3 0 0.35 0.35 0.06 }
+  part "arm" {
+    at 0.4 0.45 0.06 {
+      path d="M{x},{y} v-16 q0,-6 8,-6" stroke="ink" width=1.5 fill="none"
+    }
+  }
+  part "head" {
+    at 0.4 0.45 0.06 {
+      path d="M{x+8},{y-24} l5,-1 -1,5 z" stroke="ink" width=1.4 fill="none"
+    }
+  }
+  axes "state"
+}

@@ -1,0 +1,90 @@
+// §12 people and actors.
+
+icon "actor-user" {
+  category "actor"
+  footprint 1 1 1.1
+  describe "Neutral figure."
+  part "figure" {
+    insert "figure"
+  }
+}
+
+icon "actor-admin" {
+  category "actor"
+  footprint 1 1 1.1
+  describe "Figure with a wrench."
+  part "figure" {
+    insert "figure"
+  }
+  part "wrench" {
+    insert "wrench" atx=0.5 aty=0.5 atz=0 ox=13 oy=-12
+  }
+}
+
+icon "actor-attacker" {
+  category "actor"
+  footprint 1 1 1.1
+  describe "Figure with a hood, red accent."
+  grant "accent" reason="hostile: the attacker is the reserved-red adversary (§16)"
+  part "g" {
+    at 0.5 0.5 0 {
+      path d="M{x-11},{y} c0,-16 5,-24 11,-24 c6,0 11,8 11,24 z" stroke="outline" width=1.2 fill="accent"
+      path d="M{x-8},{y-24} c0,-9 4,-14 8,-14 c4,0 8,5 8,14 c-2.5,2.5 -13.5,2.5 -16,0 z" stroke="outline" width=1.2 fill="accent"
+      circle "x" "y-28.5" 4.2 fill="bg-canvas" stroke="outline" width=1.2
+    }
+  }
+}
+
+icon "actor-developer" {
+  category "actor"
+  footprint 1.2 1 1.1
+  describe "Figure with a laptop."
+  part "figure" {
+    insert "figure"
+  }
+  part "laptop" {
+    at 0.5 0.5 0 {
+      path d="M{x+8},{y-4} l12,4 10,-4 -12,-4 z" stroke="outline" width=1.2 fill="body-top"
+      path d="M{x+8},{y-4} v-9 l12,4 v9 z" stroke="outline" width=1.2 fill="body-left"
+    }
+  }
+}
+
+icon "actor-service-account" {
+  category "actor"
+  footprint 1 1 1.2
+  describe "Robot."
+  part "robot" {
+    insert "robot"
+  }
+}
+
+icon "actor-agent" {
+  category "actor"
+  footprint 1.2 1 1.2
+  describe "Robot with a cursor."
+  part "robot" {
+    insert "robot"
+  }
+  part "cursor" {
+    at 0.5 0.5 0 {
+      path d="M{x+11},{y-14} l7,17 2.5,-7 7,-2.5 z" stroke="outline" width=1.2 fill="ink"
+    }
+  }
+}
+
+icon "actor-group" {
+  category "actor"
+  footprint 1.6 1 1.1
+  describe "Three figures."
+  part "g" {
+    at 0.8 0.5 0 {
+      path d="M{x-16-11},{y} c0,-16 5,-24 11,-24 c6,0 11,8 11,24 z" stroke="outline" width=1.2 fill="body-left"
+      circle "x-16" "y-29" 7 fill="body-left" stroke="outline" width=1.2
+      path d="M{x+16-11},{y} c0,-16 5,-24 11,-24 c6,0 11,8 11,24 z" stroke="outline" width=1.2 fill="body-left"
+      circle "x+16" "y-29" 7 fill="body-left" stroke="outline" width=1.2
+      path d="M{x-11},{y} c0,-16 5,-24 11,-24 c6,0 11,8 11,24 z" stroke="outline" width=1.2 fill="body-top"
+      circle "x" "y-29" 7 fill="body-top" stroke="outline" width=1.2
+    }
+  }
+}

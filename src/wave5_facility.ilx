@@ -1,0 +1,496 @@
+// §-facility — data-centre plant as isometric equipment OBJECTS (no slab).
+
+// A floor cabinet: the common enclosure for power/cooling gear; the front
+// face carries the distinguishing detail.
+base "facility-cabinet" {
+  category "facility"
+  footprint 1 1 1.2
+  part "body" { box 0.18 0.18 0 0.64 0.64 1.1 }
+}
+
+// --- power -----------------------------------------------------------------
+
+icon "facility-utility-feed" {
+  category "facility"
+  footprint 1 1 1.4
+  describe "Utility feed: a transmission pylon."
+  part "legs" {
+    at 0.5 0.5 0 {
+      path d="M{x-9},{y+20} L{x-3},{y-24} M{x+9},{y+20} L{x+3},{y-24} M{x-6},{y-2} h12 M{x-4.5},{y-13} h9" stroke="ink" width=1.5
+      path d="M{x-3},{y-24} h6 M{x-8},{y-18} h16 M{x-6},{y-11} h12" stroke="ink" width=1.4
+    }
+  }
+  axes "state"
+}
+
+icon "facility-transformer" {
+  category "facility"
+  footprint 1 1 0.9
+  describe "Transformer: a tank with HV bushings."
+  part "tank" { box 0.2 0.25 0 0.6 0.5 0.7 }
+  part "bushings" {
+    at 0.5 0.5 0.7 {
+      path d="M{x-6},{y} v-6 M{x},{y} v-8 M{x+6},{y} v-6" stroke="ink" width=1.5
+      circle "x-6" "y-6" 1.6 fill="ink" stroke="none"
+      circle "x" "y-8" 1.6 fill="ink" stroke="none"
+      circle "x+6" "y-6" 1.6 fill="ink" stroke="none"
+    }
+  }
+  part "fins" { facerect "front" 0.25 0.75 0.35 0.5 0.5 opacity=0.2 }
+  axes "state"
+}
+
+icon "facility-generator" {
+  category "facility"
+  footprint 2 1 0.9
+  describe "Generator: an engine skid with an exhaust."
+  part "skid" { box 0 0.15 0 2 0.7 0.6 }
+  part "exhaust" {
+    at 0.4 0.85 0.6 {
+      path d="M{x},{y} v-10 h5" stroke="ink" width=2.2
+    }
+  }
+  part "louvers" { facerect "front" 0.55 1 0.3 0.7 0.3 opacity=0.2 }
+  axes "state"
+}
+
+icon "facility-ups-large" {
+  extends "facility-cabinet"
+  describe "Facility UPS: a battery cabinet with a charge bolt."
+  part "bolt" {
+    at 0.18 0.5 0.6 {
+      path d="M{x+3},{y-8} l-7,10 h4.5 l-3,8 8,-11 h-4.5 z" stroke="outline" width=1.2 fill="ink"
+    }
+  }
+  axes "state"
+}
+
+icon "facility-rectifier" {
+  extends "facility-cabinet"
+  describe "Rectifier: AC-to-DC cabinet."
+  part "mark" {
+    at 0.18 0.5 0.6 {
+      path d="M{x-6},{y-6} q2,-5 4,0 q2,5 4,0" stroke="ink" width=1.4
+      path d="M{x-6},{y+5} h12" stroke="ink" width=1.4
+    }
+  }
+  axes "state"
+}
+
+icon "facility-breaker-panel" {
+  category "facility"
+  footprint 1 1 1
+  describe "Breaker panel: a wall board of breakers."
+  part "board" { box 0.35 0.15 0.1 0.3 0.7 0.8 }
+  part "breakers" {
+    repeat 3 "r" {
+      facerect "right" 0.65 0.28 "0.25 + r * 0.2" 0.12 0.1 opacity=0.4
+      facerect "right" 0.65 0.5 "0.25 + r * 0.2" 0.12 0.1 opacity=0.4
+    }
+  }
+  axes "state"
+}
+
+icon "facility-busway" {
+  category "facility"
+  footprint 2 1 1.3
+  describe "Overhead busway with tap-off boxes."
+  part "bar" { box 0 0.42 1.1 2 0.16 0.16 }
+  part "tap1" { box 0.4 0.4 0.7 0.2 0.2 0.3 }
+  part "tap2" { box 1.4 0.4 0.7 0.2 0.2 0.3 }
+  part "drops" {
+    at 0.5 0.5 0 {
+      path d="M{x-20},{y-28} v10 M{x+20},{y-28} v10" stroke="ink-muted" width=1.4
+    }
+  }
+  axes "state"
+}
+
+icon "facility-power-meter" {
+  category "facility"
+  footprint 1 1 0.9
+  describe "Power meter: a metered enclosure."
+  part "box" { box 0.28 0.28 0 0.44 0.44 0.8 }
+  part "dial" {
+    at 0.28 0.5 0.5 {
+      circle "x" "y" 6 fill="body-top" stroke="ink" width=1.4
+      path d="M{x},{y} l4,-4" stroke="ink" width=1.4
+    }
+  }
+  axes "state"
+}
+
+icon "facility-battery-bank" {
+  category "facility"
+  footprint 2 1 0.7
+  describe "Battery bank: a rack of cells."
+  part "rack" {
+    repeat 4 "i" {
+      box "0.15 + i * 0.45" 0.3 0 0.32 0.4 0.6
+    }
+  }
+  part "terminals" {
+    at 0.3 0.5 0.6 {
+      path d="M{x},{y} v-3 h3" stroke="ink" width=1.4
+    }
+  }
+  axes "state"
+}
+
+icon "facility-ats" {
+  extends "facility-cabinet"
+  describe "Automatic transfer switch: a switchgear cabinet."
+  part "mark" {
+    at 0.18 0.5 0.6 {
+      circle "x-6" "y-5" 1.6 fill="ink" stroke="none"
+      circle "x-6" "y+5" 1.6 fill="ink" stroke="none"
+      circle "x+6" "y" 1.6 fill="ink" stroke="none"
+      path d="M{x-4},{y-5} l10,4 M{x-4},{y+5} l8,-3" stroke="ink" width=1.4
+    }
+  }
+  axes "state"
+}
+
+// --- cooling ---------------------------------------------------------------
+
+icon "facility-crac" {
+  extends "facility-cabinet"
+  describe "CRAC unit: a room AC with a fan and down-flow."
+  part "fan" {
+    at 0.18 0.5 0.7 {
+      circle "x" "y" 5 fill="body-top" stroke="ink" width=1.4
+      path d="M{x},{y} l0,-4 M{x},{y} l3.5,2 M{x},{y} l-3.5,2" stroke="ink" width=1.2
+    }
+  }
+  part "flow" {
+    at 0.18 0.5 0.25 {
+      path d="M{x-4},{y-4} v6 M{x},{y-4} v8 M{x+4},{y-4} v6" stroke="ink-muted" width=1.4
+    }
+  }
+  axes "state"
+}
+
+icon "facility-chiller" {
+  extends "facility-cabinet"
+  describe "Chiller: a refrigeration unit with coils."
+  part "coils" {
+    at 0.18 0.5 0.6 {
+      path d="M{x-6},{y-3} q3,-4 6,0 q3,4 6,0" stroke="ink" width=1.4
+      path d="M{x-6},{y+3} h12" stroke="ink-muted" width=1.4
+    }
+  }
+  axes "state"
+}
+
+icon "facility-cooling-tower" {
+  category "facility"
+  footprint 1 1 1.4
+  describe "Cooling tower: the hyperboloid stack."
+  part "stack" {
+    at 0.5 0.5 0 {
+      path d="M{x-14},{y-2} q3,-16 1,-24 l24,0 q-2,8 1,24 a14,6 0 0 1 -27,0 z" stroke="outline" width=1.2 fill="body-right"
+      ellipse "x" "y-2" 14 6 fill="body-top" stroke="outline" width=1.2
+      ellipse "x" "y-26" 12 5 fill="body-top" stroke="outline" width=1.2
+    }
+  }
+  axes "state"
+}
+
+icon "facility-in-row-cooler" {
+  category "facility"
+  footprint 1 1 1.2
+  describe "In-row cooler: a slim unit between racks."
+  part "body" { box 0.38 0.15 0 0.24 0.7 1.1 }
+  part "grille" { facerect "front" 0.5 0.85 0.55 0.16 0.7 opacity=0.25 }
+  axes "state"
+}
+
+icon "facility-hot-aisle" {
+  category "facility"
+  footprint 2 1 1
+  describe "Hot aisle: exhaust rising between rack rows."
+  part "rackA" { box 0.05 0.15 0 0.35 0.7 0.9 }
+  part "rackB" { box 1.6 0.15 0 0.35 0.7 0.9 }
+  part "rise" {
+    at 1 0.5 0 {
+      path d="M{x},{y-6} v-22 M{x},{y-28} l-3,4 M{x},{y-28} l3,4" stroke="ink" width=1.5
+    }
+  }
+  axes "state"
+}
+
+icon "facility-cold-aisle" {
+  category "facility"
+  footprint 2 1 1
+  describe "Cold aisle: supply descending between rack rows."
+  part "rackA" { box 0.05 0.15 0 0.35 0.7 0.9 }
+  part "rackB" { box 1.6 0.15 0 0.35 0.7 0.9 }
+  part "fall" {
+    at 1 0.5 0 {
+      path d="M{x},{y-28} v22 M{x},{y-6} l-3,-4 M{x},{y-6} l3,-4" stroke="ink" width=1.5
+    }
+  }
+  axes "state"
+}
+
+icon "facility-humidifier" {
+  extends "facility-cabinet"
+  describe "Humidifier: a unit emitting vapour."
+  part "drop" {
+    at 0.18 0.5 0.55 {
+      path d="M{x},{y+5} c-5,0 -5,-6 0,-11 c5,5 5,11 0,11 z" stroke="ink" width=1.4 fill="none"
+      path d="M{x-6},{y-8} q-2,-3 0,-5 M{x+6},{y-8} q2,-3 0,-5" stroke="ink-muted" width=1.2
+    }
+  }
+  axes "state"
+}
+
+icon "facility-heat-exchanger" {
+  extends "facility-cabinet"
+  describe "Heat exchanger: two crossing flows."
+  part "cross" {
+    at 0.18 0.5 0.6 {
+      path d="M{x-6},{y-6} l12,12 M{x+6},{y-6} l-12,12" stroke="ink" width=1.4
+      path d="M{x-6},{y} h12" stroke="ink-muted" width=1.2
+    }
+  }
+  axes "state"
+}
+
+// --- sensors (small ground/wall pucks with a face mark) --------------------
+
+base "facility-sensor" {
+  category "facility"
+  footprint 1 1 0.3
+  part "puck" { box 0.35 0.35 0 0.3 0.3 0.16 }
+}
+
+icon "facility-temp-sensor" {
+  extends "facility-sensor"
+  describe "Temperature sensor: a thermometer."
+  part "m" {
+    at 0.5 0.5 0.16 {
+      path d="M{x},{y-3} a2,2 0 0 1 2,2 v6 a3,3 0 1 1 -4,0 v-6 a2,2 0 0 1 2,-2 z" stroke="ink" width=1.4 fill="none"
+      circle "x" "y+5" 1.8 fill="ink" stroke="none"
+    }
+  }
+  axes "state"
+}
+
+icon "facility-humidity-sensor" {
+  extends "facility-sensor"
+  describe "Humidity sensor: a droplet."
+  part "m" {
+    at 0.5 0.5 0.16 {
+      path d="M{x},{y-6} c-5,6 -5,10 0,10 c5,0 5,-4 0,-10 z" stroke="ink" width=1.4 fill="none"
+    }
+  }
+  axes "state"
+}
+
+icon "facility-smoke-detector" {
+  extends "facility-sensor"
+  describe "Smoke detector: a ceiling disc with smoke."
+  part "m" {
+    at 0.5 0.5 0.16 {
+      circle "x" "y" 6 fill="body-top" stroke="ink" width=1.4
+      circle "x" "y" 1.6 fill="ink" stroke="none"
+      path d="M{x-4},{y-8} q3,-2 5,0" stroke="ink-muted" width=1.2
+    }
+  }
+  axes "state"
+}
+
+icon "facility-water-leak-sensor" {
+  extends "facility-sensor"
+  describe "Water-leak sensor: a droplet over a floor rope."
+  part "m" {
+    at 0.5 0.5 0.16 {
+      path d="M{x},{y-7} c-4,5 -4,8 0,8 c4,0 4,-3 0,-8 z" stroke="ink" width=1.4 fill="none"
+      path d="M{x-8},{y+5} q3,-3 5,0 q3,3 5,0 q3,-3 5,0" stroke="ink-muted" width=1.2
+    }
+  }
+  axes "state"
+}
+
+icon "facility-airflow-sensor" {
+  extends "facility-sensor"
+  describe "Airflow sensor: a vane in a stream."
+  part "m" {
+    at 0.5 0.5 0.16 {
+      path d="M{x-8},{y-4} q8,-3 16,0 M{x-8},{y+2} q8,-3 16,0" stroke="ink-muted" width=1.4
+      path d="M{x+2},{y-6} v12" stroke="ink" width=1.5
+    }
+  }
+  axes "state"
+}
+
+icon "facility-door-sensor" {
+  extends "facility-sensor"
+  describe "Door contact sensor."
+  part "m" {
+    at 0.5 0.5 0.16 {
+      rect "x-7" "y-7" 9 14 fill="none" stroke="ink" width=1.4
+      circle "x+5" "y" 1.4 fill="ink" stroke="none"
+      path d="M{x+3},{y-4} h4 v8 h-4" stroke="ink-muted" width=1.2
+    }
+  }
+  axes "state"
+}
+
+icon "facility-motion-sensor" {
+  extends "facility-sensor"
+  describe "Motion (PIR) sensor: a dome with waves."
+  part "m" {
+    at 0.5 0.5 0.16 {
+      path d="M{x-6},{y-1} a6,6 0 0 1 12,0 z" stroke="ink" width=1.4 fill="body-top"
+      path d="M{x-9},{y+4} h18" stroke="ink-muted" width=1.2
+    }
+  }
+  axes "state"
+}
+
+// --- access control --------------------------------------------------------
+
+base "facility-wall-reader" {
+  category "facility"
+  footprint 1 1 0.9
+  part "plate" { box 0.4 0.2 0.15 0.2 0.4 0.6 }
+}
+
+icon "facility-badge-reader" {
+  extends "facility-wall-reader"
+  describe "Badge reader with a card slot."
+  part "slot" { facerect "right" 0.6 0.4 0.5 0.2 0.03 opacity=0.5 }
+  part "led" { facerect "right" 0.6 0.4 0.25 0.05 0.05 opacity=0.6 }
+  axes "state"
+}
+
+icon "facility-biometric-reader" {
+  extends "facility-wall-reader"
+  describe "Biometric reader: a fingerprint."
+  part "print" {
+    at 0.6 0.4 0.42 {
+      arc "x" "y" 2.5 200 340 stroke="ink" width=1.2
+      arc "x" "y" 5 200 340 stroke="ink" width=1.2
+      path d="M{x},{y} v6" stroke="ink" width=1.2
+    }
+  }
+  axes "state"
+}
+
+icon "facility-keypad" {
+  extends "facility-wall-reader"
+  describe "Keypad: a numeric entry pad."
+  part "keys" {
+    at 0.6 0.4 0.42 {
+      repeat 3 "r" {
+        repeat 3 "c" {
+          circle "x-4 + c * 4" "y-4 + r * 4" 1 fill="ink" stroke="none"
+        }
+      }
+    }
+  }
+  axes "state"
+}
+
+icon "facility-mantrap" {
+  category "facility"
+  footprint 2 1 1
+  describe "Mantrap: two interlocked doors in series."
+  part "d1" { box 0.15 0.2 0 0.2 0.6 0.9 }
+  part "d2" { box 1.05 0.2 0 0.2 0.6 0.9 }
+  part "gap" {
+    at 0.7 0.5 0.45 {
+      path d="M{x-6},{y} h12" stroke="ink-muted" width=1.2 dash="2 2"
+    }
+  }
+  axes "state"
+}
+
+icon "facility-turnstile" {
+  category "facility"
+  footprint 1 1 0.9
+  describe "Turnstile: a rotating three-arm gate."
+  part "post" { box 0.42 0.42 0 0.16 0.16 0.5 }
+  part "arms" {
+    at 0.5 0.5 0.5 {
+      path d="M{x},{y} v-8 M{x},{y} l7,4 M{x},{y} l-7,4" stroke="ink" width=1.5
+      circle "x" "y" 1.6 fill="ink" stroke="none"
+    }
+  }
+  axes "state"
+}
+
+icon "facility-cctv-camera" {
+  category "facility"
+  footprint 1 1 0.6
+  describe "CCTV: a bullet camera on a wall arm."
+  part "arm" { box 0.2 0.44 0.4 0.16 0.12 0.1 }
+  part "barrel" { cylinder 0.6 0.5 0.42 0.16 0.34 }
+  part "lens" {
+    at 0.78 0.5 0.55 {
+      circle "x" "y" 2.4 fill="ink" stroke="none"
+    }
+  }
+  axes "state"
+}
+
+// --- fire ------------------------------------------------------------------
+
+icon "facility-fire-suppression" {
+  category "facility"
+  footprint 1 1 1
+  describe "Clean-agent suppression: a bank of gas cylinders."
+  part "cyl1" { cylinder 0.35 0.4 0 0.16 0.8 }
+  part "cyl2" { cylinder 0.65 0.55 0 0.16 0.8 }
+  part "valves" {
+    at 0.5 0.5 0.8 {
+      path d="M{x-6},{y} v-3 M{x+4},{y-3} v-3" stroke="ink-muted" width=1.4
+    }
+  }
+  axes "state"
+}
+
+icon "facility-extinguisher" {
+  category "facility"
+  footprint 1 1 0.7
+  describe "Fire extinguisher: a tank with handle and hose."
+  part "tank" { cylinder 0.5 0.5 0 0.18 0.5 }
+  part "top" {
+    at 0.5 0.5 0.5 {
+      path d="M{x-3},{y} v-4 h6 v4" stroke="ink" width=1.4
+      path d="M{x+3},{y-3} q5,1 4,6" stroke="ink" width=1.4 fill="none"
+    }
+  }
+  axes "state"
+}
+
+icon "facility-sprinkler" {
+  category "facility"
+  footprint 1 1 0.6
+  describe "Sprinkler head spraying down."
+  part "pipe" { box 0.15 0.44 0.5 0.5 0.12 0.08 }
+  part "head" {
+    at 0.55 0.5 0.5 {
+      path d="M{x},{y} v4" stroke="ink" width=1.5
+      circle "x" "y+5" 1.8 fill="ink" stroke="none"
+      path d="M{x-5},{y+11} q0,-4 2,-6 M{x},{y+12} v-6 M{x+5},{y+11} q0,-4 -2,-6" stroke="ink-muted" width=1.2
+    }
+  }
+  axes "state"
+}
+
+icon "facility-fire-panel" {
+  category "facility"
+  footprint 1 1 1
+  describe "Fire alarm control panel with a bell."
+  part "board" { box 0.35 0.15 0.1 0.3 0.7 0.8 }
+  part "bell" {
+    at 0.65 0.4 0.55 {
+      path d="M{x-4},{y+3} c0,-5 2,-6 4,-6 c2,0 4,1 4,6 z M{x-5},{y+3} h10" stroke="ink" width=1.4
+      path d="M{x-1},{y+5} a1.2,1.2 0 0 0 2,0" stroke="ink" width=1.2
+    }
+  }
+  axes "state"
+}

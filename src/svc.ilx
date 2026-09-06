@@ -1,0 +1,384 @@
+// §4 services — as isometric OBJECTS: the icon is the thing (a database
+// is a drum, a mailbox is a mailbox), or a server appliance carrying its
+// emblem on the front face. No pedestal slab, nothing floating. Pure
+// abstractions (app, api, dispatcher, scheduler, generic) are dropped.
+
+// A rack appliance: a low chassis whose front-left face carries an emblem.
+base "svc-appliance" {
+  category "svc"
+  footprint 1 1 0.62
+  part "chassis" { box 0.08 0.08 0 0.84 0.84 0.55 }
+  part "led" { facerect "front" 0.7 0.92 0.42 0.06 0.06 opacity=0.5 }
+}
+
+// --- distinct object forms -------------------------------------------------
+
+icon "svc-web" {
+  category "svc"
+  footprint 1 1 1
+  describe "Web / cloud: a globe."
+  part "shadow" { shadow 0.5 0.5 0.34 0.34 }
+  part "globe" {
+    at 0.5 0.5 0.34 {
+      circle "x" "y" 15 fill="body-top" stroke="outline" width=1.2
+      ellipse "x" "y" 6 15 fill="none" stroke="ink-muted" width=1.2
+      ellipse "x" "y" 15 6 fill="none" stroke="ink-muted" width=1.2
+      path d="M{x-15},{y} h30" stroke="ink-muted" width=1.2
+    }
+  }
+  axes "state"
+}
+
+icon "svc-database" {
+  category "svc"
+  footprint 1 1 1
+  describe "Database: a storage drum."
+  part "drum" { cylinder 0.5 0.5 0 0.36 0.66 }
+  axes "state"
+}
+
+icon "svc-database-replica" {
+  category "svc"
+  footprint 1 1 1
+  describe "Database replica: a primary drum with a follower."
+  part "follower" { cylinder 0.66 0.34 0 0.26 0.5 }
+  part "primary" { cylinder 0.42 0.58 0 0.34 0.62 }
+  axes "state"
+}
+
+icon "svc-cache" {
+  category "svc"
+  footprint 1 1 1
+  describe "Cache: a fast drum marked with a bolt."
+  part "drum" { cylinder 0.5 0.5 0 0.36 0.62 }
+  part "bolt" {
+    at 0.5 0.5 0.62 {
+      path d="M{x+2},{y-6} l-6,8 h4 l-2,6 6,-8 h-4 z" stroke="outline" width=1.2 fill="ink"
+    }
+  }
+  axes "state"
+}
+
+icon "svc-queue" {
+  category "svc"
+  footprint 1 1 0.5
+  describe "Message queue: envelopes waiting on a rail."
+  part "a" { box 0.12 0.3 0 0.34 0.34 0.24 }
+  part "b" { box 0.36 0.3 0 0.34 0.34 0.24 }
+  part "c" { box 0.6 0.3 0 0.34 0.34 0.24 }
+  part "flap" {
+    at 0.62 0.3 0.24 {
+      path d="M{x-9},{y-4} l7,5 7,-5" stroke="ink-muted" width=1.2
+    }
+  }
+  axes "state"
+}
+
+icon "svc-object-store" {
+  category "svc"
+  footprint 1 1 0.8
+  describe "Object store: a bucket."
+  part "body" {
+    at 0.5 0.5 0.72 {
+      path d="M{x-24},{y} L{x-18},{y + 0.6 * 40} A18.00 9.00 0 0 0 {x+18},{y + 0.6 * 40} L{x+24},{y} Z" stroke="outline" width=1.2 fill="body-right"
+      ellipse "x" "y" 24 12 fill="body-top" stroke="outline" width=1.2
+    }
+  }
+  axes "state"
+}
+
+icon "svc-file-share" {
+  category "svc"
+  footprint 1 1 0.9
+  describe "File share: a NAS with drive slots."
+  part "body" { box 0.2 0.2 0 0.6 0.6 0.8 }
+  part "slots" {
+    repeat 3 "i" {
+      facerect "front" "0.3 + i * 0.14" 0.8 0.12 0.1 0.5 opacity=0.3
+    }
+  }
+  axes "state"
+}
+
+icon "svc-mail" {
+  category "svc"
+  footprint 1 1 0.7
+  describe "Mail: a mailbox with a flag."
+  part "box" { box 0.2 0.25 0 0.6 0.5 0.4 }
+  part "lid" {
+    at 0.5 0.25 0.4 {
+      path d="M{x-13},{y} a13,10 0 0 1 26,0" stroke="outline" width=1.2 fill="body-top"
+    }
+  }
+  part "flag" {
+    at 0.8 0.5 0.28 {
+      path d="M{x},{y+4} v-12 h7 v5 h-7" stroke="ink" width=1.4 fill="ink"
+    }
+  }
+  axes "state"
+}
+
+icon "svc-secrets" {
+  category "svc"
+  footprint 1 1 1
+  describe "Secrets manager: a key-safe."
+  part "body" { box 0.12 0.12 0 0.76 0.76 0.9 }
+  part "key" {
+    at 0.12 0.5 0.5 {
+      circle "x-2" "y-4" 3.5 fill="none" stroke="ink" width=1.5
+      path d="M{x-2},{y-1} v9 M{x-2},{y+4} h3 M{x-2},{y+7} h3" stroke="ink" width=1.5
+    }
+  }
+  axes "state"
+}
+
+icon "svc-registry" {
+  category "svc"
+  footprint 1 1 1
+  describe "Registry: shelving of stored images."
+  part "body" { box 0.15 0.15 0 0.7 0.7 0.9 }
+  part "shelves" {
+    repeat 3 "r" {
+      facerect "front" 0.28 0.85 "0.18 + r * 0.24" 0.44 0.14 opacity=0.25
+    }
+  }
+  axes "state"
+}
+
+icon "svc-voice" {
+  category "svc"
+  footprint 1 1 0.4
+  describe "Voice: a desk phone."
+  part "base" { box 0.2 0.3 0 0.55 0.45 0.16 }
+  part "handset" {
+    at 0.5 0.5 0.16 {
+      path d="M{x-11},{y-2} a3,3 0 0 1 4,-2 l2,3 a2,2 0 0 1 -1,3 q3,5 8,7 a2,2 0 0 1 3,-1 l3,2 a3,3 0 0 1 -2,4 q-11,-3 -20,-19 z" stroke="ink" width=1.4 fill="none"
+    }
+  }
+  axes "state"
+}
+
+// monitoring / logging / metrics: a display on a stand, distinguished by
+// what is on the screen.
+base "svc-display" {
+  category "svc"
+  footprint 1 1 0.7
+  part "screen" { box 0.15 0.42 0.18 0.7 0.12 0.42 }
+  part "stand" { box 0.44 0.46 0 0.12 0.08 0.18 }
+}
+
+icon "svc-monitoring" {
+  extends "svc-display"
+  describe "Monitoring: a heartbeat on a screen."
+  part "trace" {
+    at 0.15 0.48 0.4 {
+      path d="M{x-13},{y} h4 l2,-6 3,11 2,-5 h5" stroke="ink" width=1.4
+    }
+  }
+  axes "state"
+}
+
+icon "svc-logging" {
+  extends "svc-display"
+  describe "Logging: log lines on a screen."
+  part "lines" {
+    at 0.15 0.48 0.4 {
+      circle "x-11" "y-4" 0.9 fill="ink" stroke="none"
+      path d="M{x-8},{y-4} h14" stroke="ink-muted" width=1.2
+      circle "x-11" "y" 0.9 fill="ink" stroke="none"
+      path d="M{x-8},{y} h10" stroke="ink-muted" width=1.2
+      circle "x-11" "y+4" 0.9 fill="ink" stroke="none"
+      path d="M{x-8},{y+4} h14" stroke="ink-muted" width=1.2
+    }
+  }
+  axes "state"
+}
+
+icon "svc-metrics" {
+  extends "svc-display"
+  describe "Metrics: bars on a screen."
+  part "bars" {
+    at 0.15 0.48 0.4 {
+      rect "x-11" "y" 3 5 fill="ink" stroke="none"
+      rect "x-6" "y-5" 3 10 fill="ink" stroke="none"
+      rect "x-1" "y-2" 3 7 fill="ink" stroke="none"
+      rect "x+4" "y-7" 3 12 fill="ink" stroke="none"
+    }
+  }
+  axes "state"
+}
+
+// --- server appliances (chassis + front-face emblem) -----------------------
+
+icon "svc-dns" {
+  extends "svc-appliance"
+  describe "DNS server."
+  part "emblem" {
+    at 0.5 0.92 0.3 {
+      path d="M{x-1},{y+6} v-12" stroke="ink" width=1.5
+      path d="M{x-1},{y-6} h7 l2,2 -2,2 h-7 z" stroke="ink" width=1.4 fill="bg-canvas"
+      path d="M{x-1},{y} h-6 l-2,2 2,2 h6 z" stroke="ink" width=1.4 fill="bg-canvas"
+    }
+  }
+  axes "state"
+}
+
+icon "svc-dhcp" {
+  extends "svc-appliance"
+  describe "DHCP server."
+  part "emblem" {
+    at 0.5 0.92 0.3 {
+      rect "x-7" "y-6" 14 7 rx=1 fill="bg-canvas" stroke="ink" width=1.4
+      path d="M{x-4},{y-2.5} h8" stroke="ink" width=1.4
+      path d="M{x-4},{y+1} h8 v3 a1.5,1.5 0 0 0 0,2 v1 h-8 v-1 a1.5,1.5 0 0 0 0,-2 z" stroke="ink" width=1.2 fill="bg-canvas"
+    }
+  }
+  axes "state"
+}
+
+icon "svc-ntp" {
+  extends "svc-appliance"
+  describe "NTP time server."
+  part "emblem" {
+    at 0.5 0.92 0.3 {
+      circle "x" "y" 6 fill="bg-canvas" stroke="ink" width=1.4
+      path d="M{x},{y-3.5} V{y} l2.5,1.5" stroke="ink" width=1.4
+    }
+  }
+  axes "state"
+}
+
+icon "svc-ldap" {
+  extends "svc-appliance"
+  describe "Directory (LDAP) server."
+  part "emblem" {
+    at 0.5 0.92 0.3 {
+      rect "x-6" "y-6" 9 12 rx=1 fill="bg-canvas" stroke="ink" width=1.4
+      path d="M{x-4},{y-3} h5 M{x-4},{y} h5 M{x-4},{y+3} h3" stroke="ink-muted" width=1.2
+      circle "x+5" "y+1" 2 fill="none" stroke="ink" width=1.2
+      path d="M{x+6.5},{y+2.5} l2,2" stroke="ink" width=1.2
+    }
+  }
+  axes "state"
+}
+
+icon "svc-idp" { extends "svc-ldap" describe "Identity provider (alias of ldap)." }
+
+icon "svc-ca" {
+  extends "svc-appliance"
+  describe "Certificate authority server."
+  part "emblem" {
+    at 0.5 0.92 0.3 {
+      poly fill="bg-canvas" stroke="ink" width=1.2 {
+        repeat 10 "k" {
+          pt "x + if(k % 2 == 0, 6, 4.6) * cosr(1.5707963267948966 + k * 3.141592653589793 / 5)" "y - 2 - if(k % 2 == 0, 6, 4.6) * sinr(1.5707963267948966 + k * 3.141592653589793 / 5)"
+        }
+      }
+      path d="M{x-2},{y+3} l-1.5,5 M{x+2},{y+3} l1.5,5" stroke="ink" width=1.4
+    }
+  }
+  axes "state"
+}
+
+icon "svc-proxy" {
+  extends "svc-appliance"
+  describe "Forward proxy."
+  part "emblem" {
+    at 0.5 0.92 0.3 {
+      path d="M{x-2},{y-6} v12 M{x+2},{y-6} v12" stroke="ink-muted" width=1.4
+      path d="M{x-8},{y-3} h5 M{x-3},{y-3} l-2,-1.5 M{x-3},{y-3} l-2,1.5" stroke="ink" width=1.2
+      path d="M{x+8},{y+3} h-5 M{x+3},{y+3} l2,-1.5 M{x+3},{y+3} l2,1.5" stroke="ink" width=1.2
+    }
+  }
+  axes "state"
+}
+
+icon "svc-reverse-proxy" {
+  extends "svc-appliance"
+  describe "Reverse proxy."
+  part "emblem" {
+    at 0.5 0.92 0.3 {
+      path d="M{x-7},{y-6} h14 l-5,6 v4 l-4,2 v-6 z" stroke="ink" width=1.4 fill="bg-canvas"
+    }
+  }
+  axes "state"
+}
+
+icon "svc-load-balancer" {
+  extends "svc-appliance"
+  describe "Load balancer."
+  part "emblem" {
+    at 0.5 0.92 0.3 {
+      circle "x-7" "y" 1.6 fill="ink" stroke="none"
+      path d="M{x-7},{y} l7,-5 M{x-7},{y} l7,5 M{x-7},{y} h7" stroke="ink" width=1.2
+      circle "x" "y-5" 1.4 fill="ink" stroke="none"
+      circle "x" "y" 1.4 fill="ink" stroke="none"
+      circle "x" "y+5" 1.4 fill="ink" stroke="none"
+    }
+  }
+  axes "state"
+}
+
+icon "svc-git" {
+  extends "svc-appliance"
+  describe "Git server."
+  part "emblem" {
+    at 0.5 0.92 0.3 {
+      path d="M{x-4},{y+6} V{y-6} M{x-4},{y} c0,-4 4,-3 6,-5" stroke="ink" width=1.4
+      circle "x-4" "y-6" 1.8 fill="ink" stroke="none"
+      circle "x-4" "y+6" 1.8 fill="ink" stroke="none"
+      circle "x+4" "y-6" 1.8 fill="ink" stroke="none"
+    }
+  }
+  axes "state"
+}
+
+icon "svc-ci-runner" {
+  extends "svc-appliance"
+  describe "CI runner / build server."
+  part "emblem" {
+    at 0.5 0.92 0.3 {
+      circle "x" "y" 4 fill="bg-canvas" stroke="ink" width=1.4
+      path d="M{x},{y-7} v2 M{x},{y+5} v2 M{x-7},{y} h2 M{x+5},{y} h2 M{x-4},{y-4} l-1.5,-1.5 M{x+4},{y-4} l1.5,-1.5 M{x-4},{y+4} l-1.5,1.5 M{x+4},{y+4} l1.5,1.5" stroke="ink" width=1.2
+    }
+  }
+  axes "state"
+}
+
+icon "svc-chat" {
+  extends "svc-appliance"
+  describe "Chat / messaging server."
+  part "emblem" {
+    at 0.5 0.92 0.3 {
+      path d="M{x-7},{y-5} h14 v8 h-8 l-4,4 v-4 h-2 z" stroke="ink" width=1.4 fill="bg-canvas"
+      path d="M{x-4},{y-2} h8 M{x-4},{y+1} h5" stroke="ink-muted" width=1.2
+    }
+  }
+  axes "state"
+}
+
+icon "svc-game-server" {
+  extends "svc-appliance"
+  describe "Game server."
+  part "emblem" {
+    at 0.5 0.92 0.3 {
+      path d="M{x-7},{y-2} h14 a4,4 0 0 1 3,6 l-1.5,2 a2.5,2.5 0 0 1 -3.5,-1 l-1,-1.5 h-8 l-1,1.5 a2.5,2.5 0 0 1 -3.5,1 l-1.5,-2 a4,4 0 0 1 3,-6 z" stroke="ink" width=1.2 fill="bg-canvas"
+      path d="M{x-4},{y+1} h3 M{x-2.5},{y-0.5} v3" stroke="ink" width=1.2
+      circle "x+4" "y+1" 1 fill="ink" stroke="none"
+    }
+  }
+  axes "state"
+}
+
+icon "svc-backup" {
+  extends "svc-appliance"
+  describe "Backup server."
+  part "emblem" {
+    at 0.5 0.92 0.3 {
+      path d="M{x-6},{y} a6,6 0 1 1 2,4.5" stroke="ink" width=1.4 fill="none"
+      path d="M{x-6},{y-1} l0.5,-3 3,1" stroke="ink" width=1.4
+      circle "x" "y" 1.4 fill="ink" stroke="none"
+    }
+  }
+  axes "state"
+}

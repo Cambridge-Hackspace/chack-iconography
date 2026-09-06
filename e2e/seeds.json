@@ -1,0 +1,5 @@
+{
+  "_": "Fixed seeds run by default so cost is known; long hunts are opt-in via SEED/ACTIONS env. Any seed that ever finds a defect gets promoted into this list permanently.",
+  "seeds": [20260904, 424242],
+  "actions": 40
+}

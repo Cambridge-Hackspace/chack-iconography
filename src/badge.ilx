@@ -1,0 +1,275 @@
+// §11 security and annotation badges: flat 24x24, ink glyphs only.
+
+icon "badge-lock" {
+  category "badge"
+  canvas 24 24
+  describe "Padlock."
+  part "g" {
+    at 0 0 0 {
+      arc 12 11 4 0 180 stroke="ink" width=1.5
+      rect 6.5 11 11 8.5 rx=1.5 fill="ink" stroke="none"
+    }
+  }
+}
+
+icon "badge-alert" {
+  category "badge"
+  canvas 24 24
+  describe "Exclamation triangle."
+  grant "accent" reason="alert is danger: the reserved-red warning badge (§16)"
+  part "g" {
+    at 0 0 0 {
+      poly fill="accent" stroke="outline" width=1.2 {
+        pt 12 2.5
+        pt 21.5 20.5
+        pt 2.5 20.5
+      }
+      path d="M12,8.5 V14.5 M12,17.8 v0.01" stroke="ink" width=2.2
+    }
+  }
+}
+
+icon "badge-key" {
+  category "badge"
+  canvas 24 24
+  describe "Key."
+  part "g" {
+    at 0 0 0 {
+      circle 7.5 8 4.5 fill="none" stroke="ink" width=2.2
+      path d="M10.5,11.5 L19,20 M19,20 l0.5,-4 M16,17 l3,-0.5" stroke="ink" width=2.2
+    }
+  }
+}
+
+icon "badge-cert" {
+  category "badge"
+  canvas 24 24
+  describe "Certificate ribbon."
+  part "g" {
+    at 0 0 0 {
+      poly fill="ink" stroke="none" {
+        repeat 16 "k" {
+          pt "12 + if(k % 2 == 0, 7.5, 6) * cosr(1.5707963267948966 + k * 3.141592653589793 / 8)" "9.5 - if(k % 2 == 0, 7.5, 6) * sinr(1.5707963267948966 + k * 3.141592653589793 / 8)"
+        }
+      }
+      circle 12 9.5 3 fill="bg-canvas" stroke="none"
+      path d="M9,15.5 L7,22 M15,15.5 L17,22" stroke="ink" width=2.2
+    }
+  }
+}
+
+icon "badge-shield" {
+  category "badge"
+  canvas 24 24
+  describe "Shield."
+  part "g" {
+    at 0 0 0 {
+      path d="M12,2.5 c4.5,2.8 8,2.8 8,2.8 v7 c0,5.5 -8,9.2 -8,9.2 c0,0 -8,-3.7 -8,-9.2 v-7 c0,0 3.5,0 8,-2.8 z" stroke="ink" width=1.5 fill="none"
+    }
+  }
+}
+
+icon "badge-quarantine" {
+  category "badge"
+  canvas 24 24
+  describe "Biohazard trefoil."
+  part "g" {
+    at 0 0 0 {
+      circle 12 12 2.2 fill="none" stroke="ink" width=1.5
+      repeat 3 "k" {
+        arc "12 + 6 * cos(90 + k * 120)" "12 - 6 * sin(90 + k * 120)" 4.2 "90 + k * 120 - 75" "90 + k * 120 + 75" stroke="ink" width=2.2
+      }
+    }
+  }
+}
+
+icon "badge-encrypted-at-rest" {
+  category "badge"
+  canvas 24 24
+  describe "Padlock on a disk."
+  part "g" {
+    at 0 0 0 {
+      ellipse 12 17.5 9.5 4 fill="none" stroke="ink" width=1.5
+      arc 12 9 3.4 0 180 stroke="ink" width=1.5
+      rect 7.5 9 9 7 rx=1.2 fill="ink" stroke="none"
+    }
+  }
+}
+
+icon "badge-public" {
+  category "badge"
+  canvas 24 24
+  describe "Open eye."
+  part "g" {
+    at 0 0 0 {
+      path d="M3,12 c3.5,-5.5 14.5,-5.5 18,0 c-3.5,5.5 -14.5,5.5 -18,0 z" stroke="ink" width=1.5
+      circle 12 12 3 fill="ink" stroke="none"
+    }
+  }
+}
+
+icon "badge-private" {
+  category "badge"
+  canvas 24 24
+  describe "Crossed-out eye."
+  part "g" {
+    at 0 0 0 {
+      path d="M3,12 c3.5,-5.5 14.5,-5.5 18,0 c-3.5,5.5 -14.5,5.5 -18,0 z" stroke="ink" width=1.5
+      circle 12 12 3 fill="ink" stroke="none"
+      path d="M4.5,20 L19.5,4" stroke="ink" width=2.2
+    }
+  }
+}
+
+icon "badge-wrench" {
+  category "badge"
+  canvas 24 24
+  describe "Wrench (management)."
+  part "wrench" {
+    insert "wrench" ox=11 oy=13
+  }
+}
+
+icon "badge-clock" {
+  category "badge"
+  canvas 24 24
+  describe "Clock (scheduled)."
+  part "g" {
+    at 0 0 0 {
+      circle 12 12 9 fill="none" stroke="ink" width=1.5
+      path d="M12,6.5 V12 l4,2.4" stroke="ink" width=1.5
+    }
+  }
+}
+
+icon "badge-number-1" {
+  category "badge"
+  canvas 24 24
+  describe "Numbered disc 1."
+  part "g" {
+    at 0 0 0 {
+      circle 12 12 10 fill="ink" stroke="outline" width=1.2
+      path d="M15.5,7.5 v4 M15.5,12.5 v4" stroke="bg-canvas" width=2.2
+    }
+  }
+}
+
+icon "badge-number-2" {
+  category "badge"
+  canvas 24 24
+  describe "Numbered disc 2."
+  part "g" {
+    at 0 0 0 {
+      circle 12 12 10 fill="ink" stroke="outline" width=1.2
+      path d="M8.5,7 h7 M15.5,7.5 v4 M8.5,12 h7 M8.5,12.5 v4 M8.5,17 h7" stroke="bg-canvas" width=2.2
+    }
+  }
+}
+
+icon "badge-number-3" {
+  category "badge"
+  canvas 24 24
+  describe "Numbered disc 3."
+  part "g" {
+    at 0 0 0 {
+      circle 12 12 10 fill="ink" stroke="outline" width=1.2
+      path d="M8.5,7 h7 M15.5,7.5 v4 M8.5,12 h7 M15.5,12.5 v4 M8.5,17 h7" stroke="bg-canvas" width=2.2
+    }
+  }
+}
+
+icon "badge-number-4" {
+  category "badge"
+  canvas 24 24
+  describe "Numbered disc 4."
+  part "g" {
+    at 0 0 0 {
+      circle 12 12 10 fill="ink" stroke="outline" width=1.2
+      path d="M8.5,7.5 v4 M8.5,12 h7 M15.5,7.5 v4 M15.5,12.5 v4" stroke="bg-canvas" width=2.2
+    }
+  }
+}
+
+icon "badge-number-5" {
+  category "badge"
+  canvas 24 24
+  describe "Numbered disc 5."
+  part "g" {
+    at 0 0 0 {
+      circle 12 12 10 fill="ink" stroke="outline" width=1.2
+      path d="M8.5,7 h7 M8.5,7.5 v4 M8.5,12 h7 M15.5,12.5 v4 M8.5,17 h7" stroke="bg-canvas" width=2.2
+    }
+  }
+}
+
+icon "badge-number-6" {
+  category "badge"
+  canvas 24 24
+  describe "Numbered disc 6."
+  part "g" {
+    at 0 0 0 {
+      circle 12 12 10 fill="ink" stroke="outline" width=1.2
+      path d="M8.5,7 h7 M8.5,7.5 v4 M8.5,12 h7 M8.5,12.5 v4 M8.5,17 h7 M15.5,12.5 v4" stroke="bg-canvas" width=2.2
+    }
+  }
+}
+
+icon "badge-number-7" {
+  category "badge"
+  canvas 24 24
+  describe "Numbered disc 7."
+  part "g" {
+    at 0 0 0 {
+      circle 12 12 10 fill="ink" stroke="outline" width=1.2
+      path d="M8.5,7 h7 M15.5,7.5 v4 M15.5,12.5 v4" stroke="bg-canvas" width=2.2
+    }
+  }
+}
+
+icon "badge-number-8" {
+  category "badge"
+  canvas 24 24
+  describe "Numbered disc 8."
+  part "g" {
+    at 0 0 0 {
+      circle 12 12 10 fill="ink" stroke="outline" width=1.2
+      path d="M8.5,7 h7 M15.5,7.5 v4 M15.5,12.5 v4 M8.5,17 h7 M8.5,12.5 v4 M8.5,7.5 v4 M8.5,12 h7" stroke="bg-canvas" width=2.2
+    }
+  }
+}
+
+icon "badge-number-9" {
+  category "badge"
+  canvas 24 24
+  describe "Numbered disc 9."
+  part "g" {
+    at 0 0 0 {
+      circle 12 12 10 fill="ink" stroke="outline" width=1.2
+      path d="M8.5,7 h7 M15.5,7.5 v4 M15.5,12.5 v4 M8.5,17 h7 M8.5,7.5 v4 M8.5,12 h7" stroke="bg-canvas" width=2.2
+    }
+  }
+}
+
+icon "badge-ip-tag" {
+  category "badge"
+  canvas 24 24
+  describe "Small blank label plate."
+  part "g" {
+    at 0 0 0 {
+      rect 2.5 8 19 8.5 rx=1.5 fill="none" stroke="ink" width=1.5
+      circle 6 12.2 1.4 fill="none" stroke="ink" width=1.4
+    }
+  }
+}
+
+icon "badge-pin" {
+  category "badge"
+  canvas 24 24
+  describe "Map pin."
+  part "g" {
+    at 0 0 0 {
+      path d="M12,22 c-5,-7 -7,-9.5 -7,-13 a7,7 0 1 1 14,0 c0,3.5 -2,6 -7,13 z" stroke="outline" width=1.2 fill="ink"
+      circle 12 9 2.8 fill="bg-canvas" stroke="none"
+    }
+  }
+}

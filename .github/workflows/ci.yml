@@ -1,0 +1,49 @@
+name: CI
+
+# Mirrors the old Bitbucket pipeline's branch behaviour: every push and PR
+# runs the oracle suite; main additionally builds and packages the pack and
+# keeps it as a workflow artifact for inspection. Tag builds that publish a
+# release live in release.yml.
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+jobs:
+  test:
+    name: Oracle suite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+      - name: Run pytest
+        run: |
+          export ISOLEX_BIN="$(bash ci/get-isolex.sh)"
+          uv sync
+          uv run pytest -q
+
+  build:
+    name: Build and package
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+      - name: Build the pack
+        # PNG contact sheets are previews, not pack artifacts; skipping them
+        # keeps resvg out of the CI toolchain.
+        run: |
+          export ISOLEX_BIN="$(bash ci/get-isolex.sh)"
+          uv run build.py --no-png
+          VERSION="dev-${GITHUB_SHA::7}" bash ci/package.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pack-dev
+          path: upload/*

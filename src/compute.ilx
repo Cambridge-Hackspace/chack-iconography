@@ -1,0 +1,461 @@
+// §2 physical compute.
+
+icon "compute-server-1u" {
+  extends "rack-unit"
+  category "compute"
+  describe "Building block; stackable."
+  param bays 2
+  part "bays" {
+    repeat "bays" "i" {
+      facerect "front" "0.15 + i * 0.5" 1 0.07 0.4 0.14 opacity=0.18
+    }
+  }
+  part "led" {
+    facerect "front" 1.75 1 0.12 0.06 0.06 opacity=0.6
+  }
+  axes "state"
+}
+
+icon "compute-server-2u" {
+  extends "rack-unit"
+  category "compute"
+  describe "Same as 1u, twice the height, four bays."
+  param u 2
+  part "bays" {
+    repeat 4 "i" {
+      facerect "front" "0.12 + i * 0.44" 1 0.12 0.34 0.3 opacity=0.18
+    }
+  }
+  part "led" {
+    facerect "front" 1.86 1 0.42 0.06 0.06 opacity=0.6
+  }
+  axes "state"
+}
+
+icon "compute-server-tower" {
+  category "compute"
+  footprint 1 1 1.25
+  describe "Upright box, front vents, single optical bay."
+  part "body" {
+    box 0.15 0.2 0 0.7 0.6 1.2
+  }
+  part "vents" {
+    repeat 4 "i" {
+      facerect "front" 0.25 0.8 "0.12 + i * 0.14" 0.5 0.05 opacity=0.18
+    }
+  }
+  part "bay" {
+    facerect "front" 0.25 0.8 0.95 0.5 0.08 opacity=0.3
+  }
+  axes "state"
+}
+
+icon "compute-server-hypervisor" {
+  extends "hypervisor-host"
+  describe "Distinguishes hosts that run guests from bare metal."
+  axes "state"
+}
+
+// The three flavour variants add a right-face plate carrying a small mark.
+icon "compute-server-hypervisor-bhyve" {
+  extends "hypervisor-host"
+  describe "bhyve flavour."
+  part "flavour" {
+    facerect "right" 2 0.25 0.15 0.5 0.34 opacity=0.18
+    at 2 0.5 0.32 {
+      path d="M{x},{y+5} V{y-4} M{x-4},{y-1} V{y-4} M{x+4},{y-1} V{y-4} M{x-4},{y-1} a4,3.2 0 0 0 8,0" stroke="ink" width=1.4
+    }
+  }
+  axes "state"
+}
+
+icon "compute-server-hypervisor-kvm" {
+  extends "hypervisor-host"
+  describe "KVM flavour."
+  part "flavour" {
+    facerect "right" 2 0.25 0.15 0.5 0.34 opacity=0.18
+    at 2 0.5 0.32 {
+      path d="M{x-5},{y-4} l5,4 -5,4 M{x+1},{y+4} h5" stroke="ink" width=1.4
+    }
+  }
+  axes "state"
+}
+
+icon "compute-server-hypervisor-vmware" {
+  extends "hypervisor-host"
+  describe "VMware flavour."
+  part "flavour" {
+    facerect "right" 2 0.25 0.15 0.5 0.34 opacity=0.18
+    at 2 0.5 0.32 {
+      repeat 3 "k" {
+        path d="M{x-5},{y+(k-1)*3.2} l5,-2.5 5,2.5 -5,2.5 z" stroke="ink" width=1.2
+      }
+    }
+  }
+  axes "state"
+}
+
+icon "compute-blade-chassis" {
+  category "compute"
+  footprint 2 2 1.2
+  describe "Wide L-tier enclosure, eight vertical blade slots."
+  part "body" {
+    box 0 0 0 2 2 1.1
+  }
+  part "slots" {
+    repeat 8 "i" {
+      facerect "front" "0.14 + i * 0.22" 2 0.15 0.16 0.8 opacity="if(i % 2 == 0, 0.35, 0.12)"
+    }
+  }
+  axes "state"
+}
+
+// Open 42U frame shared by the empty rack.
+base "rack-frame" {
+  category "compute"
+  footprint 2 1 2.4
+  part "plinth" {
+    box 0 0 0 2 1 0.1
+  }
+  part "posts" {
+    box 0 0 0.1 0.1 0.1 2.2
+    box 1.9 0 0.1 0.1 0.1 2.2
+    box 0 0.9 0.1 0.1 0.1 2.2
+    box 1.9 0.9 0.1 0.1 0.1 2.2
+  }
+  part "crown" {
+    box 0 0 2.3 2 1 0.1
+  }
+}
+
+icon "compute-rack-empty" {
+  extends "rack-frame"
+  describe "Open 42U frame, side rails only."
+  part "rails" {
+    repeat 6 "k" {
+      facerect "front" 0.02 1 "0.3 + k * 0.34" 0.06 0.1 opacity=0.25
+      facerect "front" 1.92 1 "0.3 + k * 0.34" 0.06 0.1 opacity=0.25
+    }
+  }
+}
+
+icon "compute-rack-full" {
+  category "compute"
+  footprint 2 1 2.4
+  describe "Closed cabinet with glass door, faint device outlines behind."
+  part "body" {
+    box 0 0 0 2 1 2.4
+  }
+  part "devices" {
+    repeat 7 "k" {
+      facerect "front" 0.15 1 "0.25 + k * 0.28" 1.7 0.16 opacity=0.1
+    }
+  }
+  part "glass" {
+    facerect "front" 0.08 1 0.12 1.84 2.16 fill="virt" opacity=0.12
+  }
+}
+
+icon "compute-mini-pc" {
+  category "compute"
+  footprint 1 1 0.35
+  describe "Small square puck with one port face."
+  part "body" {
+    box 0.22 0.22 0 0.56 0.56 0.4
+  }
+  part "vents" {
+    repeat 3 "i" {
+      facerect "right" 0.78 "0.3 + i * 0.14" 0.1 0.08 0.22 opacity=0.18
+    }
+  }
+  part "port" {
+    facerect "front" 0.34 0.78 0.1 0.12 0.1 opacity=0.45
+  }
+  part "power" {
+    at 0.66 0.78 0.28 {
+      circle "x" "y" 2.2 fill="none" stroke="ink" width=1.2
+    }
+  }
+  axes "state"
+}
+
+icon "compute-sbc" {
+  category "compute"
+  footprint 1 1 0.3
+  describe "Bare green board with pin header and SoC."
+  part "board" {
+    box 0.1 0.2 0 0.8 0.6 0.05
+  }
+  part "soc" {
+    box 0.4 0.4 0.05 0.24 0.24 0.06
+  }
+  part "pins" {
+    repeat 8 "i" {
+      at "0.18 + i * 0.08" 0.26 0.05 {
+        path d="M{x},{y} v-3.2" stroke="ink-muted" width=1.2
+      }
+    }
+  }
+  axes "state"
+}
+
+icon "compute-workstation" {
+  category "compute"
+  footprint 1.5 1 1.1
+  describe "Monitor + tower on a desk-less base."
+  part "tower" {
+    box 1.05 0.25 0 0.4 0.55 0.85
+  }
+  part "tower-slot" {
+    facerect "front" 1.12 0.8 0.62 0.26 0.05 opacity=0.3
+  }
+  part "monitor" {
+    insert "monitor" mx=0.1 my=0.5
+  }
+  axes "state"
+}
+
+icon "compute-thin-client" {
+  category "compute"
+  footprint 1 1 1
+  describe "Monitor with a puck beneath."
+  part "puck" {
+    box 0.25 0.6 0 0.5 0.3 0.16
+  }
+  part "monitor" {
+    insert "monitor" mx=0.14 my=0.35
+  }
+  axes "state"
+}
+
+icon "compute-laptop" {
+  category "compute"
+  footprint 1 1 0.7
+  describe "Open clamshell."
+  part "base" {
+    box 0.15 0.3 0 0.7 0.5 0.05
+  }
+  part "keyboard" {
+    facerect "front" 0.2 0.8 0.005 0.6 0.03 opacity=0.2
+  }
+  part "lid" {
+    poly3d fill="body-left" stroke="outline" width=1.2 {
+      pt 0.15 0.3 0.05
+      pt 0.85 0.3 0.05
+      pt 0.85 0.12 0.55
+      pt 0.15 0.12 0.55
+    }
+  }
+  part "screen" {
+    poly3d fill="ink" opacity=0.18 stroke="none" {
+      pt 0.2 0.28 0.1
+      pt 0.8 0.28 0.1
+      pt 0.8 0.14 0.5
+      pt 0.2 0.14 0.5
+    }
+  }
+}
+
+icon "compute-phone" {
+  category "compute"
+  footprint 1 1 0.15
+  describe "Handset, screen on."
+  part "body" {
+    box 0.32 0.22 0 0.36 0.56 0.05
+  }
+  part "screen" {
+    poly3d fill="ink" opacity=0.3 stroke="none" {
+      pt 0.36 0.3 0.05
+      pt 0.64 0.3 0.05
+      pt 0.64 0.68 0.05
+      pt 0.36 0.68 0.05
+    }
+  }
+  part "earpiece" {
+    at 0.5 0.26 0.05 {
+      path d="M{x-3},{y} h6" stroke="ink" width=1.4
+    }
+  }
+  part "home" {
+    at 0.5 0.73 0.05 {
+      circle "x" "y" 1.5 fill="ink" stroke="none"
+    }
+  }
+}
+
+icon "compute-tablet" {
+  category "compute"
+  footprint 1 1 0.15
+  describe "Slate, screen on."
+  part "body" {
+    box 0.15 0.18 0 0.7 0.64 0.05
+  }
+  part "screen" {
+    poly3d fill="ink" opacity=0.3 stroke="none" {
+      pt 0.24 0.28 0.05
+      pt 0.76 0.28 0.05
+      pt 0.76 0.72 0.05
+      pt 0.24 0.72 0.05
+    }
+  }
+  part "camera" {
+    at 0.5 0.23 0.05 {
+      circle "x" "y" 1.5 fill="ink" stroke="none"
+    }
+  }
+}
+
+icon "compute-printer" {
+  category "compute"
+  footprint 1 1 0.95
+  describe "MFP box with paper tray."
+  part "body" {
+    box 0.1 0.25 0 0.8 0.55 0.45
+  }
+  part "tray" {
+    box 0.2 0.12 0.3 0.6 0.16 0.04
+  }
+  part "slot" {
+    facerect "front" 0.62 0.8 0.34 0.18 0.05 opacity=0.4
+  }
+  part "page" {
+    at 0.5 0.48 0.45 {
+      path d="M{x-8},{y} v-14 h16 v14" stroke="ink" width=1.4 fill="ink" opacity=0.85
+      path d="M{x-5},{y-10} h10 M{x-5},{y-6.5} h7" stroke="bg-canvas" width=1.2
+    }
+  }
+}
+
+icon "compute-iot-sensor" {
+  category "compute"
+  footprint 1 1 0.9
+  describe "Small box with antenna nub and a single blinking LED."
+  part "body" {
+    box 0.3 0.3 0 0.4 0.4 0.3
+  }
+  part "antenna" {
+    at 0.42 0.42 0.3 {
+      path d="M{x},{y} v-16" stroke="outline" width=1.4
+      circle "x" "y - 18" 1.8 fill="ink-muted" stroke="none"
+    }
+  }
+  part "led" {
+    facerect "front" 0.56 0.7 0.18 0.06 0.06 opacity=0.6
+  }
+}
+
+icon "compute-camera" {
+  category "compute"
+  footprint 1 1 0.9
+  describe "Bullet camera on a bracket."
+  part "post" {
+    box 0.42 0.42 0 0.16 0.16 0.3
+  }
+  part "body" {
+    box 0.2 0.32 0.3 0.6 0.36 0.32
+  }
+  part "lens" {
+    at 0.5 0.68 0.46 {
+      circle "x" "y" 7 fill="body-left" stroke="outline" width=1.2
+      circle "x" "y" 4 fill="none" stroke="ink" width=1.4
+      circle "x" "y" 1.5 fill="ink" stroke="none"
+    }
+  }
+}
+
+icon "compute-bmc" {
+  category "compute"
+  footprint 1 1 0.35
+  describe "Small chip with a heartbeat trace."
+  part "die" {
+    box 0.25 0.25 0 0.5 0.5 0.08
+  }
+  part "pins" {
+    repeat 5 "i" {
+      at "0.31 + i * 0.1" 0.75 0.04 {
+        path d="M{x},{y} l-3,1.8" stroke="ink-muted" width=1.2
+      }
+      at 0.75 "0.31 + i * 0.1" 0.04 {
+        path d="M{x},{y} l3,1.8" stroke="ink-muted" width=1.2
+      }
+    }
+  }
+  part "trace" {
+    at 0.5 0.5 0.08 {
+      path d="M{x-10},{y} h4 l2,-5 3,9 2,-4 h9" stroke="ink" width=1.4
+    }
+  }
+  axes "state"
+}
+
+icon "compute-console-server" {
+  extends "rack-unit"
+  category "compute"
+  describe "1u slab with a row of serial ports."
+  part "ports" {
+    repeat 6 "i" {
+      poly3d fill="ink" opacity=0.5 stroke="none" {
+        pt "0.15 + i * 0.3" 1 0.08
+        pt "0.15 + i * 0.3 + 0.2" 1 0.08
+        pt "0.15 + i * 0.3 + 0.16" 1 0.19
+        pt "0.15 + i * 0.3 + 0.04" 1 0.19
+      }
+    }
+  }
+  axes "state"
+}
+
+icon "compute-kvm" {
+  extends "rack-unit"
+  category "compute"
+  describe "1u slab with a mini keyboard/monitor icon on the face."
+  part "glyph" {
+    at 1 0.5 0.28 {
+      rect "x-8" "y-9" 16 10 rx=1.5 fill="none" stroke="ink" width=1.4
+      path d="M{x-8},{y+4} h16 M{x-6},{y+7} h12" stroke="ink" width=1.4
+    }
+  }
+  axes "state"
+}
+
+icon "compute-ups" {
+  category "compute"
+  footprint 1 1 1.1
+  describe "Tall box with battery glyph on the face."
+  part "body" {
+    box 0.15 0.2 0 0.7 0.6 1.05
+  }
+  part "battery" {
+    at 0.5 0.8 0.55 {
+      path d="M{x-8},{y-10} h16 v20 h-16 z M{x-3},{y-13} h6" stroke="ink" width=1.5 fill="none"
+      path d="M{x+2},{y-7} l-6,8 h4 l-2,6 6,-8 h-4 z" stroke="ink" width=1.2 fill="ink"
+    }
+  }
+  part "led" {
+    facerect "front" 0.72 0.8 0.92 0.06 0.06 opacity=0.6
+  }
+  axes "state"
+}
+
+icon "compute-pdu" {
+  category "compute"
+  footprint 1 1 1.7
+  describe "Vertical strip with outlets."
+  part "strip" {
+    box 0.35 0.35 0 0.3 0.3 1.65
+  }
+  part "outlets" {
+    repeat 5 "k" {
+      at 0.5 0.65 "0.28 + k * 0.3" {
+        circle "x" "y" 4 fill="none" stroke="ink" width=1.4
+        path d="M{x-1.5},{y-1} v2 M{x+1.5},{y-1} v2" stroke="ink" width=1.2
+      }
+    }
+  }
+  part "cord" {
+    at 0.5 0.5 1.65 {
+      path d="M{x},{y} c2,-6 8,-6 10,-1" stroke="ink-muted" width=1.5
+    }
+  }
+  axes "state"
+}

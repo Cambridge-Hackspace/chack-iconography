@@ -1,0 +1,320 @@
+// §-sec — security appliances as isometric OBJECTS; severity badges and
+// security actors kept (flat markers / figures). Dropped abstractions:
+// PKI hierarchy, CSR, MFA, SSO, zero-trust, IAM policy, privileged-access,
+// and the attack techniques (recon/exploit/c2/exfiltration/lateral-
+// movement/persistence/privilege-escalation) — concepts, not objects.
+
+base "sec-appliance" {
+  category "sec"
+  footprint 1 1 0.62
+  part "chassis" { box 0.08 0.08 0 0.84 0.84 0.55 }
+  part "led" { facerect "front" 0.7 0.92 0.42 0.06 0.06 opacity=0.5 }
+}
+
+icon "sec-siem" {
+  extends "sec-appliance"
+  describe "SIEM appliance."
+  part "e" {
+    at 0.5 0.92 0.3 {
+      path d="M{x-6},{y} a6,4 0 0 1 12,0 a6,4 0 0 1 -12,0" stroke="ink" width=1.4 fill="none"
+      circle "x" "y" 2 fill="ink" stroke="none"
+    }
+  }
+  axes "state"
+}
+
+icon "sec-soar" {
+  extends "sec-appliance"
+  describe "SOAR orchestration appliance."
+  part "e" {
+    at 0.5 0.92 0.3 {
+      circle "x" "y" 3.5 fill="bg-canvas" stroke="ink" width=1.4
+      path d="M{x},{y-6} v2 M{x},{y+4} v2 M{x-6},{y} h2 M{x+4},{y} h2 M{x-3},{y-3} l-1.5,-1.5 M{x+3},{y-3} l1.5,-1.5" stroke="ink" width=1.2
+    }
+  }
+  axes "state"
+}
+
+icon "sec-edr" {
+  extends "sec-appliance"
+  describe "EDR appliance."
+  part "e" {
+    at 0.5 0.92 0.3 {
+      path d="M{x},{y-6} c3,2 5,2 5,2 v4 c0,4 -5,6 -5,6 c0,0 -5,-2 -5,-6 v-4 c0,0 2,0 5,-2 z" stroke="ink" width=1.4 fill="bg-canvas"
+    }
+  }
+  axes "state"
+}
+icon "sec-xdr" { extends "sec-edr" describe "XDR (alias of sec-edr)." }
+
+icon "sec-waf" {
+  extends "sec-appliance"
+  describe "Web application firewall."
+  part "e" {
+    at 0.5 0.92 0.3 {
+      circle "x+3" "y" 4 fill="none" stroke="ink-muted" width=1.2
+      path d="M{x-4},{y-6} c3,2 4,2 4,2 v4 c0,4 -4,6 -4,6 c0,0 -4,-2 -4,-6 v-4 c0,0 1,0 4,-2 z" stroke="ink" width=1.4 fill="bg-canvas"
+    }
+  }
+  axes "state"
+}
+
+icon "sec-dlp" {
+  extends "sec-appliance"
+  describe "Data-loss prevention appliance."
+  part "e" {
+    at 0.5 0.92 0.3 {
+      path d="M{x-7},{y-5} h6 l2,2 v8 h-8 z" stroke="ink" width=1.4 fill="bg-canvas"
+      circle "x+3" "y+1" 4 fill="none" stroke="ink" width=1.4
+      path d="M{x+0.5},{y-1.5} l5,5" stroke="ink" width=1.4
+    }
+  }
+  axes "state"
+}
+
+icon "sec-ca" {
+  extends "sec-appliance"
+  describe "Certificate authority appliance."
+  part "e" {
+    at 0.5 0.92 0.3 {
+      poly fill="bg-canvas" stroke="ink" width=1.2 {
+        repeat 10 "k" {
+          pt "x + if(k % 2 == 0, 5, 3.8) * cosr(1.5707963267948966 + k * 3.141592653589793 / 5)" "y - 1.5 - if(k % 2 == 0, 5, 3.8) * sinr(1.5707963267948966 + k * 3.141592653589793 / 5)"
+        }
+      }
+      path d="M{x-2},{y+3} l-1,4 M{x+2},{y+3} l1,4" stroke="ink" width=1.2
+    }
+  }
+  axes "state"
+}
+
+// --- distinct security objects ---------------------------------------------
+
+icon "sec-hsm" {
+  category "sec"
+  footprint 1 1 0.4
+  describe "HSM: a hardware security module with a lock."
+  part "body" { box 0.18 0.25 0 0.64 0.5 0.28 }
+  part "pins" {
+    at 0.18 0.5 0.14 {
+      path d="M{x-5},{y-6} v-3 M{x},{y-6} v-3 M{x+5},{y-6} v-3" stroke="ink-muted" width=1.2
+    }
+  }
+  part "lock" {
+    at 0.18 0.5 0.16 {
+      path d="M{x-2},{y+1} v-1.5 a2,2 0 0 1 4,0 v1.5" stroke="ink" width=1.2 fill="none"
+      rect "x-3" "y+1" 6 4 rx=1 fill="ink" stroke="none"
+    }
+  }
+  axes "state"
+}
+
+icon "sec-vault" {
+  category "sec"
+  footprint 1 1 1
+  describe "Vault: a safe with a spoked dial."
+  part "body" { box 0.12 0.12 0 0.76 0.76 0.9 }
+  part "dial" {
+    at 0.12 0.5 0.5 {
+      circle "x" "y" 6 fill="none" stroke="ink" width=1.5
+      path d="M{x},{y-6} v3 M{x},{y+3} v3 M{x-6},{y} h3 M{x+3},{y} h3" stroke="ink" width=1.4
+      circle "x" "y" 1.4 fill="ink" stroke="none"
+    }
+  }
+  axes "state"
+}
+
+icon "sec-bastion" {
+  category "sec"
+  footprint 1 1 1
+  describe "Bastion / jump host: a fortified keep."
+  part "keep" { box 0.25 0.25 0 0.5 0.5 0.8 }
+  part "battlements" {
+    at 0.5 0.5 0.8 {
+      path d="M{x-11},{y-3} v-3 h4 v3 M{x-3},{y-6} h4 v3 M{x+5},{y-6} h4 v3" stroke="ink" width=1.2 fill="none"
+    }
+  }
+  part "door" { facerect "front" 0.45 0.75 0.2 0.1 0.28 opacity=0.4 }
+  axes "state"
+}
+
+icon "sec-sandbox" {
+  category "sec"
+  footprint 1 1 0.8
+  describe "Sandbox: a sample isolated in a sealed enclosure."
+  part "enclosure" { box 0.15 0.15 0 0.7 0.7 0.7 fills="virt" opacity=0.35 }
+  part "sample" { box 0.38 0.38 0.1 0.24 0.24 0.24 }
+  axes "state"
+}
+
+icon "sec-honeypot" {
+  category "sec"
+  footprint 1 1 0.6
+  describe "Honeypot: a bait pot."
+  part "pot" {
+    at 0.5 0.5 0.5 {
+      path d="M{x-12},{y-6} L{x-9},{y+8} A9,4 0 0 0 {x+9},{y+8} L{x+12},{y-6} Z" stroke="outline" width=1.2 fill="body-right"
+      ellipse "x" "y-6" 12 5 fill="body-top" stroke="outline" width=1.2
+      path d="M{x},{y-10} v-3 M{x-2},{y-13} h4" stroke="ink-muted" width=1.2
+    }
+  }
+  axes "state"
+}
+
+// --- severity badges (flat 24x24; colour is the primary signal) ------------
+
+icon "sev-critical" {
+  category "badge"
+  canvas 24 24
+  describe "Critical severity: red octagon with an exclamation."
+  grant "accent" reason="critical severity is the reserved-red top of the ladder (§16)"
+  part "g" {
+    at 0 0 0 {
+      poly fill="accent" stroke="outline" width=1.2 {
+        pt 7 2
+        pt 17 2
+        pt 22 7
+        pt 22 17
+        pt 17 22
+        pt 7 22
+        pt 2 17
+        pt 2 7
+      }
+      path d="M12,7 v6" stroke="ink" width=2.2
+      path d="M12,16.5 v0.01" stroke="ink" width=2.2
+    }
+  }
+}
+
+icon "sev-high" {
+  category "badge"
+  canvas 24 24
+  describe "High severity: dim-red triangle with an exclamation."
+  grant "accent-dim" reason="high severity is the reserved dim-red rung below critical (§16)"
+  part "g" {
+    at 0 0 0 {
+      poly fill="accent-dim" stroke="outline" width=1.2 {
+        pt 12 3
+        pt 21 20
+        pt 3 20
+      }
+      path d="M12,9 v5" stroke="ink" width=2.2
+      path d="M12,17 v0.01" stroke="ink" width=2.2
+    }
+  }
+}
+
+icon "sev-medium" {
+  category "badge"
+  canvas 24 24
+  describe "Medium severity: amber diamond with an exclamation."
+  part "g" {
+    at 0 0 0 {
+      poly fill="state-degraded" stroke="outline" width=1.2 {
+        pt 12 2
+        pt 22 12
+        pt 12 22
+        pt 2 12
+      }
+      path d="M12,8 v5" stroke="ink" width=2.2
+      path d="M12,16 v0.01" stroke="ink" width=2.2
+    }
+  }
+}
+
+icon "sev-low" {
+  category "badge"
+  canvas 24 24
+  describe "Low severity: blue disc with an exclamation."
+  part "g" {
+    at 0 0 0 {
+      circle 12 12 9 fill="state-maintenance" stroke="outline" width=1.2
+      path d="M12,7.5 v6" stroke="ink" width=2.2
+      path d="M12,16.5 v0.01" stroke="ink" width=2.2
+    }
+  }
+}
+
+icon "sev-info" {
+  category "badge"
+  canvas 24 24
+  describe "Informational: grey disc with an 'i'."
+  part "g" {
+    at 0 0 0 {
+      circle 12 12 9 fill="ink-muted" stroke="outline" width=1.2
+      path d="M12,8 v0.01" stroke="ink" width=2.2
+      path d="M12,11 v6" stroke="ink" width=2.2
+    }
+  }
+}
+
+// --- security actors (figure + coloured prop) ------------------------------
+
+icon "actor-red-team" {
+  category "actor"
+  footprint 1 1 1.1
+  describe "Red team: offensive tester, dim-red target prop."
+  grant "accent-dim" reason="red team is the sanctioned adversary: dim-red, not the full attacker red (§16)"
+  part "figure" { insert "figure" }
+  part "prop" {
+    at 0.5 0.5 0 {
+      circle "x+13" "y-12" 5 fill="none" stroke="accent-dim" width=1.5
+      circle "x+13" "y-12" 1.6 fill="accent-dim" stroke="none"
+    }
+  }
+}
+
+icon "actor-blue-team" {
+  category "actor"
+  footprint 1 1 1.1
+  describe "Blue team: defender, blue shield prop."
+  part "figure" { insert "figure" }
+  part "prop" {
+    at 0.5 0.5 0 {
+      path d="M{x+13},{y-17} c3,2 5,2 5,2 v4 c0,4 -5,5 -5,5 c0,0 -5,-1 -5,-5 v-4 c0,0 2,0 5,-2 z" stroke="state-maintenance" width=1.5 fill="none"
+    }
+  }
+}
+
+icon "actor-insider" {
+  category "actor"
+  footprint 1 1 1.1
+  describe "Insider: figure with a lanyard access badge."
+  part "figure" { insert "figure" }
+  part "prop" {
+    at 0.5 0.5 0 {
+      path d="M{x-2},{y-14} h4 l-2,4 z" stroke="ink" width=1.2 fill="none"
+      rect "x-4" "y-10" 8 6 rx=1 fill="body-top" stroke="outline" width=1.2
+      path d="M{x-2},{y-7} h4" stroke="ink-muted" width=1.2
+    }
+  }
+}
+
+icon "actor-auditor" {
+  category "actor"
+  footprint 1 1 1.1
+  describe "Auditor: figure with a magnifier over a checklist."
+  part "figure" { insert "figure" }
+  part "prop" {
+    at 0.5 0.5 0 {
+      rect "x+8" "y-18" 10 12 rx=1 fill="body-top" stroke="outline" width=1.2
+      path d="M{x+10},{y-14} h6 M{x+10},{y-11} h6" stroke="ink-muted" width=1.2
+      circle "x+11" "y-9" 3 fill="none" stroke="ink" width=1.4
+      path d="M{x+13},{y-7} l3,3" stroke="ink" width=1.4
+    }
+  }
+}
+
+icon "actor-soc-analyst" {
+  category "actor"
+  footprint 1 1 1.1
+  describe "SOC analyst: figure with a monitoring screen."
+  part "figure" { insert "figure" }
+  part "prop" {
+    at 0.5 0.5 0 {
+      rect "x+7" "y-18" 13 10 rx=1 fill="body-top" stroke="outline" width=1.2
+      path d="M{x+9},{y-12} h3 l1.5,-3 2,5 1.5,-2 h3" stroke="ink" width=1.4
+      path d="M{x+13.5},{y-8} v3" stroke="ink-muted" width=1.4
+    }
+  }
+}

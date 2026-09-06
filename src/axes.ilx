@@ -1,0 +1,34 @@
+// §10 baked-state axis.
+//
+// Overlays a corner status badge on a primary operational object,
+// expanding <slug> into <slug>-{down,degraded,maintenance,planned}. The
+// bare slug is still emitted (emit-base #true), byte-identical to before
+// the axis existed.
+//
+// "Primary object" = a thing that runs and can carry an operational
+// status: servers, hypervisors, network devices, storage nodes, running
+// virtualisation, and services. Deliberately NOT: endpoints and
+// peripherals (laptop, phone, tablet, printer, camera, iot-sensor),
+// passive enclosures (racks, patch chrome), artifacts (images,
+// templates, boot environments), people (actors), markers (badges,
+// states), or diagram chrome (legend, links). An icon opts in with
+// `axes "state"`; children inherit it through `extends`.
+//
+// Baked variants are for static SVG export (docs, slides). The draw.io
+// libraries carry the droppable state badges instead, so composed state
+// is a live edit there — baked variants never enter a library.
+axis "state" {
+  emit-base #true
+  variant "down" {
+    part "state-badge" { badge "state-down" corner="ne" }
+  }
+  variant "degraded" {
+    part "state-badge" { badge "state-degraded" corner="ne" }
+  }
+  variant "maintenance" {
+    part "state-badge" { badge "state-maintenance" corner="ne" }
+  }
+  variant "planned" {
+    part "state-badge" { badge "state-planned" corner="ne" }
+  }
+}

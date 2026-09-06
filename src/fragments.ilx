@@ -1,0 +1,155 @@
+// Shared geometry groups — the analogues of iso/geom.py's helper builders.
+
+// Upright display slab with foot, stem, panel and screen; front toward +y.
+fragment "monitor" {
+  param mx 0
+  param my 0
+  param mw 0.72
+  param mh 0.5
+  part "m" {
+    box "mx + mw / 2 - 0.08" "my" 0 0.16 0.16 0.06
+    box "mx + mw / 2 - 0.03" "my + 0.04" 0.06 0.06 0.06 0.12
+    box "mx" "my" 0.18 "mw" 0.05 "mh"
+    facerect "front" "mx + 0.05" "my + 0.05" 0.24 "mw - 0.1" "mh - 0.12" opacity=0.18
+  }
+}
+
+// Cloud silhouette centred at a tile anchor, scale s. All callers use
+// the body-top fill.
+fragment "cloud" {
+  param ax 1
+  param ay 1
+  param az 0.6
+  param s 1.0
+  part "c" {
+    at "ax" "ay" "az" {
+      path d="M{x - 60 * s * 0.45},{y + 12 * s} a{14 * s},{14 * s} 0 0 1 {4 * s},{-26 * s} a{17 * s},{17 * s} 0 0 1 {30 * s},{-8 * s} a{14 * s},{14 * s} 0 0 1 {22 * s},{12 * s} a{11 * s},{11 * s} 0 0 1 {-2 * s},{22 * s} z" stroke="outline" width=1.2 fill="body-top"
+    }
+  }
+}
+
+// Gear glyph; radian teeth. Inserted at part level; carries its own
+// anchor at (atx, aty, atz) with an optional screen offset (ox, oy).
+fragment "gear" {
+  param atx 1
+  param aty 1
+  param atz 0
+  param ox 0
+  param oy 0
+  param r 8.5
+  part "g" {
+    at "atx" "aty" "atz" {
+      poly fill="ink" stroke="none" {
+        repeat 8 "t" {
+          pt "x + ox + r * 0.72 * cosr(2 * 3.141592653589793 * t / 8 - 0.16)" "y + oy - r * 0.72 * sinr(2 * 3.141592653589793 * t / 8 - 0.16)"
+          pt "x + ox + r * cosr(2 * 3.141592653589793 * t / 8 - 0.16)" "y + oy - r * sinr(2 * 3.141592653589793 * t / 8 - 0.16)"
+          pt "x + ox + r * cosr(2 * 3.141592653589793 * t / 8 + 0.16)" "y + oy - r * sinr(2 * 3.141592653589793 * t / 8 + 0.16)"
+          pt "x + ox + r * 0.72 * cosr(2 * 3.141592653589793 * t / 8 + 0.16)" "y + oy - r * 0.72 * sinr(2 * 3.141592653589793 * t / 8 + 0.16)"
+        }
+      }
+      circle "x + ox" "y + oy" "r * 0.34" fill="body-top" stroke="none"
+    }
+  }
+}
+
+// Vertical stack of n disk cylinders.
+fragment "disk-stack" {
+  param dx 0.5
+  param dy 0.5
+  param dz 0
+  param n 3
+  param dr 0.26
+  param dh 0.2
+  part "s" {
+    repeat "n" "k" {
+      cylinder "dx" "dy" "dz + k * (dh + 0.05)" "dr" "dh"
+    }
+  }
+}
+
+// --- 2-D glyph fragments: self-anchored at (atx,aty,atz) + screen
+// offset (ox,oy). Canvas callers use atx=aty=atz=0 with ox,oy absolute;
+// tile callers use the tile anchor with ox=oy=0. ---
+
+fragment "wrench" {
+  param atx 0
+  param aty 0
+  param atz 0
+  param ox 0
+  param oy 0
+  param w 2.2
+  part "g" {
+    at "atx" "aty" "atz" {
+      arc "x + ox + 3.2" "y + oy - 3.2" 3.2 100 350 stroke="ink" width="w"
+      path d="M{x+ox+3.2-2.1},{y+oy-3.2+2.1} L{x+ox-5.2},{y+oy+5.2}" stroke="ink" width="w"
+    }
+  }
+}
+
+
+
+
+fragment "envelope" {
+  param atx 0
+  param aty 0
+  param atz 0
+  param ox 0
+  param oy 0
+  param ew 18
+  param eh 12
+  part "g" {
+    at "atx" "aty" "atz" {
+      rect "x + ox - ew / 2" "y + oy - eh / 2" "ew" "eh" rx=1 fill="none" stroke="ink" width=1.4
+      path d="M{x+ox-ew/2},{y+oy-eh/2} l{ew/2},{eh*0.45} l{ew/2},{-eh*0.45}" stroke="ink" width=1.4
+    }
+  }
+}
+
+fragment "globe" {
+  param atx 0
+  param aty 0
+  param atz 0
+  param ox 0
+  param oy 0
+  param gr 8
+  part "g" {
+    at "atx" "aty" "atz" {
+      circle "x + ox" "y + oy" "gr" fill="none" stroke="ink" width=1.4
+      ellipse "x + ox" "y + oy" "gr * 0.45" "gr" fill="none" stroke="ink" width=1.4
+      path d="M{x+ox-gr},{y+oy} h{2*gr}" stroke="ink" width=1.4
+    }
+  }
+}
+
+// Standing figure (body-top); used by user/admin/developer.
+fragment "figure" {
+  param atx 0.5
+  param aty 0.5
+  param atz 0
+  param ox 0
+  param oy 0
+  part "g" {
+    at "atx" "aty" "atz" {
+      path d="M{x+ox-11},{y+oy} c0,-16 5,-24 11,-24 c6,0 11,8 11,24 z" stroke="outline" width=1.2 fill="body-top"
+      circle "x + ox" "y + oy - 29" 7 fill="body-top" stroke="outline" width=1.2
+    }
+  }
+}
+
+// Robot (body-top); used by service-account/agent.
+fragment "robot" {
+  param atx 0.5
+  param aty 0.5
+  param atz 0
+  part "g" {
+    at "atx" "aty" "atz" {
+      rect "x-9" "y-22" 18 14 rx=2 fill="body-top" stroke="outline" width=1.2
+      rect "x-7" "y-36" 14 11 rx=2 fill="body-top" stroke="outline" width=1.2
+      path d="M{x},{y-36} v-4" stroke="outline" width=1.4
+      circle "x" "y-41.5" 1.6 fill="ink-muted" stroke="none"
+      circle "x-3.5" "y-31" 1.5 fill="ink" stroke="none"
+      circle "x+3.5" "y-31" 1.5 fill="ink" stroke="none"
+      path d="M{x-9},{y-8} h18" stroke="outline" width=1.2
+    }
+  }
+}

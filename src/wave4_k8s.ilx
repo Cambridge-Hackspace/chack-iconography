@@ -1,0 +1,196 @@
+// §-k8s — the quasi-physical Kubernetes objects as isometric forms: a pod
+// is a container box, a workload is a group of them, a node is a machine,
+// etcd/PV are drums/volumes. The abstract API objects are dropped (they
+// are not things): service, ingress, endpoint, network-policy, nodeport,
+// configmap, secret, storageclass, hpa, scheduler, controller-manager,
+// api-server, kubelet, operator, crd, service-mesh, sidecar.
+
+// A pod = a container box, hexagon-marked on the front face.
+fragment "pod-box" {
+  param px 0.2
+  param py 0.2
+  param pz 0
+  param s 0.6
+  part "box" { box "px" "py" "pz" "s" "s" "s * 0.9" }
+  part "hex" {
+    at "px + s * 0.5" "py + s + 0.02" "pz + s * 0.45" {
+      poly fill="none" stroke="ink" width=1.2 {
+        pt "x-4" "y"
+        pt "x-2" "y-3.5"
+        pt "x+2" "y-3.5"
+        pt "x+4" "y"
+        pt "x+2" "y+3.5"
+        pt "x-2" "y+3.5"
+      }
+    }
+  }
+}
+
+// --- workloads (compositions of the pod box) -------------------------------
+
+icon "k8s-pod" {
+  category "k8s"
+  footprint 1 1 0.7
+  describe "Pod: a container box."
+  part "p" { insert "pod-box" px=0.2 py=0.2 s=0.6 }
+  axes "state"
+}
+
+icon "k8s-deployment" {
+  category "k8s"
+  footprint 1 1 1
+  describe "Deployment: a managed stack of pods."
+  part "back" { insert "pod-box" px=0.28 py=0.28 pz=0.32 s=0.5 }
+  part "front" { insert "pod-box" px=0.18 py=0.18 pz=0 s=0.5 }
+  axes "state"
+}
+
+icon "k8s-replicaset" {
+  category "k8s"
+  footprint 1.6 1 0.6
+  describe "ReplicaSet: identical pods in a row."
+  part "a" { insert "pod-box" px=0.1 py=0.3 s=0.42 }
+  part "b" { insert "pod-box" px=0.62 py=0.3 s=0.42 }
+  part "c" { insert "pod-box" px=1.14 py=0.3 s=0.42 }
+  axes "state"
+}
+
+icon "k8s-statefulset" {
+  category "k8s"
+  footprint 1.4 1 0.6
+  describe "StatefulSet: ordered pods with stable identity."
+  part "a" { insert "pod-box" px=0.1 py=0.3 s=0.42 }
+  part "b" { insert "pod-box" px=0.7 py=0.3 s=0.42 }
+  part "anchor" {
+    at 0.5 0.5 0 {
+      path d="M{x-14},{y+14} v-8 M{x-18},{y+8} h8" stroke="ink" width=1.4
+    }
+  }
+  axes "state"
+}
+
+icon "k8s-daemonset" {
+  category "k8s"
+  footprint 1.6 1 0.6
+  describe "DaemonSet: a pod on every node."
+  part "a" { insert "pod-box" px=0.1 py=0.3 s=0.4 }
+  part "b" { insert "pod-box" px=0.6 py=0.3 s=0.4 }
+  part "c" { insert "pod-box" px=1.1 py=0.3 s=0.4 }
+  part "rail" {
+    at 0.8 0.5 0 { path d="M{x-30},{y+10} h60" stroke="ink" width=1.5 }
+  }
+  axes "state"
+}
+
+icon "k8s-job" {
+  category "k8s"
+  footprint 1 1 0.7
+  describe "Job: a pod that runs to completion."
+  part "p" { insert "pod-box" px=0.2 py=0.2 s=0.6 }
+  part "check" {
+    at 0.5 0.5 0.62 { path d="M{x-3},{y} l2,2 4,-4.5" stroke="ink" width=1.5 }
+  }
+  axes "state"
+}
+
+icon "k8s-cronjob" {
+  category "k8s"
+  footprint 1 1 0.7
+  describe "CronJob: a scheduled pod."
+  part "p" { insert "pod-box" px=0.15 py=0.2 s=0.55 }
+  part "clock" {
+    at 0.5 0.5 0.6 {
+      circle "x+3" "y" 4 fill="bg-canvas" stroke="ink" width=1.4
+      path d="M{x+3},{y-2.5} V{y} l2,1" stroke="ink" width=1.2
+    }
+  }
+  axes "state"
+}
+
+// --- machines & data -------------------------------------------------------
+
+icon "k8s-node" {
+  category "k8s"
+  footprint 1 1 0.9
+  describe "Node: a worker machine."
+  part "body" { box 0.2 0.2 0 0.6 0.6 0.8 }
+  part "hex" {
+    at 0.2 0.5 0.5 {
+      poly fill="none" stroke="ink" width=1.4 {
+        pt "x-5" "y"
+        pt "x-2.5" "y-4.3"
+        pt "x+2.5" "y-4.3"
+        pt "x+5" "y"
+        pt "x+2.5" "y+4.3"
+        pt "x-2.5" "y+4.3"
+      }
+    }
+  }
+  axes "state"
+}
+
+icon "k8s-control-plane" {
+  category "k8s"
+  footprint 1 1 1
+  describe "Control plane: the cluster's control machine."
+  part "body" { box 0.2 0.2 0 0.6 0.6 0.9 }
+  part "wheel" {
+    at 0.2 0.5 0.55 {
+      circle "x" "y" 6 fill="none" stroke="ink" width=1.4
+      circle "x" "y" 1.6 fill="ink" stroke="none"
+      path d="M{x},{y-6} v3 M{x},{y+3} v3 M{x-6},{y} h3 M{x+3},{y} h3" stroke="ink" width=1.2
+    }
+  }
+  axes "state"
+}
+
+icon "k8s-etcd" {
+  category "k8s"
+  footprint 1 1 0.9
+  describe "etcd: the cluster key/value datastore."
+  part "drum" { cylinder 0.5 0.5 0 0.32 0.66 }
+  part "kv" {
+    at 0.5 0.5 0.66 {
+      path d="M{x-4},{y} h3 M{x+1},{y} h3" stroke="ink-muted" width=1.2
+    }
+  }
+  axes "state"
+}
+
+icon "k8s-pv" {
+  category "k8s"
+  footprint 1 1 0.7
+  describe "PersistentVolume: a provisioned storage drum."
+  part "drum" { cylinder 0.5 0.5 0 0.3 0.5 }
+  axes "state"
+}
+icon "k8s-pvc" { extends "k8s-pv" describe "PersistentVolumeClaim (alias of PV)." }
+
+icon "k8s-namespace" {
+  category "k8s"
+  footprint 1.4 1.4 0.7
+  describe "Namespace: a bounded partition holding a pod."
+  part "platform" { box 0 0 0 1.4 1.4 0.1 }
+  part "walls" {
+    at 0.7 0.7 0.1 {
+      path d="M{x-30},{y-10} v-14 M{x+30},{y-10} v-14 M{x-30},{y+18} v-14 M{x+30},{y+18} v-14" stroke="ink-muted" width=1.4 dash="3 3"
+    }
+  }
+  part "pod" { insert "pod-box" px=0.5 py=0.5 pz=0.1 s=0.4 }
+}
+
+icon "k8s-helm" {
+  category "k8s"
+  footprint 1 1 0.8
+  describe "Helm: a ship's wheel of chart releases."
+  part "shadow" { shadow 0.5 0.5 0.3 0.3 }
+  part "wheel" {
+    at 0.5 0.5 0.32 {
+      circle "x" "y" 12 fill="none" stroke="ink" width=1.4
+      circle "x" "y" 4 fill="body-top" stroke="ink" width=1.4
+      repeat 6 "k" {
+        path d="M{x + 12 * cosr(k * 1.0471975511965976)},{y + 12 * sinr(k * 1.0471975511965976)} l{4 * cosr(k * 1.0471975511965976)},{4 * sinr(k * 1.0471975511965976)}" stroke="ink" width=1.4
+      }
+    }
+  }
+}

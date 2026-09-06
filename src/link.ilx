@@ -1,0 +1,52 @@
+// §9 connector end-cap icons. The edge styles themselves are draw.io
+// presets, emitted by the pack's drawio emitter, not SVGs.
+
+icon "link-endcap-port" {
+  category "link"
+  footprint 0.6 0.6 0.4
+  describe "Small port block; keyed RJ45 opening."
+  part "body" {
+    box 0.1 0.1 0 0.4 0.4 0.32
+  }
+  part "socket" {
+    poly3d fill="ink" opacity=0.6 stroke="none" {
+      pt 0.17 0.5 0.06
+      pt 0.43 0.5 0.06
+      pt 0.43 0.5 0.2
+      pt 0.37 0.5 0.2
+      pt 0.37 0.5 0.26
+      pt 0.23 0.5 0.26
+      pt 0.23 0.5 0.2
+      pt 0.17 0.5 0.2
+    }
+  }
+}
+
+icon "link-endcap-sfp" {
+  category "link"
+  footprint 0.8 0.6 0.3
+  describe "Small transceiver end-cap."
+  part "body" {
+    box 0.2 0.25 0 0.42 0.18 0.11
+  }
+  part "latch" {
+    box 0.1 0.28 0.02 0.1 0.12 0.07
+  }
+  part "port" {
+    facerect "front" 0.5 0.43 0.025 0.09 0.055 opacity=0.5
+  }
+}
+
+icon "link-endcap-antenna" {
+  category "link"
+  footprint 0.6 0.6 0.9
+  describe "Antenna end-cap."
+  part "mast" {
+    at 0.3 0.3 0 {
+      path d="M{x},{y} v-20" stroke="outline" width=1.5
+      circle "x" "y-21.5" 1.6 fill="ink" stroke="none"
+      arc "x" "y-21" 5 35 145 stroke="ink" width=1.4
+      arc "x" "y-21" 9 35 145 stroke="ink" width=1.4
+    }
+  }
+}

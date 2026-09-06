@@ -1,0 +1,237 @@
+// §7 cloud and external.
+
+icon "ext-internet" {
+  category "ext"
+  footprint 2 2 1.5
+  describe "Large cloud, globe embossed."
+  part "cloud" {
+    insert "cloud" ax=1 ay=1 az=0.75 s=1.25
+  }
+  part "globe" {
+    at 1 1 0.75 {
+      circle "x + 2" "y - 4" 11 fill="none" stroke="ink-muted" width=1.4
+      ellipse "x + 2" "y - 4" 4.5 11 fill="none" stroke="ink-muted" width=1.4
+      path d="M{x+2-11},{y-4} h22 M{x+2-9.5},{y-4-5.5} h19 M{x+2-9.5},{y-4+5.5} h19" stroke="ink-muted" width=1.4
+    }
+  }
+}
+
+icon "ext-cloud-generic" {
+  category "ext"
+  footprint 2 2 1.2
+  describe "Plain cloud."
+  part "cloud" {
+    insert "cloud" ax=1 ay=1 az=0.6 s=1.1
+  }
+}
+
+icon "ext-cloud-provider" {
+  category "ext"
+  footprint 2 2 1.2
+  describe "Cloud with a blank badge slot."
+  part "cloud" {
+    insert "cloud" ax=1 ay=1 az=0.6 s=1.1
+  }
+  part "badge" {
+    at 1 1 0.6 {
+      rect "x - 10" "y - 10" 20 14 rx=2 fill="none" stroke="ink-muted" width=1.4 dash="3 2.5"
+    }
+  }
+}
+
+icon "ext-saas" {
+  category "ext"
+  footprint 2 2 1.2
+  describe "Cloud with a gear."
+  part "cloud" {
+    insert "cloud" ax=1 ay=1 az=0.6 s=1.1
+  }
+  part "gear" {
+    insert "gear" atx=1 aty=1 atz=0.6 oy=-4 r=8
+  }
+}
+
+icon "ext-cdn" {
+  category "ext"
+  footprint 2 2 1.4
+  describe "Cloud with radiating nodes."
+  part "cloud" {
+    insert "cloud" ax=1 ay=1 az=0.7 s=0.95
+  }
+  part "nodes" {
+    at 1 1 0.7 {
+      path d="M{x+-32*0.3},{y+14*0.45} L{x+-32},{y+14}" stroke="ink-muted" width=1.4
+      circle "x + -32" "y + 14" 2.5 fill="ink-muted" stroke="none"
+      path d="M{x+0*0.3},{y+22*0.45} L{x+0},{y+22}" stroke="ink-muted" width=1.4
+      circle "x + 0" "y + 22" 2.5 fill="ink-muted" stroke="none"
+      path d="M{x+32*0.3},{y+14*0.45} L{x+32},{y+14}" stroke="ink-muted" width=1.4
+      circle "x + 32" "y + 14" 2.5 fill="ink-muted" stroke="none"
+    }
+  }
+}
+
+icon "ext-isp" {
+  category "ext"
+  footprint 2 2 1.2
+  describe "Cloud with a router inside."
+  part "cloud" {
+    insert "cloud" ax=1 ay=1 az=0.6 s=1.1
+  }
+  part "router" {
+    at 1 1 0.6 {
+      ellipse "x" "y - 3" 9 4.5 fill="body-top" stroke="outline" width=1.2
+      path d="M{x+1*4},{y-3+-0.5*2.5} L{x+1*13},{y-3+-0.5*8} M{x+1*13-1*3.5+0.5*3.5},{y-3+-0.5*8--0.5*2+1*2.2} L{x+1*13},{y-3+-0.5*8} L{x+1*13-1*3.5-0.5*3.5},{y-3+-0.5*8--0.5*2-1*2.2}" stroke="ink" width=1.4
+      path d="M{x+-1*4},{y-3+-0.5*2.5} L{x+-1*13},{y-3+-0.5*8} M{x+-1*13--1*3.5+0.5*3.5},{y-3+-0.5*8--0.5*2+-1*2.2} L{x+-1*13},{y-3+-0.5*8} L{x+-1*13--1*3.5-0.5*3.5},{y-3+-0.5*8--0.5*2--1*2.2}" stroke="ink" width=1.4
+      path d="M{x+1*4},{y-3+0.5*2.5} L{x+1*13},{y-3+0.5*8} M{x+1*13-1*3.5+-0.5*3.5},{y-3+0.5*8-0.5*2+1*2.2} L{x+1*13},{y-3+0.5*8} L{x+1*13-1*3.5--0.5*3.5},{y-3+0.5*8-0.5*2-1*2.2}" stroke="ink" width=1.4
+      path d="M{x+-1*4},{y-3+0.5*2.5} L{x+-1*13},{y-3+0.5*8} M{x+-1*13--1*3.5+-0.5*3.5},{y-3+0.5*8-0.5*2+-1*2.2} L{x+-1*13},{y-3+0.5*8} L{x+-1*13--1*3.5--0.5*3.5},{y-3+0.5*8-0.5*2--1*2.2}" stroke="ink" width=1.4
+    }
+  }
+}
+
+icon "ext-datacenter" {
+  category "ext"
+  footprint 2 2 1.6
+  describe "Large building with rooftop HVAC."
+  part "building" {
+    box 0.1 0.1 0 1.8 1.8 1.3
+  }
+  part "hvac" {
+    box 0.4 0.4 1.3 0.5 0.5 0.2
+    box 1.1 0.9 1.3 0.4 0.4 0.15
+  }
+  part "windows" {
+    repeat 3 "row" {
+      repeat 4 "col" {
+        facerect "front" "0.28 + col * 0.4" 1.9 "0.25 + row * 0.38" 0.24 0.2 opacity=0.18
+      }
+    }
+  }
+}
+
+icon "ext-remote-site" {
+  category "ext"
+  footprint 1 1 1
+  describe "Small building."
+  part "walls" {
+    box 0.05 0.1 0 0.9 0.8 0.55
+  }
+  part "roof" {
+    poly3d fill="body-left" {
+      pt 0.05 0.9 0.55
+      pt 0.95 0.9 0.55
+      pt 0.5 0.9 0.95
+    }
+    poly3d fill="body-top" {
+      pt 0.5 0.1 0.95
+      pt 0.5 0.9 0.95
+      pt 0.95 0.9 0.55
+      pt 0.95 0.1 0.55
+    }
+  }
+  part "door" {
+    facerect "front" 0.4 0.9 0 0.2 0.3 opacity=0.25
+  }
+}
+
+icon "ext-home-site" {
+  category "ext"
+  footprint 1 1 1.1
+  describe "House."
+  part "walls" {
+    box 0.1 0.15 0 0.8 0.7 0.45
+  }
+  part "roof" {
+    poly3d fill="body-left" {
+      pt 0.1 0.85 0.45
+      pt 0.9 0.85 0.45
+      pt 0.5 0.85 0.9
+    }
+    poly3d fill="body-top" {
+      pt 0.5 0.15 0.9
+      pt 0.5 0.85 0.9
+      pt 0.9 0.85 0.45
+      pt 0.9 0.15 0.45
+    }
+  }
+  part "chimney" {
+    box 0.62 0.3 0.82 0.14 0.14 0.25
+  }
+  part "openings" {
+    facerect "front" 0.24 0.85 0.12 0.16 0.16 opacity=0.25
+    facerect "front" 0.52 0.85 0 0.18 0.28 opacity=0.25
+  }
+}
+
+icon "ext-colo-cage" {
+  category "ext"
+  footprint 2 2 0.9
+  describe "Fenced square platform."
+  part "floor" {
+    tile 0 0 0 2 2 fill="bg-zone"
+  }
+  part "posts" {
+    seg 0 0 0 0 0 0.8 stroke="outline" width=1.4
+    seg 1 0 0 1 0 0.8 stroke="outline" width=1.4
+    seg 2 0 0 2 0 0.8 stroke="outline" width=1.4
+    seg 0 1 0 0 1 0.8 stroke="outline" width=1.4
+    seg 2 1 0 2 1 0.8 stroke="outline" width=1.4
+    seg 0 2 0 0 2 0.8 stroke="outline" width=1.4
+    seg 1 2 0 1 2 0.8 stroke="outline" width=1.4
+    seg 2 2 0 2 2 0.8 stroke="outline" width=1.4
+  }
+  part "fence" {
+    // each side: top rail then its two mesh lines, interleaved as Python
+    seg 0 0 0.8 2 0 0.8 stroke="outline" width=1.4
+    at 0 0 0.8 {
+      path d="M{x},{y+8} L{x + 2 * 0.8660254037844387 * 40},{y + 40 + 8} M{x},{y+16} L{x + 2 * 0.8660254037844387 * 40},{y + 40 + 16}" stroke="ink-muted" width=1.2 dash="2 2"
+    }
+    seg 2 0 0.8 2 2 0.8 stroke="outline" width=1.4
+    at 2 0 0.8 {
+      path d="M{x},{y+8} L{x - 2 * 0.8660254037844387 * 40},{y + 40 + 8} M{x},{y+16} L{x - 2 * 0.8660254037844387 * 40},{y + 40 + 16}" stroke="ink-muted" width=1.2 dash="2 2"
+    }
+    seg 0 0 0.8 0 2 0.8 stroke="outline" width=1.4
+    at 0 0 0.8 {
+      path d="M{x},{y+8} L{x - 2 * 0.8660254037844387 * 40},{y + 40 + 8} M{x},{y+16} L{x - 2 * 0.8660254037844387 * 40},{y + 40 + 16}" stroke="ink-muted" width=1.2 dash="2 2"
+    }
+    seg 0 2 0.8 2 2 0.8 stroke="outline" width=1.4
+    at 0 2 0.8 {
+      path d="M{x},{y+8} L{x + 2 * 0.8660254037844387 * 40},{y + 40 + 8} M{x},{y+16} L{x + 2 * 0.8660254037844387 * 40},{y + 40 + 16}" stroke="ink-muted" width=1.2 dash="2 2"
+    }
+  }
+}
+
+icon "ext-mobile-network" {
+  category "ext"
+  footprint 1 1 2
+  describe "Cell tower."
+  part "mast" {
+    at 0.5 0.5 0 {
+      path d="M{x-12},{y} L{x},{y-74} L{x+12},{y}" stroke="outline" width=1.5
+      path d="M{x-8},{y-22} h16 M{x-4},{y-44} h8 M{x-10},{y} l14,-30 M{x+10},{y} l-14,-30" stroke="outline" width=1.2
+    }
+  }
+  part "waves" {
+    at 0.5 0.5 0 {
+      arc "x" "y-76" 6 30 150 stroke="ink" width=1.4
+      arc "x" "y-76" 10 30 150 stroke="ink" width=1.4
+    }
+  }
+}
+
+icon "ext-satellite" {
+  category "ext"
+  footprint 1 1 1.5
+  describe "Dish on a mast."
+  part "mast" {
+    at 0.5 0.5 0 {
+      path d="M{x},{y} V{y-34}" stroke="outline" width=1.5
+    }
+  }
+  part "dish" {
+    at 0.5 0.5 0 {
+      ellipse "x + 8" "y - 40" 13 8 fill="body-top" stroke="outline" width=1.2
+      path d="M{x+8},{y-40} l10,-8" stroke="ink" width=1.4
+      circle "x + 19" "y - 49" 1.8 fill="ink" stroke="none"
+    }
+  }
+}

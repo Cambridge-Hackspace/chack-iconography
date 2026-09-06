@@ -1,0 +1,31 @@
+// Abstract bases: the inheritance tree's trunk. Never emitted.
+
+base "rack-unit" {
+  param u 1
+  footprint 2 1 "u * 0.28"
+  describe "Rack-mount slab; the chassis every 19-inch device shares."
+  part "chassis" {
+    box 0 0 0 2 1 "u * 0.28"
+  }
+}
+
+// Hypervisor host: 2u body, four bays, three translucent guest slabs.
+// The bare host and its vendor-flavoured children all extend this.
+base "hypervisor-host" {
+  category "compute"
+  footprint 2 1 2.3
+  describe "2u host running stacked translucent guests."
+  part "chassis" {
+    box 0 0 0 2 1 0.6
+  }
+  part "bays" {
+    repeat 4 "i" {
+      facerect "front" "0.15 + i * 0.45" 1 0.12 0.35 0.35 opacity=0.18
+    }
+  }
+  part "guests" {
+    repeat 3 "k" {
+      box 0.3 0.15 "0.9 + k * 0.5" 1.4 0.7 0.25 fills="virt" opacity=0.18
+    }
+  }
+}

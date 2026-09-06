@@ -1,0 +1,386 @@
+// §-edge — edge / IoT / OT as isometric device OBJECTS (no slab).
+// Abstract items dropped: digital-twin, firmware-ota, fieldbus, modbus,
+// opcua (relationships/protocols, not devices).
+
+// An enclosure for controllers and drives; front face carries a mark.
+base "edge-enclosure" {
+  category "edge"
+  footprint 1 1 0.9
+  part "body" { box 0.22 0.22 0 0.56 0.56 0.8 }
+}
+
+// --- industrial control ----------------------------------------------------
+
+icon "edge-plc" {
+  extends "edge-enclosure"
+  describe "PLC controller."
+  part "io" {
+    at 0.22 0.5 0.55 {
+      path d="M{x-6},{y-5} h-3 M{x-6},{y} h-3 M{x-6},{y+5} h-3 M{x+6},{y-5} h3 M{x+6},{y} h3 M{x+6},{y+5} h3" stroke="ink-muted" width=1.4
+      path d="M{x-3},{y-3} l3,6 3,-6" stroke="ink" width=1.4 fill="none"
+    }
+  }
+  axes "state"
+}
+
+icon "edge-rtu" {
+  extends "edge-enclosure"
+  describe "Remote terminal unit with an antenna."
+  part "ant" {
+    at 0.5 0.5 0.8 {
+      path d="M{x},{y} v-8" stroke="ink" width=1.5
+      arc "x" "y-8" 4 210 330 stroke="ink" width=1.2
+    }
+  }
+  part "mark" { facerect "front" 0.35 0.78 0.3 0.3 0.15 opacity=0.25 }
+  axes "state"
+}
+
+icon "edge-scada" {
+  category "edge"
+  footprint 1 1 0.9
+  describe "SCADA supervisory station: a screen on a stand."
+  part "screen" { box 0.15 0.42 0.2 0.7 0.12 0.55 }
+  part "stand" { box 0.42 0.46 0 0.16 0.08 0.2 }
+  part "mimic" {
+    at 0.15 0.48 0.46 {
+      circle "x-4" "y" 2 fill="none" stroke="ink" width=1.2
+      circle "x+4" "y" 2 fill="none" stroke="ink" width=1.2
+      path d="M{x-2},{y} h4" stroke="ink-muted" width=1.2
+    }
+  }
+  axes "state"
+}
+
+icon "edge-hmi" {
+  category "edge"
+  footprint 1 1 0.8
+  describe "HMI panel: a wall touchscreen."
+  part "panel" { box 0.2 0.18 0.15 0.6 0.14 0.6 }
+  part "touch" {
+    at 0.5 0.18 0.45 {
+      circle "x" "y" 2.5 fill="none" stroke="ink-muted" width=1.2
+      path d="M{x+3},{y+3} c0,-3 3,-3 3,0 v3" stroke="ink" width=1.4
+    }
+  }
+  axes "state"
+}
+
+icon "edge-dcs" {
+  category "edge"
+  footprint 2 1 0.9
+  describe "DCS: distributed controllers on a bus."
+  part "c1" { box 0.1 0.3 0 0.4 0.4 0.7 }
+  part "c2" { box 0.8 0.3 0 0.4 0.4 0.7 }
+  part "c3" { box 1.5 0.3 0 0.4 0.4 0.7 }
+  part "bus" {
+    at 1 0.5 0 {
+      path d="M{x-28},{y-6} h56" stroke="ink" width=1.5
+    }
+  }
+  axes "state"
+}
+
+icon "edge-historian" {
+  category "edge"
+  footprint 1 1 1
+  describe "Process historian: a time-series datastore drum."
+  part "drum" { cylinder 0.5 0.5 0 0.34 0.62 }
+  part "clock" {
+    at 0.5 0.5 0.62 {
+      circle "x" "y" 4 fill="body-top" stroke="ink" width=1.2
+      path d="M{x},{y-2.5} V{y} l1.8,1" stroke="ink" width=1.2
+    }
+  }
+  axes "state"
+}
+
+// --- actuators & drives ----------------------------------------------------
+
+icon "edge-motor" {
+  category "edge"
+  footprint 1 1 0.6
+  describe "Electric motor: a finned cylinder with a shaft."
+  part "body" { cylinder 0.45 0.5 0 0.26 0.4 }
+  part "shaft" { box 0.7 0.46 0.14 0.25 0.08 0.08 }
+  part "fins" { facerect "front" 0.35 0.76 0.2 0.3 0.28 opacity=0.2 }
+  axes "state"
+}
+
+icon "edge-pump" {
+  category "edge"
+  footprint 1 1 0.6
+  describe "Pump: a volute on a base with ports."
+  part "base" { box 0.25 0.3 0 0.5 0.4 0.1 }
+  part "volute" { cylinder 0.45 0.5 0.1 0.22 0.34 }
+  part "port" { box 0.65 0.44 0.14 0.2 0.12 0.16 }
+  axes "state"
+}
+
+icon "edge-valve" {
+  category "edge"
+  footprint 1 1 0.6
+  describe "Valve: an inline body with a handwheel."
+  part "pipeL" { box 0.05 0.44 0.06 0.3 0.12 0.16 }
+  part "pipeR" { box 0.65 0.44 0.06 0.3 0.12 0.16 }
+  part "body" { box 0.35 0.4 0 0.3 0.2 0.28 }
+  part "wheel" {
+    at 0.5 0.5 0.28 {
+      circle "x" "y-4" 4 fill="none" stroke="ink" width=1.4
+      path d="M{x},{y} v-4" stroke="ink" width=1.4
+    }
+  }
+  axes "state"
+}
+
+icon "edge-solenoid" {
+  category "edge"
+  footprint 1 1 0.6
+  describe "Solenoid: a wound coil on a plunger."
+  part "coil" { cylinder 0.45 0.5 0 0.2 0.4 }
+  part "plunger" { box 0.62 0.46 0.14 0.28 0.08 0.08 }
+  part "winding" {
+    at 0.45 0.5 0.4 {
+      path d="M{x-6},{y} h12 M{x-6},{y-3} h12 M{x-6},{y+3} h12" stroke="ink-muted" width=1.2
+    }
+  }
+  axes "state"
+}
+
+icon "edge-relay" {
+  category "edge"
+  footprint 1 1 0.5
+  describe "Relay: a switching module."
+  part "body" { box 0.3 0.3 0 0.4 0.4 0.4 }
+  part "contacts" {
+    at 0.3 0.5 0.25 {
+      circle "x-4" "y+4" 1 fill="ink" stroke="none"
+      circle "x+4" "y-4" 1 fill="ink" stroke="none"
+      path d="M{x-4},{y+4} l8,-7" stroke="ink" width=1.4
+    }
+  }
+  axes "state"
+}
+
+icon "edge-vfd" {
+  extends "edge-enclosure"
+  describe "Variable-frequency drive."
+  part "mark" {
+    at 0.22 0.5 0.55 {
+      path d="M{x-6},{y-3} q2,-5 4,0 q2,5 4,0" stroke="ink" width=1.4
+      path d="M{x-6},{y+4} h12 M{x+6},{y+4} l-2.5,-2 M{x+6},{y+4} l-2.5,2" stroke="ink-muted" width=1.4
+    }
+  }
+  axes "state"
+}
+
+icon "edge-actuator" {
+  category "edge"
+  footprint 1 1 0.5
+  describe "Linear actuator: a cylinder driving a rod."
+  part "barrel" { box 0.15 0.35 0.1 0.45 0.3 0.2 }
+  part "rod" { box 0.6 0.44 0.16 0.3 0.12 0.08 }
+  part "clevis" { box 0.85 0.42 0.14 0.1 0.16 0.12 }
+  axes "state"
+}
+
+// --- sensors (small probes) ------------------------------------------------
+
+base "edge-probe" {
+  category "edge"
+  footprint 1 1 0.5
+  part "mount" { box 0.4 0.4 0 0.2 0.2 0.14 }
+}
+
+icon "edge-pressure-sensor" {
+  extends "edge-probe"
+  describe "Pressure sensor: a bourdon gauge."
+  part "g" {
+    at 0.5 0.5 0.14 {
+      circle "x" "y-2" 6 fill="body-top" stroke="ink" width=1.4
+      path d="M{x},{y-2} l4,-4" stroke="ink" width=1.4
+      circle "x" "y-2" 1 fill="ink" stroke="none"
+    }
+  }
+  axes "state"
+}
+
+icon "edge-flow-meter" {
+  extends "edge-probe"
+  describe "Flow meter: an inline meter."
+  part "g" {
+    at 0.5 0.5 0.14 {
+      circle "x" "y-2" 5 fill="body-top" stroke="ink" width=1.4
+      path d="M{x-9},{y-2} h4 M{x+5},{y-2} h4" stroke="ink" width=2.2
+      path d="M{x-3},{y-2} h6 M{x+3},{y-2} l-2,-1.5 M{x+3},{y-2} l-2,1.5" stroke="ink" width=1.2
+    }
+  }
+  axes "state"
+}
+
+icon "edge-level-sensor" {
+  extends "edge-probe"
+  describe "Level sensor: a tank with a fill line."
+  part "g" {
+    at 0.5 0.5 0.14 {
+      rect "x-5" "y-8" 10 12 fill="none" stroke="ink" width=1.4
+      rect "x-5" "y-2" 10 6 fill="ink-muted" stroke="none"
+    }
+  }
+  axes "state"
+}
+
+icon "edge-proximity-sensor" {
+  extends "edge-probe"
+  describe "Proximity sensor with detection field."
+  part "g" {
+    at 0.5 0.5 0.14 {
+      rect "x-6" "y-6" 6 8 fill="none" stroke="ink" width=1.4
+      arc "x-2" "y-2" 4 300 420 stroke="ink-muted" width=1.2
+      arc "x-2" "y-2" 7 300 420 stroke="ink-muted" width=1.2
+    }
+  }
+  axes "state"
+}
+
+icon "edge-temperature-probe" {
+  extends "edge-probe"
+  describe "Temperature probe."
+  part "g" {
+    at 0.5 0.5 0.14 {
+      path d="M{x-2},{y-9} h4 v10 a2,2 0 0 1 -4,0 z" stroke="ink" width=1.4 fill="none"
+      circle "x" "y-1" 2 fill="ink" stroke="none"
+    }
+  }
+  axes "state"
+}
+
+icon "edge-vibration-sensor" {
+  extends "edge-probe"
+  describe "Vibration sensor (accelerometer)."
+  part "g" {
+    at 0.5 0.5 0.14 {
+      path d="M{x-8},{y-2} l3,6 3,-10 3,10 3,-6" stroke="ink" width=1.5 fill="none"
+    }
+  }
+  axes "state"
+}
+
+// --- power & renewable -----------------------------------------------------
+
+icon "edge-solar-panel" {
+  category "edge"
+  footprint 1.4 1 0.6
+  describe "Solar panel: a tilted PV array."
+  part "array" {
+    at 0.5 0.5 0 {
+      path d="M{x-22},{y+4} l6,-22 40,0 -6,22 z" stroke="outline" width=1.2 fill="body-top"
+      path d="M{x-13},{y+4} l6,-22 M{x-4},{y+4} l6,-22 M{x+5},{y+4} l6,-22 M{x-19},{y-7} h36" stroke="ink-muted" width=1.2
+    }
+  }
+  part "post" { box 0.62 0.46 0 0.1 0.1 0.16 }
+  axes "state"
+}
+
+icon "edge-wind-turbine" {
+  category "edge"
+  footprint 1 1 1.4
+  describe "Wind turbine: a tower with three blades."
+  part "tower" {
+    at 0.5 0.5 0 {
+      path d="M{x-2},{y+20} l1.5,-32 h1 l1.5,32 z" stroke="outline" width=1.2 fill="body-right"
+      circle "x" "y-12" 1.8 fill="ink" stroke="none"
+      path d="M{x},{y-12} v-9 M{x},{y-12} l8,5 M{x},{y-12} l-8,5" stroke="ink" width=1.5
+    }
+  }
+  axes "state"
+}
+
+icon "edge-battery-storage" {
+  category "edge"
+  footprint 1 1 0.9
+  describe "Battery energy storage cabinet."
+  part "body" { box 0.2 0.25 0 0.6 0.5 0.8 }
+  part "cell" {
+    at 0.2 0.5 0.55 {
+      rect "x-6" "y-5" 12 10 rx=1 fill="none" stroke="ink" width=1.4
+      path d="M{x-3},{y-5} v-2 h2 v2 M{x+1},{y-5} v-2 h2 v2" stroke="ink" width=1.2
+      path d="M{x-3},{y} h6" stroke="ink-muted" width=1.4
+    }
+  }
+  axes "state"
+}
+
+icon "edge-inverter" {
+  extends "edge-enclosure"
+  describe "Inverter: DC to AC."
+  part "mark" {
+    at 0.22 0.5 0.55 {
+      path d="M{x-6},{y-4} h6" stroke="ink" width=1.4
+      path d="M{x-6},{y+4} q2,-4 4,0 q2,4 4,0" stroke="ink" width=1.4
+      path d="M{x-1},{y-6} v12" stroke="ink-muted" width=1.2
+    }
+  }
+  axes "state"
+}
+
+icon "edge-charge-controller" {
+  extends "edge-enclosure"
+  describe "Solar charge controller."
+  part "mark" {
+    at 0.22 0.5 0.55 {
+      path d="M{x+1},{y-4} l-5,7 h4 l-2,5 5,-7 h-4 z" stroke="ink" width=1.2 fill="ink"
+    }
+  }
+  axes "state"
+}
+
+// --- edge / IoT ------------------------------------------------------------
+
+icon "edge-gateway" {
+  category "edge"
+  footprint 1 1 0.4
+  describe "Edge gateway: a low box bridging field to network."
+  part "body" { box 0.2 0.25 0 0.6 0.5 0.28 }
+  part "ports" { facerect "front" 0.35 0.75 0.12 0.3 0.06 opacity=0.4 }
+  part "led" { facerect "front" 0.72 0.75 0.2 0.05 0.05 opacity=0.6 }
+  axes "state"
+}
+
+icon "edge-node" {
+  category "edge"
+  footprint 1 1 0.5
+  describe "Edge compute node."
+  part "body" { box 0.3 0.3 0 0.4 0.4 0.42 }
+  part "vent" { facerect "front" 0.5 0.7 0.22 0.24 0.2 opacity=0.25 }
+  axes "state"
+}
+
+icon "edge-cellular-modem" {
+  category "edge"
+  footprint 1 1 0.6
+  describe "Cellular modem with signal bars."
+  part "body" { box 0.28 0.3 0 0.44 0.4 0.3 }
+  part "bars" {
+    at 0.5 0.5 0.3 {
+      path d="M{x-4},{y} v-3 M{x},{y} v-6 M{x+4},{y} v-9" stroke="ink" width=1.5
+    }
+  }
+  axes "state"
+}
+
+icon "edge-lora-gateway" {
+  category "edge"
+  footprint 1 1 0.9
+  describe "LoRa gateway: long-range radio."
+  part "body" { box 0.3 0.3 0 0.4 0.4 0.4 }
+  part "ant" {
+    at 0.5 0.5 0.4 {
+      path d="M{x},{y} v-8" stroke="ink" width=1.5
+      circle "x" "y-9" 1.4 fill="ink" stroke="none"
+      arc "x" "y-8" 5 210 330 stroke="ink-muted" width=1.2
+      arc "x" "y-8" 9 210 330 stroke="ink-muted" width=1.2
+    }
+  }
+  axes "state"
+}

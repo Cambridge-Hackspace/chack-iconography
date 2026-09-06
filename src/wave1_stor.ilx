@@ -1,0 +1,182 @@
+// §-stor depth — as isometric OBJECTS (no slab). The original stor.ilx
+// hardware (nas/san/jbod/disk/ssd/nvme/tape/pool…) is already objects and
+// unchanged; this file covers the depth leaves.
+//
+// Kept as objects: Ceph daemons, vdev disk-groups, RAID arrays, LUN,
+// iSCSI target. Collapsed to aliases: parity/RAID levels. Dropped (pure
+// operations / relationships — use the replication edge or a status
+// badge instead): scrub, resilver, trim, checkpoint, import, export,
+// rebalance, send/recv, replication-stream, incremental, bookmark,
+// filesystem, zvol, clone, quota, reservation, ceph-pool, ceph-pg,
+// multipath, nvme-of, iscsi-initiator, and the fine vdev roles.
+
+// A single storage disk = a short drum.
+fragment "disk-drum" {
+  param cx 0.5
+  param cy 0.5
+  param r 0.16
+  param h 0.44
+  part "d" { cylinder "cx" "cy" 0 "r" "h" }
+}
+
+// --- vdev disk-groups ------------------------------------------------------
+
+icon "stor-vdev-mirror" {
+  category "stor"
+  footprint 1 1 0.5
+  describe "Mirror vdev: two identical disks."
+  part "a" { insert "disk-drum" cx=0.36 cy=0.55 }
+  part "b" { insert "disk-drum" cx=0.64 cy=0.45 }
+}
+
+icon "stor-vdev-stripe" {
+  category "stor"
+  footprint 1.4 1 0.5
+  describe "Stripe vdev: disks in a row."
+  part "a" { insert "disk-drum" cx=0.3 cy=0.5 }
+  part "b" { insert "disk-drum" cx=0.7 cy=0.5 }
+  part "c" { insert "disk-drum" cx=1.1 cy=0.5 }
+}
+
+icon "stor-vdev-raidz" {
+  category "stor"
+  footprint 1.4 1 0.5
+  describe "raidz vdev: data disks with a parity disk."
+  part "a" { insert "disk-drum" cx=0.3 cy=0.5 }
+  part "b" { insert "disk-drum" cx=0.7 cy=0.5 }
+  part "p" { insert "disk-drum" cx=1.1 cy=0.5 r=0.16 h=0.5 }
+  part "pmark" {
+    at 1.1 0.5 0.5 { path d="M{x-2},{y-2} h4 v-2 h-4 z" stroke="ink" width=1.2 fill="ink" }
+  }
+}
+
+icon "stor-vdev-raidz1" { extends "stor-vdev-raidz" describe "raidz1 (alias)." }
+icon "stor-vdev-raidz2" { extends "stor-vdev-raidz" describe "raidz2 (alias)." }
+icon "stor-vdev-raidz3" { extends "stor-vdev-raidz" describe "raidz3 (alias)." }
+icon "stor-vdev-draid"  { extends "stor-vdev-raidz" describe "dRAID (alias)." }
+
+icon "stor-vdev-special" {
+  category "stor"
+  footprint 1 1 0.5
+  describe "Special / cache / log vdev: a disk with a role tag."
+  part "d" { insert "disk-drum" cx=0.5 cy=0.5 h=0.5 }
+  part "tag" {
+    at 0.5 0.5 0.5 {
+      poly fill="ink" stroke="none" {
+        repeat 10 "i" {
+          pt "x + if(i % 2 == 0, 4, 1.6) * cosr(1.5707963267948966 + i * 3.141592653589793 / 5)" "y - if(i % 2 == 0, 4, 1.6) * sinr(1.5707963267948966 + i * 3.141592653589793 / 5)"
+        }
+      }
+    }
+  }
+}
+icon "stor-vdev-cache" { extends "stor-vdev-special" describe "L2ARC cache vdev (alias)." }
+icon "stor-vdev-log"   { extends "stor-vdev-special" describe "SLOG log vdev (alias)." }
+icon "stor-vdev-dedup" { extends "stor-vdev-special" describe "Dedup vdev (alias)." }
+icon "stor-vdev-spare" { extends "stor-vdev-special" describe "Hot spare (alias)." }
+
+// --- RAID arrays -----------------------------------------------------------
+
+icon "stor-raid" {
+  category "stor"
+  footprint 1 1 0.7
+  describe "RAID array: a controller chassis of drive bays."
+  part "chassis" { box 0.15 0.2 0 0.7 0.6 0.5 }
+  part "bays" {
+    repeat 4 "i" {
+      facerect "front" "0.24 + i * 0.16" 0.8 0.25 0.1 0.4 opacity=0.3
+    }
+  }
+}
+icon "stor-raid0"  { extends "stor-raid" describe "RAID 0 (alias)." }
+icon "stor-raid1"  { extends "stor-raid" describe "RAID 1 (alias)." }
+icon "stor-raid5"  { extends "stor-raid" describe "RAID 5 (alias)." }
+icon "stor-raid6"  { extends "stor-raid" describe "RAID 6 (alias)." }
+icon "stor-raid10" { extends "stor-raid" describe "RAID 10 (alias)." }
+
+// --- Ceph ------------------------------------------------------------------
+
+icon "stor-ceph-osd" {
+  category "stor"
+  footprint 1 1 0.5
+  describe "Ceph OSD: an object-store disk."
+  part "d" { insert "disk-drum" cx=0.5 cy=0.5 r=0.2 h=0.44 }
+  part "o" {
+    at 0.5 0.5 0.44 { circle "x" "y" 4 fill="none" stroke="ink" width=1.5 }
+  }
+}
+
+base "stor-ceph-node" {
+  category "stor"
+  footprint 1 1 0.6
+  part "body" { box 0.25 0.25 0 0.5 0.5 0.5 }
+}
+icon "stor-ceph-mon" {
+  extends "stor-ceph-node"
+  describe "Ceph monitor."
+  part "eye" {
+    at 0.25 0.5 0.32 {
+      path d="M{x-6},{y} a6,4 0 0 1 12,0 a6,4 0 0 1 -12,0" stroke="ink" width=1.2 fill="none"
+      circle "x" "y" 1.8 fill="ink" stroke="none"
+    }
+  }
+}
+icon "stor-ceph-mgr" {
+  extends "stor-ceph-node"
+  describe "Ceph manager."
+  part "g" {
+    at 0.25 0.5 0.32 {
+      arc "x" "y+2" 6 180 360 stroke="ink" width=1.2
+      path d="M{x},{y+2} l3,-3" stroke="ink" width=1.4
+    }
+  }
+}
+icon "stor-ceph-mds" {
+  extends "stor-ceph-node"
+  describe "Ceph metadata server."
+  part "t" {
+    at 0.25 0.5 0.32 {
+      path d="M{x},{y-5} v3 M{x},{y-2} h-5 v3 M{x},{y-2} h5 v3" stroke="ink" width=1.2
+      circle "x" "y-6" 1.4 fill="ink" stroke="none"
+      circle "x-5" "y+2" 1.4 fill="ink" stroke="none"
+      circle "x+5" "y+2" 1.4 fill="ink" stroke="none"
+    }
+  }
+}
+icon "stor-ceph-rgw" {
+  extends "stor-ceph-node"
+  describe "Ceph RADOS gateway."
+  part "globe" {
+    at 0.25 0.5 0.32 {
+      circle "x" "y" 6 fill="none" stroke="ink" width=1.2
+      ellipse "x" "y" 2.5 6 fill="none" stroke="ink-muted" width=1.2
+      path d="M{x-6},{y} h12" stroke="ink-muted" width=1.2
+    }
+  }
+}
+
+// --- block / SAN -----------------------------------------------------------
+
+icon "stor-lun" {
+  category "stor"
+  footprint 1 1 0.5
+  describe "LUN: a logical block unit."
+  part "block" { box 0.28 0.28 0 0.44 0.44 0.42 }
+  part "tag" {
+    at 0.28 0.5 0.3 {
+      path d="M{x-4},{y-4} h6 l2,2 -2,2 h-6 z" stroke="ink" width=1.2 fill="ink-muted"
+    }
+  }
+}
+
+icon "stor-iscsi-target" {
+  category "stor"
+  footprint 2 1 0.6
+  describe "iSCSI target: a block storage array."
+  part "body" { box 0 0.1 0 2 0.8 0.5 }
+  part "bays" {
+    repeat 8 "i" {
+      facerect "front" "0.08 + i * 0.2" 0.9 0.25 0.14 0.4 opacity=0.25
+    }
+  }
+}
